@@ -16,3 +16,6 @@ Thumbs.db
 # Arquivos temporários
 *.log
 *.tmp
+
+# Worktrees locais
+.worktrees/
