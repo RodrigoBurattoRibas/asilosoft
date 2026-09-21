@@ -1,0 +1,18 @@
+# Credenciais e configurações locais
+.env
+.env.*
+!.env.example
+
+# Dependências e artefatos PHP
+/vendor/
+/storage/logs/
+
+# Arquivos de sistema e editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Arquivos temporários
+*.log
+*.tmp
