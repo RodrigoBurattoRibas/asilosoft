@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS asilosoft CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE asilosoft;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(120) NOT NULL,
+    email VARCHAR(160) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL,
+    perfil ENUM('Administrador', 'Profissional de Saúde', 'Almoxarife', 'Familiar') NOT NULL,
+    ativo TINYINT(1) NOT NULL DEFAULT 1,
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
