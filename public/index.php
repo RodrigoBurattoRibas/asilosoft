@@ -23,6 +23,7 @@ function renderizar(string $view, array $dados = []): void
 {
     $dados['mensagemErro'] = $GLOBALS['sessao']->mensagem('erro');
     $dados['mensagemSucesso'] = $GLOBALS['sessao']->mensagem('sucesso');
+    $dados['modoDemonstracao'] = $GLOBALS['modoDemonstracao'];
     extract($dados, EXTR_SKIP);
     $arquivoDaView = __DIR__ . '/../app/Views/' . $view . '.php';
     require __DIR__ . '/../app/Views/layout.php';
@@ -50,16 +51,17 @@ function respostaNaoEncontrada(): never
 }
 
 $GLOBALS['sessao'] = new Sessao();
+$GLOBALS['modoDemonstracao'] = false;
 $configuracao = require __DIR__ . '/../config/database.php';
 
 try {
     $pdo = Database::conectar($configuracao);
+    $repositorio = new UsuarioRepository($pdo);
 } catch (PDOException) {
-    http_response_code(500);
-    exit('Não foi possível conectar ao banco de dados. Confira o arquivo .env e as variáveis ASILOSOFT_DB.');
+    $GLOBALS['modoDemonstracao'] = true;
+    $repositorio = new RepositorioDeSessao($GLOBALS['sessao']);
 }
 
-$repositorio = new UsuarioRepository($pdo);
 $autenticacao = new AutenticacaoService($repositorio, $GLOBALS['sessao']);
 $csrf = new Csrf($GLOBALS['sessao']);
 $controleDeLogin = new ControladorAutenticacao($autenticacao, $GLOBALS['sessao'], $csrf);

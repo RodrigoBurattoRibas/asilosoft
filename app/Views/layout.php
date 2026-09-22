@@ -20,6 +20,7 @@
         <?php endif; ?>
     </header>
     <main class="conteudo">
+        <?php if ($modoDemonstracao): ?><p class="aviso demonstracao">Modo demonstração: os dados deste acesso não são permanentes.</p><?php endif; ?>
         <?php if (!empty($mensagemErro)): ?><p class="aviso erro"><?= e($mensagemErro) ?></p><?php endif; ?>
         <?php if (!empty($mensagemSucesso)): ?><p class="aviso sucesso"><?= e($mensagemSucesso) ?></p><?php endif; ?>
         <?php require $arquivoDaView; ?>

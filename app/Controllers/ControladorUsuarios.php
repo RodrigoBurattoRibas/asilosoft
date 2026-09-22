@@ -5,7 +5,7 @@ declare(strict_types=1);
 final class ControladorUsuarios
 {
     public function __construct(
-        private UsuarioRepository $repositorio,
+        private object $repositorio,
         private UsuarioService $usuarios,
         private AutenticacaoService $autenticacao,
         private Sessao $sessao,

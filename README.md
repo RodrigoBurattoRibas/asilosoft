@@ -26,6 +26,10 @@ php -S localhost:8000 -t public
 
 5. Acesse `http://localhost:8000`.
 
+## Modo demonstração
+
+Se o MySQL não estiver acessível, a aplicação abre em modo demonstração para facilitar a apresentação da Sprint 1. Use `admin@asilosoft.local` e a senha `asilosoft123`. Os usuários criados nesse modo ficam apenas na sessão do navegador e não são permanentes.
+
 ## Testes
 
 ```bash

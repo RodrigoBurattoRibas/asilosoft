@@ -30,6 +30,8 @@ input, select { background: #fffdf7; border: 1px solid #b9976d; border-radius: 2
 .aviso { border-left: 5px solid; margin: 0 0 1rem; padding: .8rem 1rem; }
 .erro { background: #f6d9d0; border-color: #9e412a; }
 .sucesso { background: #dce8d5; border-color: var(--musgo); }
+.demonstracao { background: #f6e5b9; border-color: var(--cobre); }
+.credencial-demonstracao { background: var(--linho); border-left: 4px solid var(--cobre); font-size: .92rem; padding: .7rem; }
 .tabela-responsiva { overflow-x: auto; padding: 0; }
 table { border-collapse: collapse; min-width: 680px; width: 100%; }
 th, td { border-bottom: 1px solid #dbc39f; padding: .85rem; text-align: left; }
