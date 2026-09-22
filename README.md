@@ -30,6 +30,17 @@ php -S localhost:8000 -t public
 
 Se o MySQL não estiver acessível, a aplicação abre em modo demonstração para facilitar a apresentação da Sprint 1. Use `admin@asilosoft.local` e a senha `asilosoft123`. Os usuários criados nesse modo ficam apenas na sessão do navegador e não são permanentes.
 
+## Iniciar para apresentação
+
+Para demonstrar a Sprint 1 sem configurar MySQL, use o servidor local:
+
+```bash
+cd "/home/rodrigo/Documentos/ChatGPT/Engenharia de Dados"
+php -S localhost:8000 -t public
+```
+
+No navegador, acesse `http://localhost:8000` e entre com `admin@asilosoft.local` e `asilosoft123`. O aviso "Modo demonstração" confirma que não há banco de dados configurado; os cadastros criados nessa apresentação somem quando a sessão do navegador é encerrada.
+
 ## Testes
 
 ```bash
