@@ -46,7 +46,7 @@ final class ControladorIdosos
         }
 
         $quartos = $this->repositorioQuartos->listarDisponiveis();
-        $quartoAtualEstaNaLista = in_array($idoso['quarto_id'], array_column($quartos, 'id'), true);
+        $quartoAtualEstaNaLista = $idoso['quarto_id'] === null || in_array($idoso['quarto_id'], array_column($quartos, 'id'), true);
         if (!$quartoAtualEstaNaLista) {
             $quartoAtual = $this->repositorio->buscarQuartoPorId($idoso['quarto_id']);
             if ($quartoAtual !== null) {
@@ -92,6 +92,35 @@ final class ControladorIdosos
             $this->sessao->mensagem('erro', $erro->getMessage());
             redirecionar('/idosos/' . $id . '/editar');
         }
+    }
+
+    public function retirarDoQuarto(int $id): void
+    {
+        $this->exigirAdministrador();
+        validarCsrf($this->csrf);
+
+        try {
+            $this->idosos->retirarDoQuarto($id);
+            $this->sessao->mensagem('sucesso', 'Idoso retirado do quarto.');
+        } catch (DomainException $erro) {
+            $this->sessao->mensagem('erro', $erro->getMessage());
+        }
+        redirecionar('/idosos');
+    }
+
+    public function alterarStatus(int $id): void
+    {
+        $this->exigirAdministrador();
+        validarCsrf($this->csrf);
+
+        try {
+            $ativo = (string) ($_POST['ativo'] ?? '') === '1';
+            $this->idosos->alterarStatus($id, $ativo);
+            $this->sessao->mensagem('sucesso', $ativo ? 'Idoso ativado.' : 'Idoso desativado e retirado do quarto.');
+        } catch (DomainException $erro) {
+            $this->sessao->mensagem('erro', $erro->getMessage());
+        }
+        redirecionar('/idosos');
     }
 
     private function exigirAdministrador(): array

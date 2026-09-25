@@ -25,7 +25,7 @@ final class IdosoRepository
 
     public function contarOcupacaoDoQuarto(int $quartoId): int
     {
-        $consulta = $this->pdo->prepare('SELECT COUNT(*) FROM idosos WHERE quarto_id = :quarto_id');
+        $consulta = $this->pdo->prepare('SELECT COUNT(*) FROM idosos WHERE quarto_id = :quarto_id AND ativo = 1');
         $consulta->execute(['quarto_id' => $quartoId]);
 
         return (int) $consulta->fetchColumn();
@@ -43,9 +43,14 @@ final class IdosoRepository
 
     public function atualizar(int $id, array $dados): array
     {
-        $dados['id'] = $id;
+        $idosoAtual = $this->buscarPorId($id);
+        if ($idosoAtual === null) {
+            throw new DomainException('Idoso não encontrado.');
+        }
+
+        $dados = array_merge($idosoAtual, $dados, ['id' => $id]);
         $consulta = $this->pdo->prepare(
-            'UPDATE idosos SET nome = :nome, cpf = :cpf, identificador = :identificador, quarto_id = :quarto_id WHERE id = :id'
+            'UPDATE idosos SET nome = :nome, cpf = :cpf, identificador = :identificador, quarto_id = :quarto_id, ativo = :ativo WHERE id = :id'
         );
         $consulta->execute($dados);
 
@@ -55,8 +60,8 @@ final class IdosoRepository
     public function listar(): array
     {
         $consulta = $this->pdo->query(
-            'SELECT i.id, i.nome, i.cpf, i.identificador, i.quarto_id, q.codigo AS quarto_codigo
-             FROM idosos i INNER JOIN quartos q ON q.id = i.quarto_id
+            'SELECT i.id, i.nome, i.cpf, i.identificador, i.quarto_id, i.ativo, q.codigo AS quarto_codigo
+             FROM idosos i LEFT JOIN quartos q ON q.id = i.quarto_id
              ORDER BY i.nome ASC'
         );
 
@@ -65,7 +70,7 @@ final class IdosoRepository
 
     private function buscarUm(string $campo, string $valor): ?array
     {
-        $consulta = $this->pdo->prepare("SELECT id, nome, cpf, identificador, quarto_id FROM idosos WHERE {$campo} = :valor LIMIT 1");
+        $consulta = $this->pdo->prepare("SELECT id, nome, cpf, identificador, quarto_id, ativo FROM idosos WHERE {$campo} = :valor LIMIT 1");
         $consulta->execute(['valor' => $valor]);
         $idoso = $consulta->fetch();
 
@@ -74,7 +79,7 @@ final class IdosoRepository
 
     public function buscarPorId(int $id): ?array
     {
-        $consulta = $this->pdo->prepare('SELECT id, nome, cpf, identificador, quarto_id FROM idosos WHERE id = :id LIMIT 1');
+        $consulta = $this->pdo->prepare('SELECT id, nome, cpf, identificador, quarto_id, ativo FROM idosos WHERE id = :id LIMIT 1');
         $consulta->execute(['id' => $id]);
 
         $idoso = $consulta->fetch();
@@ -85,7 +90,8 @@ final class IdosoRepository
     private function mapear(array $idoso): array
     {
         $idoso['id'] = (int) $idoso['id'];
-        $idoso['quarto_id'] = (int) $idoso['quarto_id'];
+        $idoso['quarto_id'] = $idoso['quarto_id'] === null ? null : (int) $idoso['quarto_id'];
+        $idoso['ativo'] = (bool) $idoso['ativo'];
 
         return $idoso;
     }

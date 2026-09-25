@@ -33,6 +33,16 @@ Use o botão de teste da ferramenta. Se a conexão falhar, confirme se o serviç
 
 O arquivo já contém os comandos `CREATE DATABASE` e `CREATE TABLE`, portanto não é necessário criar as tabelas manualmente.
 
+### Atualizar um banco já existente
+
+Quem criou o banco antes da funcionalidade de retirada de quarto e desativação de idosos deve executar esta migração uma única vez:
+
+```bash
+mysql -u asilosoft_app -p asilosoft < database/atualizar_idosos_status.sql
+```
+
+Ela permite idosos sem quarto e adiciona o status ativo/inativo. Não é necessário executá-la em uma instalação nova feita com o `database/schema.sql` atualizado.
+
 ## 3. Criar o usuário da aplicação
 
 No editor SQL, conectado como administrador, execute o comando abaixo. Troque o texto entre aspas simples por uma senha local nova e forte.

@@ -7,7 +7,7 @@
     <a href="/idosos">Voltar</a>
 </div>
 <section class="cartao">
-    <?php if ($quartos === []): ?>
+    <?php if ($quartos === [] && !$edicao): ?>
         <p class="texto-suave">Não há quartos com vagas disponíveis no momento.</p>
     <?php else: ?>
         <form method="post" action="<?= $edicao ? '/idosos/' . e($idoso['id']) : '/idosos' ?>" class="formulario formulario-largo">
@@ -22,7 +22,7 @@
                 <input type="text" name="identificador" required maxlength="60" placeholder="Ex.: IDOSO-001" value="<?= e($idoso['identificador'] ?? '') ?>">
             </label>
             <label>Quarto
-                <select name="quarto_id" required>
+                <select name="quarto_id" <?= $edicao ? '' : 'required' ?>>
                     <option value="">Selecione um quarto</option>
                     <?php foreach ($quartos as $quarto): ?>
                         <option value="<?= e($quarto['id']) ?>" <?= (int) ($idoso['quarto_id'] ?? 0) === $quarto['id'] ? 'selected' : '' ?>>

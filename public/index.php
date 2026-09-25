@@ -118,6 +118,12 @@ if (preg_match('#^/idosos/(\d+)/editar$#', $caminho, $coincidencias) && $metodo 
 if (preg_match('#^/idosos/(\d+)$#', $caminho, $coincidencias) && $metodo === 'POST') {
     $controleDeIdosos->atualizar((int) $coincidencias[1]);
 }
+if (preg_match('#^/idosos/(\d+)/retirar-quarto$#', $caminho, $coincidencias) && $metodo === 'POST') {
+    $controleDeIdosos->retirarDoQuarto((int) $coincidencias[1]);
+}
+if (preg_match('#^/idosos/(\d+)/status$#', $caminho, $coincidencias) && $metodo === 'POST') {
+    $controleDeIdosos->alterarStatus((int) $coincidencias[1]);
+}
 if (preg_match('#^/usuarios/(\d+)/editar$#', $caminho, $coincidencias) && $metodo === 'GET') {
     $controleDeUsuarios->editar((int) $coincidencias[1]);
     exit;

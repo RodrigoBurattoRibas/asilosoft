@@ -58,7 +58,7 @@ final class RepositorioIdososDeSessao
     {
         return count(array_filter(
             $this->idosos(),
-            static fn (array $idoso): bool => $idoso['quarto_id'] === $quartoId
+            static fn (array $idoso): bool => ($idoso['ativo'] ?? true) && $idoso['quarto_id'] === $quartoId
         ));
     }
 
@@ -66,7 +66,7 @@ final class RepositorioIdososDeSessao
     {
         $idosos = $this->idosos();
         $ids = array_column($idosos, 'id');
-        $idoso = $dados + ['id' => $ids === [] ? 1 : max($ids) + 1];
+        $idoso = $dados + ['id' => $ids === [] ? 1 : max($ids) + 1, 'ativo' => true];
         $idosos[] = $idoso;
         $this->salvarIdosos($idosos);
 
@@ -76,8 +76,9 @@ final class RepositorioIdososDeSessao
     public function listar(): array
     {
         $idosos = array_map(function (array $idoso): array {
-            $quarto = $this->buscarQuartoPorId($idoso['quarto_id']);
-            $idoso['quarto_codigo'] = $quarto['codigo'] ?? 'Não informado';
+            $quarto = $idoso['quarto_id'] === null ? null : $this->buscarQuartoPorId($idoso['quarto_id']);
+            $idoso['quarto_codigo'] = $quarto['codigo'] ?? 'Sem quarto';
+            $idoso['ativo'] = $idoso['ativo'] ?? true;
 
             return $idoso;
         }, $this->idosos());

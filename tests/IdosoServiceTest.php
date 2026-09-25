@@ -190,6 +190,61 @@ function testarEdicaoDeIdosoRejeitaCpfDeOutroCadastro(): void
     }
 }
 
+function testarRetiradaDeQuartoLiberaVagaDoIdosoAtivo(): void
+{
+    $repositorio = new RepositorioIdososEmMemoria([
+        1 => ['id' => 1, 'codigo' => 'A-101', 'capacidade' => 1, 'ativo' => true],
+    ]);
+    $servico = new IdosoService($repositorio);
+    $idoso = $servico->criar([
+        'nome' => 'Maria', 'cpf' => '12345678900', 'identificador' => 'IDOSO-001', 'quarto_id' => 1,
+    ]);
+
+    $removido = $servico->retirarDoQuarto($idoso['id']);
+
+    afirmarIgual(null, $removido['quarto_id'], 'O idoso deve poder ficar sem quarto.');
+    afirmarIgual(0, $repositorio->contarOcupacaoDoQuarto(1), 'A retirada deve liberar a vaga do quarto.');
+}
+
+function testarDesativacaoDeIdosoLiberaVagaAutomaticamente(): void
+{
+    $repositorio = new RepositorioIdososEmMemoria([
+        1 => ['id' => 1, 'codigo' => 'A-101', 'capacidade' => 1, 'ativo' => true],
+    ]);
+    $servico = new IdosoService($repositorio);
+    $idoso = $servico->criar([
+        'nome' => 'Maria', 'cpf' => '12345678900', 'identificador' => 'IDOSO-001', 'quarto_id' => 1,
+    ]);
+
+    $desativado = $servico->alterarStatus($idoso['id'], false);
+
+    afirmar($desativado['ativo'] === false, 'O idoso deve ficar marcado como inativo.');
+    afirmarIgual(null, $desativado['quarto_id'], 'A desativação deve retirar o idoso do quarto.');
+    afirmarIgual(0, $repositorio->contarOcupacaoDoQuarto(1), 'Um idoso inativo não pode ocupar vaga.');
+}
+
+function testarEdicaoDeIdosoSemQuartoMantemAlocacaoVazia(): void
+{
+    $repositorio = new RepositorioIdososEmMemoria([
+        1 => ['id' => 1, 'codigo' => 'A-101', 'capacidade' => 1, 'ativo' => true],
+    ]);
+    $servico = new IdosoService($repositorio);
+    $idoso = $servico->criar([
+        'nome' => 'Maria', 'cpf' => '12345678900', 'identificador' => 'IDOSO-001', 'quarto_id' => 1,
+    ]);
+    $servico->retirarDoQuarto($idoso['id']);
+
+    $atualizado = $servico->atualizar($idoso['id'], [
+        'nome' => 'Maria Atualizada',
+        'cpf' => '12345678900',
+        'identificador' => 'IDOSO-001',
+        'quarto_id' => '',
+    ]);
+
+    afirmarIgual('Maria Atualizada', $atualizado['nome'], 'O idoso sem quarto deve continuar editável.');
+    afirmarIgual(null, $atualizado['quarto_id'], 'A edição não deve obrigar a nova alocação.');
+}
+
 if (is_file(__DIR__ . '/../app/Services/IdosoService.php')) {
     require_once __DIR__ . '/../app/Services/IdosoService.php';
 }

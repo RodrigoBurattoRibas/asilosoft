@@ -56,7 +56,7 @@ final class IdosoService
         $identificador = trim((string) ($dados['identificador'] ?? ''));
         $quartoId = (int) ($dados['quarto_id'] ?? 0);
 
-        if ($nome === '' || strlen($cpf) !== 11 || $identificador === '' || $quartoId <= 0) {
+        if ($nome === '' || strlen($cpf) !== 11 || $identificador === '') {
             throw new DomainException('Informe nome, CPF, identificador e quarto válidos.');
         }
 
@@ -70,20 +70,47 @@ final class IdosoService
             throw new DomainException('Este identificador já está em uso.');
         }
 
-        $quarto = $this->repositorio->buscarQuartoPorId($quartoId);
-        if ($quarto === null || (!$quarto['ativo'] && $quartoId !== $idosoAtual['quarto_id'])) {
-            throw new DomainException('Selecione um quarto disponível.');
-        }
+        if ($quartoId > 0) {
+            $quarto = $this->repositorio->buscarQuartoPorId($quartoId);
+            if ($quarto === null || (!$quarto['ativo'] && $quartoId !== $idosoAtual['quarto_id'])) {
+                throw new DomainException('Selecione um quarto disponível.');
+            }
 
-        if ($quartoId !== $idosoAtual['quarto_id'] && $this->repositorio->contarOcupacaoDoQuarto($quartoId) >= $quarto['capacidade']) {
-            throw new DomainException('Este quarto não possui vaga disponível.');
+            if ($quartoId !== $idosoAtual['quarto_id'] && $this->repositorio->contarOcupacaoDoQuarto($quartoId) >= $quarto['capacidade']) {
+                throw new DomainException('Este quarto não possui vaga disponível.');
+            }
         }
 
         return $this->repositorio->atualizar($id, [
             'nome' => $nome,
             'cpf' => $cpf,
             'identificador' => $identificador,
-            'quarto_id' => $quartoId,
+            'quarto_id' => $quartoId > 0 ? $quartoId : null,
         ]);
+    }
+
+    public function retirarDoQuarto(int $id): array
+    {
+        $idoso = $this->repositorio->buscarPorId($id);
+        if ($idoso === null) {
+            throw new DomainException('Idoso não encontrado.');
+        }
+
+        return $this->repositorio->atualizar($id, ['quarto_id' => null]);
+    }
+
+    public function alterarStatus(int $id, bool $ativo): array
+    {
+        $idoso = $this->repositorio->buscarPorId($id);
+        if ($idoso === null) {
+            throw new DomainException('Idoso não encontrado.');
+        }
+
+        $dados = ['ativo' => $ativo];
+        if (!$ativo) {
+            $dados['quarto_id'] = null;
+        }
+
+        return $this->repositorio->atualizar($id, $dados);
     }
 }

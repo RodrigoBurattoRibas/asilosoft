@@ -1,0 +1,6 @@
+USE asilosoft;
+
+ALTER TABLE idosos MODIFY COLUMN quarto_id INT UNSIGNED NULL;
+ALTER TABLE idosos ADD COLUMN ativo TINYINT(1) NOT NULL DEFAULT 1 AFTER quarto_id;
+
+UPDATE idosos SET ativo = 1 WHERE ativo IS NULL;
