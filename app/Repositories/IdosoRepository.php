@@ -41,6 +41,17 @@ final class IdosoRepository
         return $this->buscarPorId((int) $this->pdo->lastInsertId());
     }
 
+    public function atualizar(int $id, array $dados): array
+    {
+        $dados['id'] = $id;
+        $consulta = $this->pdo->prepare(
+            'UPDATE idosos SET nome = :nome, cpf = :cpf, identificador = :identificador, quarto_id = :quarto_id WHERE id = :id'
+        );
+        $consulta->execute($dados);
+
+        return $this->buscarPorId($id);
+    }
+
     public function listar(): array
     {
         $consulta = $this->pdo->query(
@@ -61,12 +72,14 @@ final class IdosoRepository
         return $idoso === false ? null : $this->mapear($idoso);
     }
 
-    private function buscarPorId(int $id): array
+    public function buscarPorId(int $id): ?array
     {
         $consulta = $this->pdo->prepare('SELECT id, nome, cpf, identificador, quarto_id FROM idosos WHERE id = :id LIMIT 1');
         $consulta->execute(['id' => $id]);
 
-        return $this->mapear($consulta->fetch());
+        $idoso = $consulta->fetch();
+
+        return $idoso === false ? null : $this->mapear($idoso);
     }
 
     private function mapear(array $idoso): array

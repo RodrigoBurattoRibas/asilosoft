@@ -7,10 +7,10 @@
 </div>
 <section class="cartao tabela-responsiva">
     <table>
-        <thead><tr><th>Nome</th><th>CPF</th><th>Identificador</th><th>Quarto</th></tr></thead>
+        <thead><tr><th>Nome</th><th>CPF</th><th>Identificador</th><th>Quarto</th><th>Ações</th></tr></thead>
         <tbody>
         <?php if ($idosos === []): ?>
-            <tr><td colspan="4" class="texto-suave">Nenhum idoso cadastrado até o momento.</td></tr>
+            <tr><td colspan="5" class="texto-suave">Nenhum idoso cadastrado até o momento.</td></tr>
         <?php else: ?>
             <?php foreach ($idosos as $idoso): ?>
                 <tr>
@@ -18,6 +18,7 @@
                     <td><?= e($idoso['cpf']) ?></td>
                     <td><?= e($idoso['identificador']) ?></td>
                     <td><?= e($idoso['quarto_codigo']) ?></td>
+                    <td class="acoes"><a href="/idosos/<?= e($idoso['id']) ?>/editar">Editar</a></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>

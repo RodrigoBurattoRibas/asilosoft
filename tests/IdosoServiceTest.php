@@ -58,6 +58,22 @@ final class RepositorioIdososEmMemoria
 
         return $idoso;
     }
+
+    public function buscarPorId(int $id): ?array
+    {
+        return $this->idosos[$id] ?? null;
+    }
+
+    public function atualizar(int $id, array $dados): array
+    {
+        if (!isset($this->idosos[$id])) {
+            throw new DomainException('Idoso não encontrado.');
+        }
+
+        $this->idosos[$id] = array_merge($this->idosos[$id], $dados);
+
+        return $this->idosos[$id];
+    }
 }
 
 function criarIdosoServiceDeTeste(array $quartos = []): object
@@ -128,6 +144,49 @@ function testarCadastroDeIdosoRejeitaQuartoLotado(): void
         throw new FalhaDeTeste('Um quarto lotado não pode receber outro idoso.');
     } catch (DomainException $erro) {
         afirmarIgual('Este quarto não possui vaga disponível.', $erro->getMessage(), 'A capacidade do quarto deve ser respeitada.');
+    }
+}
+
+function testarEdicaoDeIdosoMantemQuartoAtualMesmoQuandoLotado(): void
+{
+    $servico = criarIdosoServiceDeTeste([
+        1 => ['id' => 1, 'codigo' => 'A-101', 'capacidade' => 1, 'ativo' => true],
+    ]);
+    $idoso = $servico->criar([
+        'nome' => 'Maria de Souza',
+        'cpf' => '12345678900',
+        'identificador' => 'IDOSO-001',
+        'quarto_id' => 1,
+    ]);
+
+    $atualizado = $servico->atualizar($idoso['id'], [
+        'nome' => 'Maria da Silva',
+        'cpf' => '123.456.789-00',
+        'identificador' => 'IDOSO-001',
+        'quarto_id' => 1,
+    ]);
+
+    afirmarIgual('Maria da Silva', $atualizado['nome'], 'A edição deve permitir manter o quarto atual, mesmo sem vaga adicional.');
+}
+
+function testarEdicaoDeIdosoRejeitaCpfDeOutroCadastro(): void
+{
+    $servico = criarIdosoServiceDeTeste([
+        1 => ['id' => 1, 'codigo' => 'A-101', 'capacidade' => 2, 'ativo' => true],
+    ]);
+    $servico->criar(['nome' => 'Maria', 'cpf' => '12345678900', 'identificador' => 'IDOSO-001', 'quarto_id' => 1]);
+    $joao = $servico->criar(['nome' => 'João', 'cpf' => '98765432100', 'identificador' => 'IDOSO-002', 'quarto_id' => 1]);
+
+    try {
+        $servico->atualizar($joao['id'], [
+            'nome' => 'João',
+            'cpf' => '12345678900',
+            'identificador' => 'IDOSO-002',
+            'quarto_id' => 1,
+        ]);
+        throw new FalhaDeTeste('O CPF de outro idoso deveria ser rejeitado durante a edição.');
+    } catch (DomainException $erro) {
+        afirmarIgual('Este CPF já está em uso.', $erro->getMessage(), 'A edição deve preservar a unicidade do CPF.');
     }
 }
 

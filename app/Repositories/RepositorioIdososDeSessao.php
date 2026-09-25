@@ -86,6 +86,32 @@ final class RepositorioIdososDeSessao
         return $idosos;
     }
 
+    public function buscarPorId(int $id): ?array
+    {
+        foreach ($this->idosos() as $idoso) {
+            if ($idoso['id'] === $id) {
+                return $idoso;
+            }
+        }
+
+        return null;
+    }
+
+    public function atualizar(int $id, array $dados): array
+    {
+        $idosos = $this->idosos();
+        foreach ($idosos as $indice => $idoso) {
+            if ($idoso['id'] === $id) {
+                $idosos[$indice] = array_merge($idoso, $dados);
+                $this->salvarIdosos($idosos);
+
+                return $idosos[$indice];
+            }
+        }
+
+        throw new DomainException('Idoso não encontrado.');
+    }
+
     public function listarDisponiveis(): array
     {
         $quartos = [];
