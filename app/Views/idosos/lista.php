@@ -5,6 +5,10 @@
     </div>
     <a class="botao" href="/idosos/novo">Cadastrar idoso</a>
 </div>
+<nav class="abas" aria-label="Situação dos idosos">
+    <a class="<?= $situacao === 'ativos' ? 'atual' : '' ?>" href="/idosos?situacao=ativos">Ativos</a>
+    <a class="<?= $situacao === 'desativados' ? 'atual' : '' ?>" href="/idosos?situacao=desativados">Desativados</a>
+</nav>
 <section class="cartao tabela-responsiva">
     <table>
         <thead><tr><th>Nome</th><th>CPF</th><th>Identificador</th><th>Quarto</th><th>Situação</th><th>Ações</th></tr></thead>

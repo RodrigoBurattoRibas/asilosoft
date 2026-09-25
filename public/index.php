@@ -69,8 +69,9 @@ try {
 $autenticacao = new AutenticacaoService($repositorioUsuarios, $GLOBALS['sessao']);
 $csrf = new Csrf($GLOBALS['sessao']);
 $controleDeLogin = new ControladorAutenticacao($autenticacao, $GLOBALS['sessao'], $csrf);
-$controleDeUsuarios = new ControladorUsuarios($repositorioUsuarios, new UsuarioService($repositorioUsuarios), $autenticacao, $GLOBALS['sessao'], $csrf);
-$controleDeIdosos = new ControladorIdosos($repositorioIdosos, $repositorioQuartos, new IdosoService($repositorioIdosos), $autenticacao, $GLOBALS['sessao'], $csrf);
+$filtroDeSituacao = new FiltroDeSituacao();
+$controleDeUsuarios = new ControladorUsuarios($repositorioUsuarios, new UsuarioService($repositorioUsuarios), $autenticacao, $GLOBALS['sessao'], $filtroDeSituacao, $csrf);
+$controleDeIdosos = new ControladorIdosos($repositorioIdosos, $repositorioQuartos, new IdosoService($repositorioIdosos), $autenticacao, $GLOBALS['sessao'], $filtroDeSituacao, $csrf);
 
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $caminho = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';

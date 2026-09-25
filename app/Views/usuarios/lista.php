@@ -5,6 +5,10 @@
     </div>
     <a class="botao" href="/usuarios/novo">Cadastrar usuário</a>
 </div>
+<nav class="abas" aria-label="Situação dos usuários">
+    <a class="<?= $situacao === 'ativos' ? 'atual' : '' ?>" href="/usuarios?situacao=ativos">Ativos</a>
+    <a class="<?= $situacao === 'desativados' ? 'atual' : '' ?>" href="/usuarios?situacao=desativados">Desativados</a>
+</nav>
 <section class="cartao tabela-responsiva">
     <table>
         <thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Situação</th><th>Ações</th></tr></thead>

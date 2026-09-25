@@ -49,6 +49,7 @@ final class IdosoRepository
         }
 
         $dados = array_merge($idosoAtual, $dados, ['id' => $id]);
+        $dados['ativo'] = $dados['ativo'] ? 1 : 0;
         $consulta = $this->pdo->prepare(
             'UPDATE idosos SET nome = :nome, cpf = :cpf, identificador = :identificador, quarto_id = :quarto_id, ativo = :ativo WHERE id = :id'
         );

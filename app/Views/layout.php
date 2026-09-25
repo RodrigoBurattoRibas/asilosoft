@@ -11,8 +11,8 @@
         <a class="marca" href="/usuarios">AsiloSoft</a>
         <?php if (isset($usuarioAtual)): ?>
             <nav class="navegacao" aria-label="Navegação principal">
-                <a href="/usuarios">Usuários</a>
-                <a href="/idosos">Idosos</a>
+                <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="/usuarios">Usuários</a>
+                <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="/idosos">Idosos</a>
             </nav>
             <div class="usuario-logado">
                 <span><?= e($usuarioAtual['nome']) ?></span>
@@ -23,10 +23,20 @@
             </div>
         <?php endif; ?>
     </header>
+    <div class="avisos-flutuantes" aria-live="polite">
+        <?php if (!empty($mensagemErro)): ?>
+            <div class="aviso erro aviso-flutuante" data-aviso>
+                <span><?= e($mensagemErro) ?></span><button type="button" aria-label="Fechar aviso" data-fechar-aviso>&times;</button>
+            </div>
+        <?php endif; ?>
+        <?php if (!empty($mensagemSucesso)): ?>
+            <div class="aviso sucesso aviso-flutuante" data-aviso>
+                <span><?= e($mensagemSucesso) ?></span><button type="button" aria-label="Fechar aviso" data-fechar-aviso>&times;</button>
+            </div>
+        <?php endif; ?>
+    </div>
     <main class="conteudo">
         <?php if ($modoDemonstracao): ?><p class="aviso demonstracao">Modo demonstração: os dados deste acesso não são permanentes.</p><?php endif; ?>
-        <?php if (!empty($mensagemErro)): ?><p class="aviso erro"><?= e($mensagemErro) ?></p><?php endif; ?>
-        <?php if (!empty($mensagemSucesso)): ?><p class="aviso sucesso"><?= e($mensagemSucesso) ?></p><?php endif; ?>
         <?php require $arquivoDaView; ?>
     </main>
     <script src="/js/aplicacao.js"></script>
