@@ -135,3 +135,44 @@ if (is_file(__DIR__ . '/../app/Services/IdosoService.php')) {
     require_once __DIR__ . '/../app/Services/IdosoService.php';
 }
 
+
+if (is_file(__DIR__ . '/../app/Repositories/RepositorioIdososDeSessao.php')) {
+    require_once __DIR__ . '/../app/Repositories/RepositorioIdososDeSessao.php';
+}
+
+
+function testarRepositorioTemporarioListaQuartosECadastraIdoso(): void
+{
+    if (!class_exists('RepositorioIdososDeSessao')) {
+        throw new FalhaDeTeste('O repositório temporário de idosos ainda não foi implementado.');
+    }
+
+    $sessao = new ArmazenamentoDeSessaoEmMemoria();
+    $repositorio = new RepositorioIdososDeSessao($sessao);
+    $quartos = $repositorio->listarDisponiveis();
+
+    afirmar(count($quartos) > 0, 'O modo demonstração deve disponibilizar quartos para cadastro.');
+    $criado = $repositorio->criar([
+        'nome' => 'Ana Maria',
+        'cpf' => '11122233344',
+        'identificador' => 'IDOSO-DEMO-001',
+        'quarto_id' => $quartos[0]['id'],
+    ]);
+
+    afirmarIgual($criado['id'], $repositorio->listar()[0]['id'], 'O idoso deve ficar disponível na listagem durante a sessão.');
+}
+
+function testarRepositorioTemporarioNaoListaQuartoLotado(): void
+{
+    $sessao = new ArmazenamentoDeSessaoEmMemoria();
+    $repositorio = new RepositorioIdososDeSessao($sessao);
+    $quarto = $repositorio->listarDisponiveis()[1];
+    $repositorio->criar([
+        'nome' => 'Joana',
+        'cpf' => '99988877766',
+        'identificador' => 'IDOSO-DEMO-002',
+        'quarto_id' => $quarto['id'],
+    ]);
+
+    afirmarIgual(1, count($repositorio->listarDisponiveis()), 'O quarto sem vaga não deve aparecer no formulário de cadastro.');
+}

@@ -10,6 +10,10 @@
     <header class="cabecalho">
         <a class="marca" href="/usuarios">AsiloSoft</a>
         <?php if (isset($usuarioAtual)): ?>
+            <nav class="navegacao" aria-label="Navegação principal">
+                <a href="/usuarios">Usuários</a>
+                <a href="/idosos">Idosos</a>
+            </nav>
             <div class="usuario-logado">
                 <span><?= e($usuarioAtual['nome']) ?></span>
                 <form method="post" action="/sair">

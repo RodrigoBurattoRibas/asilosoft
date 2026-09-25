@@ -56,16 +56,21 @@ $configuracao = require __DIR__ . '/../config/database.php';
 
 try {
     $pdo = Database::conectar($configuracao);
-    $repositorio = new UsuarioRepository($pdo);
+    $repositorioUsuarios = new UsuarioRepository($pdo);
+    $repositorioIdosos = new IdosoRepository($pdo);
+    $repositorioQuartos = new QuartoRepository($pdo);
 } catch (PDOException) {
     $GLOBALS['modoDemonstracao'] = true;
-    $repositorio = new RepositorioDeSessao($GLOBALS['sessao']);
+    $repositorioUsuarios = new RepositorioDeSessao($GLOBALS['sessao']);
+    $repositorioIdosos = new RepositorioIdososDeSessao($GLOBALS['sessao']);
+    $repositorioQuartos = $repositorioIdosos;
 }
 
-$autenticacao = new AutenticacaoService($repositorio, $GLOBALS['sessao']);
+$autenticacao = new AutenticacaoService($repositorioUsuarios, $GLOBALS['sessao']);
 $csrf = new Csrf($GLOBALS['sessao']);
 $controleDeLogin = new ControladorAutenticacao($autenticacao, $GLOBALS['sessao'], $csrf);
-$controleDeUsuarios = new ControladorUsuarios($repositorio, new UsuarioService($repositorio), $autenticacao, $GLOBALS['sessao'], $csrf);
+$controleDeUsuarios = new ControladorUsuarios($repositorioUsuarios, new UsuarioService($repositorioUsuarios), $autenticacao, $GLOBALS['sessao'], $csrf);
+$controleDeIdosos = new ControladorIdosos($repositorioIdosos, $repositorioQuartos, new IdosoService($repositorioIdosos), $autenticacao, $GLOBALS['sessao'], $csrf);
 
 $metodo = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 $caminho = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
@@ -94,6 +99,18 @@ if ($metodo === 'GET' && $caminho === '/usuarios/novo') {
 if ($metodo === 'POST' && $caminho === '/usuarios') {
     $controleDeUsuarios->criar();
 }
+if ($metodo === 'GET' && $caminho === '/idosos') {
+    $controleDeIdosos->listar();
+    exit;
+}
+if ($metodo === 'GET' && $caminho === '/idosos/novo') {
+    $controleDeIdosos->novo();
+    exit;
+}
+if ($metodo === 'POST' && $caminho === '/idosos') {
+    $controleDeIdosos->criar();
+}
+
 if (preg_match('#^/usuarios/(\d+)/editar$#', $caminho, $coincidencias) && $metodo === 'GET') {
     $controleDeUsuarios->editar((int) $coincidencias[1]);
     exit;
