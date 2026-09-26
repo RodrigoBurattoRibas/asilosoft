@@ -10,6 +10,7 @@ final class ControladorIdosos
         private IdosoService $idosos,
         private AutenticacaoService $autenticacao,
         private Sessao $sessao,
+        private FiltroDeSituacao $filtro,
         private Csrf $csrf
     ) {
     }
@@ -17,10 +18,13 @@ final class ControladorIdosos
     public function listar(): void
     {
         $usuarioAtual = $this->exigirAdministrador();
+        $situacao = $this->filtro->normalizar((string) ($_GET['situacao'] ?? 'ativos'));
         renderizar('idosos/lista', [
             'titulo' => 'Idosos',
             'usuarioAtual' => $usuarioAtual,
-            'idosos' => $this->repositorio->listar(),
+            'idosos' => $this->filtro->filtrar($this->repositorio->listar(), $situacao),
+            'situacao' => $situacao,
+            'secaoAtual' => 'idosos',
             'csrf' => $this->csrf->token(),
         ]);
     }
@@ -33,6 +37,7 @@ final class ControladorIdosos
             'usuarioAtual' => $usuarioAtual,
             'quartos' => $this->repositorioQuartos->listarDisponiveis(),
             'idoso' => null,
+            'secaoAtual' => 'idosos',
             'csrf' => $this->csrf->token(),
         ]);
     }
@@ -60,6 +65,7 @@ final class ControladorIdosos
             'usuarioAtual' => $usuarioAtual,
             'idoso' => $idoso,
             'quartos' => $quartos,
+            'secaoAtual' => 'idosos',
             'csrf' => $this->csrf->token(),
         ]);
     }

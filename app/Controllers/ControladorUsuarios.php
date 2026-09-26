@@ -9,6 +9,7 @@ final class ControladorUsuarios
         private UsuarioService $usuarios,
         private AutenticacaoService $autenticacao,
         private Sessao $sessao,
+        private FiltroDeSituacao $filtro,
         private Csrf $csrf
     ) {
     }
@@ -16,10 +17,13 @@ final class ControladorUsuarios
     public function listar(): void
     {
         $usuarioAtual = $this->exigirAdministrador();
+        $situacao = $this->filtro->normalizar((string) ($_GET['situacao'] ?? 'ativos'));
         renderizar('usuarios/lista', [
             'titulo' => 'Usuários',
             'usuarioAtual' => $usuarioAtual,
-            'usuarios' => $this->repositorio->listar(),
+            'usuarios' => $this->filtro->filtrar($this->repositorio->listar(), $situacao),
+            'situacao' => $situacao,
+            'secaoAtual' => 'usuarios',
             'csrf' => $this->csrf->token(),
         ]);
     }
@@ -31,6 +35,7 @@ final class ControladorUsuarios
             'titulo' => 'Novo usuário',
             'usuarioAtual' => $usuarioAtual,
             'usuario' => null,
+            'secaoAtual' => 'usuarios',
             'csrf' => $this->csrf->token(),
         ]);
     }
@@ -60,6 +65,7 @@ final class ControladorUsuarios
             'titulo' => 'Editar usuário',
             'usuarioAtual' => $usuarioAtual,
             'usuario' => $usuario,
+            'secaoAtual' => 'usuarios',
             'csrf' => $this->csrf->token(),
         ]);
     }
