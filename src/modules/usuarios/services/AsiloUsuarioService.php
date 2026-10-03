@@ -14,6 +14,16 @@ final class AsiloUsuarioService
     {
     }
 
+    public function listar(): array
+    {
+        return $this->repository->listar();
+    }
+
+    public function buscarPorId(int $id): ?array
+    {
+        return $this->repository->buscarPorId($id);
+    }
+
     public function criar(array $data): array
     {
         $name = trim((string) ($data['nome'] ?? ''));

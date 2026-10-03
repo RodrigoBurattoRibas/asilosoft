@@ -8,6 +8,26 @@ Sistema web para apoio à gestão de instituições de longa permanência para i
 - JavaScript puro
 - MySQL, com modo demonstração em sessão
 
+## Estrutura
+
+```text
+index.php
+src/
+  assets/
+  core/
+  infra/
+  modules/
+    almoxarifado/
+    autenticacao/
+    idosos/
+    usuarios/
+  presentation/
+```
+
+Cada módulo possui suas próprias rotas, controllers, serviços, repositórios e views.
+
+O módulo de almoxarifado permite cadastrar materiais, insumos e medicamentos, registrar entradas com origem, registrar retiradas e consultar o histórico de movimentações. O acesso é permitido aos perfis `Administrador` e `Almoxarife`.
+
 ## Executar
 
 Inicie o servidor na raiz do projeto:
@@ -16,19 +36,23 @@ Inicie o servidor na raiz do projeto:
 php -S localhost:8000
 ```
 
-Depois acesse `http://localhost:8000`. As rotas são carregadas no formato `?route=nome-da-rota`.
+Depois acesse `http://localhost:8000`.
+
+As rotas são carregadas no formato `?route=nome-da-rota`.
 
 ## Banco de dados
 
-Copie `.env.example` para `.env`, configure `ASILOSOFT_DB_*` e execute:
+Crie um arquivo `.env` a partir de `.env.example` quando houver um banco MySQL disponível:
 
-```bash
-php src/infra/Database/bootstrap.php
-php src/infra/Database/seed_admin.php # opcional
-php src/infra/Database/seed_dados_ficticios.php # opcional
+```dotenv
+MYSQLHOST=127.0.0.1
+MYSQLPORT=3306
+MYSQLDATABASE=asilosoft
+MYSQLUSER=root
+MYSQLPASSWORD=sua_senha
 ```
 
-As migrações versionadas são a fonte de verdade. `schema.sql` é somente um adaptador de compatibilidade e não deve ser executado diretamente. A operação, os contratos e o teste de integração estão em `docs/GUIA_BANCO.md`.
+No Railway, essas mesmas variáveis podem ser preenchidas pelas referências fornecidas pelo serviço. Para executar localmente, use valores concretos no `.env`.
 
 Se a conexão não estiver disponível, a aplicação inicia automaticamente no modo demonstração:
 

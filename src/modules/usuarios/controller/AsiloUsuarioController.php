@@ -1,19 +1,36 @@
 <?php
 
-
-require_once dirname(__DIR__, 3) . '/core/Http/AsiloController.php';
+require_once dirname(__DIR__, 3) . '/core/Session/AsiloSession.php';
+require_once dirname(__DIR__, 3) . '/core/Security/CsrfToken.php';
+require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
+require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
+require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
+require_once dirname(__DIR__) . '/repository/AsiloUsuarioRepository.php';
+require_once dirname(__DIR__) . '/repository/AsiloRepositorioUsuariosSessao.php';
 require_once dirname(__DIR__) . '/services/AsiloUsuarioService.php';
 require_once dirname(__DIR__) . '/services/AsiloFiltroSituacao.php';
 
-final class AsiloUsuarioController extends AsiloController
+final class AsiloUsuarioController
 {
+    private AsiloSession $session;
+    private AsiloAutenticacaoService $authentication;
     private AsiloUsuarioService $users;
     private AsiloFiltroSituacao $filter;
+    private bool $demoMode = false;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->users = new AsiloUsuarioService($this->runtime->userRepository());
+        $this->session = new AsiloSession();
+
+        try {
+            $repository = new AsiloUsuarioRepository(PDOMysqli::connection());
+        } catch (PDOException) {
+            $this->demoMode = true;
+            $repository = new AsiloRepositorioUsuariosSessao($this->session);
+        }
+
+        $this->authentication = new AsiloAutenticacaoService($repository, $this->session);
+        $this->users = new AsiloUsuarioService($repository);
         $this->filter = new AsiloFiltroSituacao();
     }
 
@@ -25,7 +42,7 @@ final class AsiloUsuarioController extends AsiloController
         $this->view(dirname(__DIR__) . '/view/lista.php', [
             'titulo' => 'Usuários',
             'usuarioAtual' => $currentUser,
-            'usuarios' => $this->filter->filtrar($this->runtime->userRepository()->listar(), $status),
+            'usuarios' => $this->filter->filtrar($this->users->listar(), $status),
             'situacao' => $status,
             'secaoAtual' => 'usuarios',
             'csrfToken' => CsrfToken::obter('asilosoft_usuarios'),
@@ -62,7 +79,7 @@ final class AsiloUsuarioController extends AsiloController
     public function editar(): void
     {
         $currentUser = $this->exigirAdministrador();
-        $user = $this->runtime->userRepository()->buscarPorId($this->requireId());
+        $user = $this->users->buscarPorId($this->requireId());
         if ($user === null) {
             $this->notFound();
         }
@@ -107,4 +124,57 @@ final class AsiloUsuarioController extends AsiloController
 
         $this->redirect('usuarios');
     }
+
+    private function exigirAdministrador(): array
+    {
+        $user = $this->authentication->usuarioAtual();
+        if ($user === null) {
+            $this->redirect('login');
+        }
+
+        if ($user['perfil'] !== 'Administrador') {
+            http_response_code(403);
+            $this->view(
+                dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
+                ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]
+            );
+            exit;
+        }
+
+        return $user;
+    }
+
+    private function view(string $viewFile, array $data = []): void
+    {
+        $data['modoDemonstracao'] = $this->demoMode;
+        AsiloView::render($viewFile, $data);
+    }
+
+    private function redirect(string $route, array $query = []): never
+    {
+        $parameters = http_build_query(['route' => $route] + $query);
+        header('Location: ?' . $parameters, true, 303);
+        exit;
+    }
+
+    private function requireId(): int
+    {
+        $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+        if (!is_int($id) || $id <= 0) {
+            $this->notFound();
+        }
+
+        return $id;
+    }
+
+    private function notFound(): never
+    {
+        http_response_code(404);
+        $this->view(
+            dirname(__DIR__, 3) . '/presentation/components/asiloNaoEncontrado.php',
+            ['titulo' => 'Página não encontrada']
+        );
+        exit;
+    }
+
 }

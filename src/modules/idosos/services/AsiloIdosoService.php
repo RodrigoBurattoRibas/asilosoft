@@ -3,8 +3,33 @@
 
 final class AsiloIdosoService
 {
-    public function __construct(private object $repository)
+    public function __construct(private object $repository, private object $roomRepository)
     {
+    }
+
+    public function listar(): array
+    {
+        return $this->repository->listar();
+    }
+
+    public function buscarPorId(int $id): ?array
+    {
+        return $this->repository->buscarPorId($id);
+    }
+
+    public function listarQuartosDisponiveis(): array
+    {
+        return $this->roomRepository->listarDisponiveis();
+    }
+
+    public function buscarQuartoPorId(int $id): ?array
+    {
+        return $this->repository->buscarQuartoPorId($id);
+    }
+
+    public function contarOcupacaoDoQuarto(int $id): int
+    {
+        return $this->repository->contarOcupacaoDoQuarto($id);
     }
 
     public function criar(array $data): array

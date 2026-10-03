@@ -1,19 +1,44 @@
 <?php
 
-
-require_once dirname(__DIR__, 3) . '/core/Http/AsiloController.php';
-require_once dirname(__DIR__) . '/services/AsiloIdosoService.php';
+require_once dirname(__DIR__, 3) . '/core/Session/AsiloSession.php';
+require_once dirname(__DIR__, 3) . '/core/Security/CsrfToken.php';
+require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
+require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
+require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
+require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
+require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloRepositorioUsuariosSessao.php';
 require_once dirname(__DIR__, 2) . '/usuarios/services/AsiloFiltroSituacao.php';
+require_once dirname(__DIR__) . '/repository/AsiloIdosoRepository.php';
+require_once dirname(__DIR__) . '/repository/AsiloQuartoRepository.php';
+require_once dirname(__DIR__) . '/repository/AsiloRepositorioIdososSessao.php';
+require_once dirname(__DIR__) . '/services/AsiloIdosoService.php';
 
-final class AsiloIdosoController extends AsiloController
+final class AsiloIdosoController
 {
+    private AsiloSession $session;
+    private AsiloAutenticacaoService $authentication;
     private AsiloIdosoService $residents;
     private AsiloFiltroSituacao $filter;
+    private bool $demoMode = false;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->residents = new AsiloIdosoService($this->runtime->residentRepository());
+        $this->session = new AsiloSession();
+
+        try {
+            $pdo = PDOMysqli::connection();
+            $userRepository = new AsiloUsuarioRepository($pdo);
+            $residentRepository = new AsiloIdosoRepository($pdo);
+            $roomRepository = new AsiloQuartoRepository($pdo);
+        } catch (PDOException) {
+            $this->demoMode = true;
+            $userRepository = new AsiloRepositorioUsuariosSessao($this->session);
+            $residentRepository = new AsiloRepositorioIdososSessao($this->session);
+            $roomRepository = $residentRepository;
+        }
+
+        $this->authentication = new AsiloAutenticacaoService($userRepository, $this->session);
+        $this->residents = new AsiloIdosoService($residentRepository, $roomRepository);
         $this->filter = new AsiloFiltroSituacao();
     }
 
@@ -25,7 +50,7 @@ final class AsiloIdosoController extends AsiloController
         $this->view(dirname(__DIR__) . '/view/lista.php', [
             'titulo' => 'Idosos',
             'usuarioAtual' => $currentUser,
-            'idosos' => $this->filter->filtrar($this->runtime->residentRepository()->listar(), $status),
+            'idosos' => $this->filter->filtrar($this->residents->listar(), $status),
             'situacao' => $status,
             'secaoAtual' => 'idosos',
             'csrfToken' => CsrfToken::obter('asilosoft_idosos'),
@@ -39,7 +64,7 @@ final class AsiloIdosoController extends AsiloController
         $this->view(dirname(__DIR__) . '/view/formulario.php', [
             'titulo' => 'Cadastrar idoso',
             'usuarioAtual' => $currentUser,
-            'quartos' => $this->runtime->roomRepository()->listarDisponiveis(),
+            'quartos' => $this->residents->listarQuartosDisponiveis(),
             'idoso' => null,
             'secaoAtual' => 'idosos',
             'csrfToken' => CsrfToken::obter('asilosoft_idosos'),
@@ -49,20 +74,19 @@ final class AsiloIdosoController extends AsiloController
     public function editar(): void
     {
         $currentUser = $this->exigirAdministrador();
-        $resident = $this->runtime->residentRepository()->buscarPorId($this->requireId());
+        $resident = $this->residents->buscarPorId($this->requireId());
         if ($resident === null) {
             $this->notFound();
         }
 
-        $rooms = $this->runtime->roomRepository()->listarDisponiveis();
+        $rooms = $this->residents->listarQuartosDisponiveis();
         $currentRoomInList = $resident['quarto_id'] === null
             || in_array((int) $resident['quarto_id'], array_column($rooms, 'id'), true);
 
         if (!$currentRoomInList) {
-            $currentRoom = $this->runtime->residentRepository()->buscarQuartoPorId((int) $resident['quarto_id']);
+            $currentRoom = $this->residents->buscarQuartoPorId((int) $resident['quarto_id']);
             if ($currentRoom !== null) {
-                $currentRoom['ocupacao'] = $this->runtime
-                    ->residentRepository()
+                $currentRoom['ocupacao'] = $this->residents
                     ->contarOcupacaoDoQuarto((int) $resident['quarto_id']);
                 $rooms[] = $currentRoom;
             }
@@ -138,4 +162,57 @@ final class AsiloIdosoController extends AsiloController
 
         $this->redirect('idosos');
     }
+
+    private function exigirAdministrador(): array
+    {
+        $user = $this->authentication->usuarioAtual();
+        if ($user === null) {
+            $this->redirect('login');
+        }
+
+        if ($user['perfil'] !== 'Administrador') {
+            http_response_code(403);
+            $this->view(
+                dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
+                ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]
+            );
+            exit;
+        }
+
+        return $user;
+    }
+
+    private function view(string $viewFile, array $data = []): void
+    {
+        $data['modoDemonstracao'] = $this->demoMode;
+        AsiloView::render($viewFile, $data);
+    }
+
+    private function redirect(string $route, array $query = []): never
+    {
+        $parameters = http_build_query(['route' => $route] + $query);
+        header('Location: ?' . $parameters, true, 303);
+        exit;
+    }
+
+    private function requireId(): int
+    {
+        $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+        if (!is_int($id) || $id <= 0) {
+            $this->notFound();
+        }
+
+        return $id;
+    }
+
+    private function notFound(): never
+    {
+        http_response_code(404);
+        $this->view(
+            dirname(__DIR__, 3) . '/presentation/components/asiloNaoEncontrado.php',
+            ['titulo' => 'Página não encontrada']
+        );
+        exit;
+    }
+
 }

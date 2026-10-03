@@ -16,6 +16,9 @@ require_once __DIR__ . '/src/infra/Routers/RouteLoader.php';
 App::init();
 RouteLoader::load(__DIR__ . '/src/modules');
 
+$_GET = RouteSanitizer::sanitizarEntrada($_GET);
+$_POST = RouteSanitizer::sanitizarEntrada($_POST);
+
 $rota = isset($_GET['route']) ? RouteSanitizer::validar($_GET['route']) : '';
 
 if (Router::requerAutenticacao($rota)) {

@@ -33,6 +33,9 @@ label { display: grid; font-weight: bold; gap: .35rem; }
 input, select { background: #fffdf7; border: 1px solid #b9976d; border-radius: 2px; font: inherit; padding: .65rem; }
 .titulo-pagina { align-items: center; display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
 .titulo-pagina h1 { margin: .1rem 0 0; }
+.titulo-secao { margin-top: 2.5rem; }
+.titulo-secao h2 { margin: .1rem 0 0; }
+.resumo-estoque { align-items: center; display: flex; flex-wrap: wrap; gap: .5rem 1rem; justify-content: space-between; }
 .abas { border-bottom: 1px solid #c3a47c; display: flex; gap: .4rem; margin: 0 0 1.2rem; }
 .abas a { color: var(--madeira); padding: .55rem .8rem; text-decoration: none; }
 .abas a.atual { background: var(--linho); border: 1px solid #c3a47c; border-bottom-color: var(--linho); margin-bottom: -1px; }

@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="src/assets/css/asilosoft.css">
 </head>
 <body>
+    <?php $rotaInicial = ($usuarioAtual['perfil'] ?? '') === 'Almoxarife' ? 'almoxarifado' : 'usuarios'; ?>
     <header class="cabecalho">
-        <a class="marca" href="?route=usuarios">AsiloSoft</a>
+        <a class="marca" href="?route=<?= AsiloView::escape($rotaInicial) ?>">AsiloSoft</a>
         <?php if (isset($usuarioAtual)): ?>
             <nav class="navegacao" aria-label="Navegação principal">
-                <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="?route=usuarios">Usuários</a>
-                <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="?route=idosos">Idosos</a>
+                <?php if (($usuarioAtual['perfil'] ?? '') === 'Administrador'): ?>
+                    <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="?route=usuarios">Usuários</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="?route=idosos">Idosos</a>
+                <?php endif; ?>
+                <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife'], true)): ?>
+                    <a class="<?= ($secaoAtual ?? '') === 'almoxarifado' ? 'atual' : '' ?>" href="?route=almoxarifado">Almoxarifado</a>
+                <?php endif; ?>
             </nav>
             <div class="usuario-logado">
                 <span><?= AsiloView::escape($usuarioAtual['nome']) ?></span>
