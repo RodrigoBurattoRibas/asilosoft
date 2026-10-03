@@ -1,0 +1,2 @@
+-- Compatibility adapter. The versioned source of truth is migrations/.
+-- Run: php src/infra/Database/bootstrap.php

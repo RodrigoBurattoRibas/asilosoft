@@ -8,23 +8,6 @@ Sistema web para apoio à gestão de instituições de longa permanência para i
 - JavaScript puro
 - MySQL, com modo demonstração em sessão
 
-## Estrutura
-
-```text
-index.php
-src/
-  assets/
-  core/
-  infra/
-  modules/
-    autenticacao/
-    usuarios/
-    idosos/
-  presentation/
-```
-
-Cada módulo possui suas próprias rotas, controllers, serviços, repositórios e views.
-
 ## Executar
 
 Inicie o servidor na raiz do projeto:
@@ -33,21 +16,19 @@ Inicie o servidor na raiz do projeto:
 php -S localhost:8000
 ```
 
-Depois acesse `http://localhost:8000`.
-
-As rotas são carregadas no formato `?route=nome-da-rota`.
+Depois acesse `http://localhost:8000`. As rotas são carregadas no formato `?route=nome-da-rota`.
 
 ## Banco de dados
 
-Crie um arquivo `.env` a partir de `.env.example` quando houver um banco MySQL disponível:
+Copie `.env.example` para `.env`, configure `ASILOSOFT_DB_*` e execute:
 
-```dotenv
-ASILOSOFT_DB_HOST=127.0.0.1
-ASILOSOFT_DB_PORTA=3306
-ASILOSOFT_DB_NOME=asilosoft
-ASILOSOFT_DB_USUARIO=root
-ASILOSOFT_DB_SENHA=sua_senha
+```bash
+php src/infra/Database/bootstrap.php
+php src/infra/Database/seed_admin.php # opcional
+php src/infra/Database/seed_dados_ficticios.php # opcional
 ```
+
+As migrações versionadas são a fonte de verdade. `schema.sql` é somente um adaptador de compatibilidade e não deve ser executado diretamente. A operação, os contratos e o teste de integração estão em `docs/GUIA_BANCO.md`.
 
 Se a conexão não estiver disponível, a aplicação inicia automaticamente no modo demonstração:
 
