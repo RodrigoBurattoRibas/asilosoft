@@ -1,0 +1,2 @@
+[deploy]
+preDeployCommand = ["php src/infra/Database/bootstrap.php"]
