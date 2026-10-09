@@ -1,19 +1,38 @@
 CREATE TABLE IF NOT EXISTS familiares (
- id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, usuario_id INT UNSIGNED NULL UNIQUE, nome VARCHAR(120) NOT NULL,
- cpf CHAR(11) NULL UNIQUE, telefone VARCHAR(30) NOT NULL, email VARCHAR(160) NULL, parentesco_principal VARCHAR(60) NULL,
- criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
- CONSTRAINT fk_familiares_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT UNSIGNED NULL UNIQUE,
+  nome VARCHAR(120) NOT NULL,
+  cpf CHAR(11) NULL UNIQUE,
+  telefone VARCHAR(30) NOT NULL,
+  email VARCHAR(160) NULL,
+  parentesco_principal VARCHAR(60) NULL,
+  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_familiares_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id) ON DELETE SET NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS idosos_familiares (
- idoso_id INT UNSIGNED NOT NULL, familiar_id INT UNSIGNED NOT NULL, parentesco VARCHAR(60) NOT NULL,
- responsavel_principal TINYINT(1) NOT NULL DEFAULT 0, criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
- PRIMARY KEY (idoso_id,familiar_id), CONSTRAINT fk_if_idoso FOREIGN KEY (idoso_id) REFERENCES idosos(id) ON DELETE CASCADE,
- CONSTRAINT fk_if_familiar FOREIGN KEY (familiar_id) REFERENCES familiares(id) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  idoso_id INT UNSIGNED NOT NULL,
+  familiar_id INT UNSIGNED NOT NULL,
+  parentesco VARCHAR(60) NOT NULL,
+  responsavel_principal TINYINT(1) NOT NULL DEFAULT 0,
+  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (idoso_id, familiar_id),
+  CONSTRAINT fk_if_idoso FOREIGN KEY (idoso_id) REFERENCES idosos (id) ON DELETE CASCADE,
+  CONSTRAINT fk_if_familiar FOREIGN KEY (familiar_id) REFERENCES familiares (id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS registros_saude (
- id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY, idoso_id INT UNSIGNED NOT NULL, usuario_id INT UNSIGNED NOT NULL,
- descricao TEXT NOT NULL, visivel_para_familiar TINYINT(1) NOT NULL DEFAULT 0, registrado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
- criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
- CONSTRAINT fk_rs_idoso FOREIGN KEY (idoso_id) REFERENCES idosos(id), CONSTRAINT fk_rs_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
- INDEX idx_rs_idoso_data (idoso_id,registrado_em DESC,id DESC), INDEX idx_rs_usuario_data (usuario_id,registrado_em DESC)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  idoso_id INT UNSIGNED NOT NULL,
+  usuario_id INT UNSIGNED NOT NULL,
+  descricao TEXT NOT NULL,
+  visivel_para_familiar TINYINT(1) NOT NULL DEFAULT 0,
+  registrado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_rs_idoso FOREIGN KEY (idoso_id) REFERENCES idosos (id),
+  CONSTRAINT fk_rs_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id),
+  INDEX idx_rs_idoso_data (idoso_id, registrado_em DESC, id DESC),
+  INDEX idx_rs_usuario_data (usuario_id, registrado_em DESC)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

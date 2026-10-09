@@ -19,3 +19,11 @@ Thumbs.db
 
 # Worktrees locais
 .worktrees/
+
+# GitHub Spec Kit e habilidades locais do Codex
+.specify/
+.agents/
+
+# Levantamentos locais de escopo
+LACUNAS_CADASTRO_IDOSOS_E_INSUMOS.md
+CHECKLIST_IMPLEMENTACAO_ASILOSOFT.md
