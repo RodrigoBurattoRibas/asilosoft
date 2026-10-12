@@ -49,3 +49,50 @@
         </tbody>
     </table>
 </section>
+
+<div class="titulo-pagina titulo-secao">
+    <div>
+        <p class="sobretitulo">Acomodação</p>
+        <h2>Quartos e vagas</h2>
+    </div>
+</div>
+<section class="cartao">
+    <form method="post" action="?route=quartos-criar" class="formulario formulario-largo">
+        <input type="hidden" name="csrf_token" value="<?= AsiloView::escape($csrfToken) ?>">
+        <label>Código do quarto
+            <input type="text" name="codigo" maxlength="30" required placeholder="Ex.: B-201">
+        </label>
+        <label>Capacidade
+            <input type="number" name="capacidade" min="1" max="99" required>
+        </label>
+        <button type="submit">Cadastrar quarto</button>
+    </form>
+</section>
+<section class="cartao tabela-responsiva">
+    <table>
+        <thead><tr><th>Quarto</th><th>Ocupação</th><th>Capacidade</th><th>Situação</th><th>Ações</th></tr></thead>
+        <tbody>
+        <?php if ($quartos === []): ?>
+            <tr><td colspan="5" class="texto-suave">Nenhum quarto cadastrado.</td></tr>
+        <?php else: ?>
+            <?php foreach ($quartos as $quarto): ?>
+                <tr>
+                    <td><?= AsiloView::escape($quarto['codigo']) ?></td>
+                    <td><?= AsiloView::escape($quarto['ocupacao']) ?></td>
+                    <td><?= AsiloView::escape($quarto['capacidade']) ?></td>
+                    <td><span class="etiqueta <?= $quarto['ativo'] ? 'ativo' : 'inativo' ?>"><?= $quarto['ativo'] ? 'Ativo' : 'Inativo' ?></span></td>
+                    <td>
+                        <form method="post" action="?route=quartos-atualizar&amp;id=<?= AsiloView::escape($quarto['id']) ?>" class="acoes">
+                            <input type="hidden" name="csrf_token" value="<?= AsiloView::escape($csrfToken) ?>">
+                            <input type="text" name="codigo" maxlength="30" required value="<?= AsiloView::escape($quarto['codigo']) ?>" aria-label="Código do quarto">
+                            <input type="number" name="capacidade" min="1" max="99" required value="<?= AsiloView::escape($quarto['capacidade']) ?>" aria-label="Capacidade">
+                            <input type="hidden" name="ativo" value="<?= $quarto['ativo'] ? '0' : '1' ?>">
+                            <button class="botao-link" type="submit">Salvar e <?= $quarto['ativo'] ? 'desativar' : 'ativar' ?></button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</section>

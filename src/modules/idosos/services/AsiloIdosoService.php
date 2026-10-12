@@ -22,6 +22,47 @@ final class AsiloIdosoService
         return $this->roomRepository->listarDisponiveis();
     }
 
+    public function listarQuartos(): array
+    {
+        return method_exists($this->roomRepository, 'listarQuartos')
+            ? $this->roomRepository->listarQuartos()
+            : $this->roomRepository->listar();
+    }
+
+    public function criarQuarto(array $data): array
+    {
+        $room = $this->validarQuarto($data);
+        foreach ($this->listarQuartos() as $existing) {
+            if (mb_strtolower($existing['codigo']) === mb_strtolower($room['codigo'])) {
+                throw new DomainException('Já existe um quarto com este código.');
+            }
+        }
+        return method_exists($this->roomRepository, 'criarQuarto')
+            ? $this->roomRepository->criarQuarto($room)
+            : $this->roomRepository->criar($room);
+    }
+
+    public function atualizarQuarto(int $id, array $data): array
+    {
+        $current = $this->buscarQuartoPorId($id);
+        if ($current === null) {
+            throw new DomainException('Quarto não encontrado.');
+        }
+        $room = $this->validarQuarto($data);
+        $room['ativo'] = (string) ($data['ativo'] ?? '1') === '1';
+        if ($room['capacidade'] < $this->contarOcupacaoDoQuarto($id)) {
+            throw new DomainException('A capacidade não pode ser menor que a ocupação atual.');
+        }
+        foreach ($this->listarQuartos() as $existing) {
+            if ($existing['id'] !== $id && mb_strtolower($existing['codigo']) === mb_strtolower($room['codigo'])) {
+                throw new DomainException('Já existe um quarto com este código.');
+            }
+        }
+        return method_exists($this->roomRepository, 'atualizarQuarto')
+            ? $this->roomRepository->atualizarQuarto($id, $room)
+            : $this->roomRepository->atualizar($id, $room);
+    }
+
     public function buscarQuartoPorId(int $id): ?array
     {
         return $this->repository->buscarQuartoPorId($id);
@@ -125,6 +166,16 @@ final class AsiloIdosoService
         }
 
         return $this->repository->atualizar($id, ['quarto_id' => null]);
+    }
+
+    private function validarQuarto(array $data): array
+    {
+        $codigo = trim((string) ($data['codigo'] ?? ''));
+        $capacidade = filter_var($data['capacidade'] ?? null, FILTER_VALIDATE_INT);
+        if ($codigo === '' || mb_strlen($codigo) > 30 || !is_int($capacidade) || $capacidade < 1 || $capacidade > 99) {
+            throw new DomainException('Informe código e capacidade válida para o quarto.');
+        }
+        return ['codigo' => $codigo, 'capacidade' => $capacidade];
     }
 
     public function alterarStatus(int $id, bool $active): array

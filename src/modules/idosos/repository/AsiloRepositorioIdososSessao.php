@@ -130,6 +130,40 @@ final class AsiloRepositorioIdososSessao
         return $rooms;
     }
 
+    public function listarQuartos(): array
+    {
+        $rooms = $this->quartos();
+        foreach ($rooms as &$room) {
+            $room['ocupacao'] = $this->contarOcupacaoDoQuarto($room['id']);
+        }
+        unset($room);
+        usort($rooms, static fn (array $a, array $b): int => $a['codigo'] <=> $b['codigo']);
+        return $rooms;
+    }
+
+    public function criarQuarto(array $data): array
+    {
+        $rooms = $this->quartos();
+        $ids = array_column($rooms, 'id');
+        $room = $data + ['id' => $ids === [] ? 1 : max($ids) + 1, 'ativo' => true];
+        $rooms[] = $room;
+        $this->session->set(self::ROOMS_KEY, $rooms);
+        return $room;
+    }
+
+    public function atualizarQuarto(int $id, array $data): array
+    {
+        $rooms = $this->quartos();
+        foreach ($rooms as $index => $room) {
+            if ($room['id'] === $id) {
+                $rooms[$index] = array_merge($room, $data);
+                $this->session->set(self::ROOMS_KEY, $rooms);
+                return $rooms[$index];
+            }
+        }
+        throw new DomainException('Quarto não encontrado.');
+    }
+
     private function residentes(): array
     {
         return $this->session->get(self::RESIDENTS_KEY);
