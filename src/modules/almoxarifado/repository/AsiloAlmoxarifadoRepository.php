@@ -130,7 +130,7 @@ final class AsiloAlmoxarifadoRepository
         $query = $this->pdo->query(
             'SELECT m.id, m.item_id, i.nome AS item_nome, i.unidade_medida,
                     m.tipo, m.quantidade, m.origem, m.data_hora
-             FROM movimentacoes_estoque m
+             FROM almoxarifado_movimentacoes m
              INNER JOIN itens_estoque i ON i.id = m.item_id
              ORDER BY m.data_hora DESC, m.id DESC'
         );
@@ -175,7 +175,7 @@ final class AsiloAlmoxarifadoRepository
         ?string $origem
     ): void {
         $query = $this->pdo->prepare(
-            'INSERT INTO movimentacoes_estoque (item_id, tipo, quantidade, origem)
+            'INSERT INTO almoxarifado_movimentacoes (item_id, tipo, quantidade, origem)
              VALUES (:item_id, :tipo, :quantidade, :origem)'
         );
         $query->execute([
@@ -210,7 +210,7 @@ final class AsiloAlmoxarifadoRepository
         );
 
         $this->pdo->exec(
-            'CREATE TABLE IF NOT EXISTS movimentacoes_estoque (
+            'CREATE TABLE IF NOT EXISTS almoxarifado_movimentacoes (
                 id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
                 item_id BIGINT UNSIGNED NOT NULL,
                 tipo VARCHAR(20) NOT NULL,
