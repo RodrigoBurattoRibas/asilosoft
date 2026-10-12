@@ -76,7 +76,7 @@ Cada controller cria seus services com repositories PDO, usando a conexão centr
 │   │   ├── idosos/                    # Administração de residentes
 │   │   └── quartos/                   # Administração de quartos e ocupação
 │   └── presentation/
-│       ├── components/                # Páginas 403 e 404
+│       ├── components/                # Página 404
 │       └── layout/                    # Layout base e renderizador
 └── GUIA_TECNICO.md                    # Este documento
 ```
@@ -90,8 +90,9 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 | Rota | Método | Acesso | CSRF | Ação | Parâmetros |
 | --- | --- | --- | --- | --- | --- |
 | `login` | GET | Público | Não | Exibe o formulário de login | — |
-| `entrar` | POST | Público | `asilosoft_login` | Autentica e redireciona para usuários | `email`, `senha`, `csrf_token` |
+| `entrar` | POST | Público | `asilosoft_login` | Autentica e redireciona para a home | `email`, `senha`, `csrf_token` |
 | `sair` | POST | Autenticado | `asilosoft_sair` | Encerra a sessão | `csrf_token` |
+| `home` | GET | Autenticado | Não | Exibe as áreas disponíveis para o perfil | — |
 | `usuarios` | GET | Administrador | Não | Lista usuários ativos ou desativados | `situacao=ativos|desativados` |
 | `usuarios-novo` | GET | Administrador | Não | Exibe cadastro de usuário | — |
 | `usuarios-criar` | POST | Administrador | `asilosoft_usuarios` | Cria usuário | `nome`, `email`, `perfil`, `senha`, `csrf_token` |
@@ -112,7 +113,7 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 | `quartos-atualizar` | POST | Administrador | `asilosoft_quartos` | Atualiza código e capacidade | `id`, `codigo`, `capacidade`, `csrf_token` |
 | `quartos-status` | POST | Administrador | `asilosoft_quartos` | Ativa ou desativa quarto vazio | `id`, `ativo=0|1`, `csrf_token` |
 
-**Nota de autorização:** as rotas de usuários, idosos e quartos são privadas no roteador, mas os respectivos controllers chamam `exigirAdministrador()`. Assim, um usuário autenticado sem perfil `Administrador` recebe HTTP 403.
+**Nota de autorização:** as rotas de usuários, idosos e quartos são privadas no roteador, mas os respectivos controllers chamam `exigirAdministrador()`. Um usuário autenticado sem perfil adequado recebe uma mensagem e é redirecionado para `home`.
 
 ## 5. Módulos e regras atuais
 

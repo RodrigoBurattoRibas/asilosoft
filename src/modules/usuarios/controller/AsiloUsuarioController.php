@@ -130,12 +130,8 @@ final class AsiloUsuarioController
         }
 
         if ($user['perfil'] !== 'Administrador') {
-            http_response_code(403);
-            $this->view(
-                dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
-                ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]
-            );
-            exit;
+            $this->session->flash('erro', 'Você não tem permissão para acessar a administração de usuários.');
+            $this->redirect('home');
         }
 
         return $user;

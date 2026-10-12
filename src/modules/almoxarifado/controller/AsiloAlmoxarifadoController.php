@@ -168,12 +168,8 @@ final class AsiloAlmoxarifadoController
         }
 
         if (!in_array($user['perfil'], ['Administrador', 'Almoxarife'], true)) {
-            http_response_code(403);
-            $this->view(
-                dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
-                ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]
-            );
-            exit;
+            $this->session->flash('erro', 'Você não tem permissão para acessar o almoxarifado.');
+            $this->redirect('home');
         }
 
         return $user;

@@ -25,7 +25,7 @@ final class AsiloAutenticacaoController
     public function formulario(): void
     {
         if ($this->authentication->usuarioAtual() !== null) {
-            $this->redirect('usuarios');
+            $this->redirect('home');
         }
 
         AsiloView::render(dirname(__DIR__) . '/view/login.php', [
@@ -41,7 +41,7 @@ final class AsiloAutenticacaoController
                 (string) ($_POST['email'] ?? ''),
                 (string) ($_POST['senha'] ?? '')
             );
-            $this->redirect('usuarios');
+            $this->redirect('home');
         } catch (DomainException $error) {
             $this->session->flash('erro', $error->getMessage());
             $this->redirect('login');
