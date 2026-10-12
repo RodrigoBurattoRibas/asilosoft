@@ -73,7 +73,8 @@ Cada controller cria seus services com repositories PDO, usando a conexão centr
 │   │   ├── almoxarifado/              # Materiais, estoque e movimentações
 │   │   ├── autenticacao/              # Login e logout
 │   │   ├── usuarios/                  # Administração de usuários
-│   │   └── idosos/                    # Administração de residentes/quartos
+│   │   ├── idosos/                    # Administração de residentes
+│   │   └── quartos/                   # Administração de quartos e ocupação
 │   └── presentation/
 │       ├── components/                # Páginas 403 e 404
 │       └── layout/                    # Layout base e renderizador
@@ -104,8 +105,14 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 | `idosos-atualizar` | POST | Administrador | `asilosoft_idosos` | Atualiza idoso e quarto opcional | `id`, campos de idoso, `csrf_token` |
 | `idosos-retirar-quarto` | POST | Administrador | `asilosoft_idosos` | Remove a alocação em quarto | `id`, `csrf_token` |
 | `idosos-status` | POST | Administrador | `asilosoft_idosos` | Ativa/desativa; ao desativar remove quarto | `id`, `ativo=0|1`, `csrf_token` |
+| `quartos` | GET | Administrador | Não | Lista quartos por situação e ocupação | `situacao=ativos|desativados` |
+| `quartos-novo` | GET | Administrador | Não | Exibe cadastro de quarto | — |
+| `quartos-criar` | POST | Administrador | `asilosoft_quartos` | Cria quarto | `codigo`, `capacidade`, `csrf_token` |
+| `quartos-editar` | GET | Administrador | Não | Exibe edição de quarto | `id` inteiro positivo |
+| `quartos-atualizar` | POST | Administrador | `asilosoft_quartos` | Atualiza código e capacidade | `id`, `codigo`, `capacidade`, `csrf_token` |
+| `quartos-status` | POST | Administrador | `asilosoft_quartos` | Ativa ou desativa quarto vazio | `id`, `ativo=0|1`, `csrf_token` |
 
-**Nota de autorização:** as rotas de usuários e idosos são privadas no roteador, mas os respectivos controllers chamam `exigirAdministrador()`. Assim, um usuário autenticado sem perfil `Administrador` recebe HTTP 403.
+**Nota de autorização:** as rotas de usuários, idosos e quartos são privadas no roteador, mas os respectivos controllers chamam `exigirAdministrador()`. Assim, um usuário autenticado sem perfil `Administrador` recebe HTTP 403.
 
 ## 5. Módulos e regras atuais
 
@@ -128,7 +135,9 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 
 - Nome, CPF de 11 dígitos, identificador e quarto são obrigatórios na criação.
 - CPF e identificador precisam ser únicos.
+- Quartos são cadastrados e administrados pelo módulo `quartos`, com código único e capacidade entre 1 e 255 residentes.
 - Somente quartos ativos, existentes e com ocupação abaixo da capacidade podem receber nova alocação.
+- Um quarto ocupado não pode ser desativado nem ter a capacidade reduzida abaixo da ocupação atual.
 - Na edição, é permitido deixar `quarto_id` vazio, removendo a alocação. O quarto atual inativo continua selecionável apenas para preservar a edição do registro.
 - Desativar o idoso remove automaticamente o quarto. A capacidade considera apenas idosos ativos.
 

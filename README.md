@@ -21,11 +21,14 @@ src/
     almoxarifado/
     autenticacao/
     idosos/
+    quartos/
     usuarios/
   presentation/
 ```
 
 Cada módulo possui suas próprias rotas, controllers, serviços, repositórios e views.
+
+O módulo de quartos permite cadastrar a capacidade dos quartos, acompanhar ocupação e ativar/desativar espaços. Ao cadastrar um idoso sem vaga disponível, o sistema sugere criar um quarto. O acesso é permitido ao perfil `Administrador`.
 
 O módulo de almoxarifado permite cadastrar materiais, insumos e medicamentos, registrar entradas com origem, registrar retiradas e consultar o histórico de movimentações. O acesso é permitido aos perfis `Administrador` e `Almoxarife`.
 

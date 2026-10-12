@@ -7,8 +7,8 @@ require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
 require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
 require_once dirname(__DIR__, 2) . '/usuarios/services/AsiloFiltroSituacao.php';
+require_once dirname(__DIR__, 2) . '/quartos/repository/AsiloQuartoRepository.php';
 require_once dirname(__DIR__) . '/repository/AsiloIdosoRepository.php';
-require_once dirname(__DIR__) . '/repository/AsiloQuartoRepository.php';
 require_once dirname(__DIR__) . '/services/AsiloIdosoService.php';
 
 final class AsiloIdosoController

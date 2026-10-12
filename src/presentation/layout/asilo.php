@@ -15,6 +15,7 @@
                 <?php if (($usuarioAtual['perfil'] ?? '') === 'Administrador'): ?>
                     <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="?route=usuarios">Usuários</a>
                     <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="?route=idosos">Idosos</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'quartos' ? 'atual' : '' ?>" href="?route=quartos">Quartos</a>
                 <?php endif; ?>
                 <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife'], true)): ?>
                     <a class="<?= ($secaoAtual ?? '') === 'almoxarifado' ? 'atual' : '' ?>" href="?route=almoxarifado">Almoxarifado</a>

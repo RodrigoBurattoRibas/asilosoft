@@ -24,12 +24,12 @@ final class AsiloIdosoService
 
     public function buscarQuartoPorId(int $id): ?array
     {
-        return $this->repository->buscarQuartoPorId($id);
+        return $this->roomRepository->buscarPorId($id);
     }
 
     public function contarOcupacaoDoQuarto(int $id): int
     {
-        return $this->repository->contarOcupacaoDoQuarto($id);
+        return $this->roomRepository->contarOcupacao($id);
     }
 
     public function criar(array $data): array
@@ -51,12 +51,12 @@ final class AsiloIdosoService
             throw new DomainException('Este identificador já está em uso.');
         }
 
-        $room = $this->repository->buscarQuartoPorId($roomId);
+        $room = $this->roomRepository->buscarPorId($roomId);
         if ($room === null || !$room['ativo']) {
             throw new DomainException('Selecione um quarto disponível.');
         }
 
-        if ($this->repository->contarOcupacaoDoQuarto($roomId) >= $room['capacidade']) {
+        if ($this->roomRepository->contarOcupacao($roomId) >= $room['capacidade']) {
             throw new DomainException('Este quarto não possui vaga disponível.');
         }
 
@@ -95,7 +95,7 @@ final class AsiloIdosoService
         }
 
         if ($roomId > 0) {
-            $room = $this->repository->buscarQuartoPorId($roomId);
+            $room = $this->roomRepository->buscarPorId($roomId);
             $currentRoomId = $current['quarto_id'] === null ? null : (int) $current['quarto_id'];
 
             if ($room === null || (!$room['ativo'] && $roomId !== $currentRoomId)) {
@@ -104,7 +104,7 @@ final class AsiloIdosoService
 
             if (
                 $roomId !== $currentRoomId
-                && $this->repository->contarOcupacaoDoQuarto($roomId) >= $room['capacidade']
+                && $this->roomRepository->contarOcupacao($roomId) >= $room['capacidade']
             ) {
                 throw new DomainException('Este quarto não possui vaga disponível.');
             }
