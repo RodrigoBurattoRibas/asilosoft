@@ -31,6 +31,7 @@
                     </td>
                     <td class="acoes">
                         <a href="?route=idosos-editar&amp;id=<?= AsiloView::escape($idoso['id']) ?>">Editar</a>
+                        <a href="?route=idosos-saude&amp;id=<?= AsiloView::escape($idoso['id']) ?>">Prontuário</a>
                         <?php if ($idoso['quarto_id'] !== null): ?>
                             <form method="post" action="?route=idosos-retirar-quarto&amp;id=<?= AsiloView::escape($idoso['id']) ?>" data-confirmacao="Confirma a retirada deste idoso do quarto?">
                                 <input type="hidden" name="csrf_token" value="<?= AsiloView::escape($csrfToken) ?>">

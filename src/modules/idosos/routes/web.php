@@ -15,3 +15,5 @@ Router::add('idosos-retirar-quarto', 'idosos', 'AsiloIdosoController', 'retirarD
 Router::add('idosos-status', 'idosos', 'AsiloIdosoController', 'alterarStatus', false, $idososPost);
 Router::add('quartos-criar', 'idosos', 'AsiloIdosoController', 'criarQuarto', false, $idososPost);
 Router::add('quartos-atualizar', 'idosos', 'AsiloIdosoController', 'atualizarQuarto', false, $idososPost);
+Router::add('idosos-saude', 'idosos', 'AsiloIdosoController', 'saude', false, $idososGet);
+Router::add('idosos-saude-registrar', 'idosos', 'AsiloIdosoController', 'registrarSaude', false, $idososPost);

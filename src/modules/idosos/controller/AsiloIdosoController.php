@@ -10,6 +10,7 @@ require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloRepositorioUsuario
 require_once dirname(__DIR__, 2) . '/usuarios/services/AsiloFiltroSituacao.php';
 require_once dirname(__DIR__) . '/repository/AsiloIdosoRepository.php';
 require_once dirname(__DIR__) . '/repository/AsiloQuartoRepository.php';
+require_once dirname(__DIR__) . '/repository/AsiloSaudeRepository.php';
 require_once dirname(__DIR__) . '/repository/AsiloRepositorioIdososSessao.php';
 require_once dirname(__DIR__) . '/services/AsiloIdosoService.php';
 
@@ -187,6 +188,59 @@ final class AsiloIdosoController
             $this->session->flash('erro', $error->getMessage());
         }
         $this->redirect('idosos');
+    }
+
+    public function saude(): void
+    {
+        $currentUser = $this->exigirAcessoSaude();
+        $id = $this->requireId();
+        if ($this->demoMode) {
+            $this->session->flash('erro', 'O prontuário requer a conexão com o banco de dados.');
+            $this->redirect('idosos');
+        }
+        $idoso = $this->residents->buscarPorId($id);
+        if ($idoso === null) {
+            $this->notFound();
+        }
+        $saude = new AsiloSaudeRepository(PDOMysqli::connection());
+        $this->view(dirname(__DIR__) . '/view/saude.php', [
+            'titulo' => 'Prontuário de saúde', 'usuarioAtual' => $currentUser,
+            'idoso' => $idoso, 'registros' => $saude->listarPorIdoso($id),
+            'csrfToken' => CsrfToken::obter('asilosoft_idosos'), 'secaoAtual' => 'idosos',
+        ]);
+    }
+
+    public function registrarSaude(): never
+    {
+        $currentUser = $this->exigirAcessoSaude();
+        $id = $this->requireId();
+        $descricao = trim((string) ($_POST['descricao'] ?? ''));
+        if ($descricao === '' || mb_strlen($descricao) > 65535) {
+            $this->session->flash('erro', 'Informe a descrição do acompanhamento de saúde.');
+            $this->redirect('idosos-saude', ['id' => $id]);
+        }
+        if ($this->demoMode || $this->residents->buscarPorId($id) === null) {
+            $this->notFound();
+        }
+        (new AsiloSaudeRepository(PDOMysqli::connection()))->registrar(
+            $id, (int) $currentUser['id'], $descricao, isset($_POST['visivel_para_familiar'])
+        );
+        $this->session->flash('sucesso', 'Registro de saúde incluído.');
+        $this->redirect('idosos-saude', ['id' => $id]);
+    }
+
+    private function exigirAcessoSaude(): array
+    {
+        $user = $this->authentication->usuarioAtual();
+        if ($user === null) {
+            $this->redirect('login');
+        }
+        if (!in_array($user['perfil'], ['Administrador', 'Profissional de Saúde'], true)) {
+            http_response_code(403);
+            $this->view(dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php', ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]);
+            exit;
+        }
+        return $user;
     }
 
     private function exigirAdministrador(): array
