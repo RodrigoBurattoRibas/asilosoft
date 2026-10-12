@@ -38,7 +38,7 @@ final class AsiloAlmoxarifadoService
     {
         $item = $this->validarItem($dados);
         if ($this->repository->buscarItemPorNome($item['nome']) !== null) {
-            throw new DomainException('Já existe um item com este nome.');
+            throw new DomainException('Já existe um material com este nome.');
         }
 
         return $this->repository->criarItem($item);
@@ -47,77 +47,130 @@ final class AsiloAlmoxarifadoService
     public function atualizarItem(int $id, array $dados): array
     {
         if ($this->repository->buscarItemPorId($id) === null) {
-            throw new DomainException('Item não encontrado.');
+            throw new DomainException('Material não encontrado.');
         }
 
         $item = $this->validarItem($dados);
         $existing = $this->repository->buscarItemPorNome($item['nome']);
         if ($existing !== null && $existing['id'] !== $id) {
-            throw new DomainException('Já existe um item com este nome.');
+            throw new DomainException('Já existe um material com este nome.');
         }
 
         return $this->repository->atualizarItem($id, $item);
     }
 
-    public function registrarEntrada(int $itemId, array $dados): array
+    public function registrarEntrada(int $itemId, array $dados, int $usuarioId): array
     {
-        $item = $this->repository->buscarItemPorId($itemId);
-        if ($item === null) {
-            throw new DomainException('Item não encontrado.');
-        }
-
+        $this->garantirItem($itemId);
         $quantidade = $this->validarQuantidade($dados['quantidade'] ?? null);
         $origem = trim((string) ($dados['origem'] ?? ''));
         if (!in_array($origem, self::ORIGENS, true)) {
             throw new DomainException('Informe uma origem válida para a entrada.');
         }
 
-        return $this->repository->registrarEntrada($itemId, $quantidade, $origem);
+        return $this->repository->registrarEntrada(
+            $itemId,
+            $quantidade,
+            $origem,
+            $usuarioId,
+            $this->validarObservacao($dados['observacao'] ?? null)
+        );
     }
 
-    public function registrarRetirada(int $itemId, array $dados): array
+    public function registrarRetirada(int $itemId, array $dados, int $usuarioId): array
     {
-        $item = $this->repository->buscarItemPorId($itemId);
-        if ($item === null) {
-            throw new DomainException('Item não encontrado.');
-        }
-
+        $item = $this->garantirItem($itemId);
         $quantidade = $this->validarQuantidade($dados['quantidade'] ?? null);
         if ($quantidade > $item['quantidade_disponivel']) {
             throw new DomainException('A retirada não pode deixar o estoque negativo.');
         }
 
-        return $this->repository->registrarRetirada($itemId, $quantidade);
+        return $this->repository->registrarRetirada(
+            $itemId,
+            $quantidade,
+            $usuarioId,
+            $this->validarObservacao($dados['observacao'] ?? null)
+        );
+    }
+
+    private function garantirItem(int $id): array
+    {
+        return $this->repository->buscarItemPorId($id)
+            ?? throw new DomainException('Material não encontrado.');
     }
 
     private function validarItem(array $dados): array
     {
         $nome = trim((string) ($dados['nome'] ?? ''));
         $tipo = trim((string) ($dados['tipo'] ?? ''));
+        $descricao = trim((string) ($dados['descricao'] ?? ''));
         $unidade = trim((string) ($dados['unidade_medida'] ?? ''));
+        $estoqueMinimo = $this->validarDecimal(
+            $dados['estoque_minimo'] ?? '0',
+            'O estoque mínimo deve ser um número maior ou igual a zero.',
+            true
+        );
 
-        if ($nome === '' || mb_strlen($nome) > 120) {
-            throw new DomainException('Informe um nome de item com até 120 caracteres.');
+        if ($nome === '' || mb_strlen($nome) > 160) {
+            throw new DomainException('Informe um nome de material com até 160 caracteres.');
         }
 
         if (!in_array($tipo, self::TIPOS, true)) {
-            throw new DomainException('Selecione um tipo de item válido.');
+            throw new DomainException('Selecione um tipo de material válido.');
+        }
+
+        if (mb_strlen($descricao) > 500) {
+            throw new DomainException('A descrição deve ter até 500 caracteres.');
         }
 
         if ($unidade === '' || mb_strlen($unidade) > 30) {
             throw new DomainException('Informe uma unidade de medida com até 30 caracteres.');
         }
 
-        return ['nome' => $nome, 'tipo' => $tipo, 'unidade_medida' => $unidade];
+        return [
+            'nome' => $nome,
+            'tipo' => $tipo,
+            'descricao' => $descricao === '' ? null : $descricao,
+            'unidade_medida' => $unidade,
+            'estoque_minimo' => $estoqueMinimo,
+        ];
     }
 
-    private function validarQuantidade(mixed $quantidade): int
+    private function validarObservacao(mixed $observacao): ?string
     {
-        $quantidade = filter_var($quantidade, FILTER_VALIDATE_INT);
-        if (!is_int($quantidade) || $quantidade <= 0) {
-            throw new DomainException('A quantidade deve ser um número inteiro maior que zero.');
+        $observacao = trim((string) ($observacao ?? ''));
+        if (mb_strlen($observacao) > 500) {
+            throw new DomainException('A observação deve ter até 500 caracteres.');
         }
 
-        return $quantidade;
+        return $observacao === '' ? null : $observacao;
+    }
+
+    private function validarQuantidade(mixed $quantidade): float
+    {
+        return $this->validarDecimal(
+            $quantidade,
+            'A quantidade deve ser um número maior que zero.',
+            false
+        );
+    }
+
+    private function validarDecimal(mixed $value, string $message, bool $zeroAllowed): float
+    {
+        if (!is_scalar($value)) {
+            throw new DomainException($message);
+        }
+
+        $value = trim(str_replace(',', '.', (string) $value));
+        if (!preg_match('/^\d+(?:\.\d{1,3})?$/', $value)) {
+            throw new DomainException($message);
+        }
+
+        $number = round((float) $value, 3);
+        if ($number < 0 || (!$zeroAllowed && $number <= 0)) {
+            throw new DomainException($message);
+        }
+
+        return $number;
     }
 }

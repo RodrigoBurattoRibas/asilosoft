@@ -11,7 +11,6 @@ final class AsiloView
         $session = new AsiloSession();
         $data['mensagemErro'] = $session->flash('erro');
         $data['mensagemSucesso'] = $session->flash('sucesso');
-        $data['modoDemonstracao'] = $data['modoDemonstracao'] ?? false;
         $data['csrfSairToken'] = CsrfToken::obter('asilosoft_sair');
         $data['arquivoDaView'] = $viewFile;
         extract($data, EXTR_SKIP);

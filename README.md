@@ -5,8 +5,9 @@ Sistema web para apoio à gestão de instituições de longa permanência para i
 ## Tecnologias
 
 - PHP 8
+- Extensão PHP `pdo_mysql`
 - JavaScript puro
-- MySQL, com modo demonstração em sessão
+- MySQL via PDO
 
 ## Estrutura
 
@@ -54,9 +55,10 @@ MYSQLPASSWORD=sua_senha
 
 No Railway, essas mesmas variáveis podem ser preenchidas pelas referências fornecidas pelo serviço. Para executar localmente, use valores concretos no `.env`.
 
-Se a conexão não estiver disponível, a aplicação inicia automaticamente no modo demonstração:
+As tabelas e regras do banco são criadas pelas migrations versionadas. Execute uma vez após configurar o `.env`:
 
-- E-mail: `admin@asilosoft.local`
-- Senha: `asilosoft123`
+```bash
+php src/infra/Database/bootstrap.php
+```
 
-Os dados do modo demonstração permanecem somente na sessão do navegador.
+A aplicação exige uma conexão PDO válida; sem banco configurado, ela interrompe a requisição com erro de configuração. Não existe fallback para dados em sessão. `PDOMysqli` configura UTF-8 (`utf8mb4`), exceções PDO, resultados associativos e prepared statements nativos.

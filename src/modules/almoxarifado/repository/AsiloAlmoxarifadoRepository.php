@@ -4,15 +4,17 @@ final class AsiloAlmoxarifadoRepository
 {
     public function __construct(private PDO $pdo)
     {
-        $this->garantirEstrutura();
     }
 
     public function listarItens(): array
     {
         $query = $this->pdo->query(
-            'SELECT id, nome, tipo, quantidade_disponivel, unidade_medida
-             FROM itens_estoque
-             ORDER BY nome ASC'
+            'SELECT m.id, m.nome, m.tipo, m.descricao, m.unidade_medida,
+                    m.estoque_minimo, m.ativo,
+                    e.quantidade_atual AS quantidade_disponivel
+             FROM materiais m
+             INNER JOIN estoques e ON e.material_id = m.id
+             ORDER BY m.nome ASC'
         );
 
         return array_map(fn (array $item): array => $this->mapearItem($item), $query->fetchAll());
@@ -20,12 +22,7 @@ final class AsiloAlmoxarifadoRepository
 
     public function buscarItemPorId(int $id): ?array
     {
-        $query = $this->pdo->prepare(
-            'SELECT id, nome, tipo, quantidade_disponivel, unidade_medida
-             FROM itens_estoque
-             WHERE id = :id
-             LIMIT 1'
-        );
+        $query = $this->pdo->prepare($this->consultaItem() . ' WHERE m.id = :id LIMIT 1');
         $query->execute(['id' => $id]);
         $item = $query->fetch();
 
@@ -34,12 +31,7 @@ final class AsiloAlmoxarifadoRepository
 
     public function buscarItemPorNome(string $nome): ?array
     {
-        $query = $this->pdo->prepare(
-            'SELECT id, nome, tipo, quantidade_disponivel, unidade_medida
-             FROM itens_estoque
-             WHERE nome = :nome
-             LIMIT 1'
-        );
+        $query = $this->pdo->prepare($this->consultaItem() . ' WHERE m.nome = :nome LIMIT 1');
         $query->execute(['nome' => $nome]);
         $item = $query->fetch();
 
@@ -49,180 +41,160 @@ final class AsiloAlmoxarifadoRepository
     public function criarItem(array $dados): array
     {
         $query = $this->pdo->prepare(
-            'INSERT INTO itens_estoque (nome, tipo, unidade_medida)
-             VALUES (:nome, :tipo, :unidade_medida)'
+            'INSERT INTO materiais (nome, tipo, descricao, unidade_medida, estoque_minimo)
+             VALUES (:nome, :tipo, :descricao, :unidade_medida, :estoque_minimo)'
         );
         $query->execute($dados);
 
         return $this->buscarItemPorId((int) $this->pdo->lastInsertId())
-            ?? throw new RuntimeException('Não foi possível carregar o item cadastrado.');
+            ?? throw new RuntimeException('Não foi possível carregar o material cadastrado.');
     }
 
     public function atualizarItem(int $id, array $dados): array
     {
         $query = $this->pdo->prepare(
-            'UPDATE itens_estoque
-             SET nome = :nome, tipo = :tipo, unidade_medida = :unidade_medida
+            'UPDATE materiais
+             SET nome = :nome,
+                 tipo = :tipo,
+                 descricao = :descricao,
+                 unidade_medida = :unidade_medida,
+                 estoque_minimo = :estoque_minimo
              WHERE id = :id'
         );
         $query->execute($dados + ['id' => $id]);
 
         return $this->buscarItemPorId($id)
-            ?? throw new DomainException('Item não encontrado.');
+            ?? throw new DomainException('Material não encontrado.');
     }
 
-    public function registrarEntrada(int $itemId, int $quantidade, string $origem): array
-    {
-        $this->pdo->beginTransaction();
-
-        try {
-            $item = $this->buscarItemParaAtualizacao($itemId);
-            if ($item === null) {
-                throw new DomainException('Item não encontrado.');
-            }
-
-            $this->atualizarQuantidade($itemId, $item['quantidade_disponivel'] + $quantidade);
-            $this->registrarMovimentacao($itemId, 'Entrada', $quantidade, $origem);
-            $this->pdo->commit();
-        } catch (Throwable $error) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-
-            throw $error;
-        }
-
-        return $this->buscarItemPorId($itemId)
-            ?? throw new DomainException('Item não encontrado.');
+    public function registrarEntrada(
+        int $itemId,
+        float $quantidade,
+        string $origem,
+        int $usuarioId,
+        ?string $observacao
+    ): array {
+        return $this->registrarMovimentacao(
+            $itemId,
+            'Entrada',
+            $quantidade,
+            $origem,
+            $usuarioId,
+            $observacao
+        );
     }
 
-    public function registrarRetirada(int $itemId, int $quantidade): array
-    {
-        $this->pdo->beginTransaction();
-
-        try {
-            $item = $this->buscarItemParaAtualizacao($itemId);
-            if ($item === null) {
-                throw new DomainException('Item não encontrado.');
-            }
-
-            if ($item['quantidade_disponivel'] < $quantidade) {
-                throw new DomainException('A retirada não pode deixar o estoque negativo.');
-            }
-
-            $this->atualizarQuantidade($itemId, $item['quantidade_disponivel'] - $quantidade);
-            $this->registrarMovimentacao($itemId, 'Retirada', $quantidade, null);
-            $this->pdo->commit();
-        } catch (Throwable $error) {
-            if ($this->pdo->inTransaction()) {
-                $this->pdo->rollBack();
-            }
-
-            throw $error;
-        }
-
-        return $this->buscarItemPorId($itemId)
-            ?? throw new DomainException('Item não encontrado.');
+    public function registrarRetirada(
+        int $itemId,
+        float $quantidade,
+        int $usuarioId,
+        ?string $observacao
+    ): array {
+        return $this->registrarMovimentacao(
+            $itemId,
+            'Saída',
+            $quantidade,
+            null,
+            $usuarioId,
+            $observacao
+        );
     }
 
     public function listarMovimentacoes(): array
     {
         $query = $this->pdo->query(
-            'SELECT m.id, m.item_id, i.nome AS item_nome, i.unidade_medida,
-                    m.tipo, m.quantidade, m.origem, m.data_hora
-             FROM movimentacoes_estoque m
-             INNER JOIN itens_estoque i ON i.id = m.item_id
-             ORDER BY m.data_hora DESC, m.id DESC'
+            'SELECT me.id,
+                    me.material_id AS item_id,
+                    m.nome AS item_nome,
+                    m.unidade_medida,
+                    me.tipo,
+                    me.quantidade,
+                    me.origem,
+                    me.movimentado_em AS data_hora,
+                    me.usuario_id,
+                    u.nome AS usuario_nome,
+                    me.observacao
+             FROM movimentacoes_estoque me
+             INNER JOIN materiais m ON m.id = me.material_id
+             LEFT JOIN usuarios u ON u.id = me.usuario_id
+             ORDER BY me.movimentado_em DESC, me.id DESC'
         );
 
         return array_map(static function (array $movimentacao): array {
             $movimentacao['id'] = (int) $movimentacao['id'];
             $movimentacao['item_id'] = (int) $movimentacao['item_id'];
-            $movimentacao['quantidade'] = (int) $movimentacao['quantidade'];
+            $movimentacao['quantidade'] = (float) $movimentacao['quantidade'];
 
             return $movimentacao;
         }, $query->fetchAll());
     }
 
+    private function registrarMovimentacao(
+        int $itemId,
+        string $tipo,
+        float $quantidade,
+        ?string $origem,
+        int $usuarioId,
+        ?string $observacao
+    ): array {
+        $this->pdo->beginTransaction();
+
+        try {
+            if ($this->buscarItemParaAtualizacao($itemId) === null) {
+                throw new DomainException('Material não encontrado.');
+            }
+
+            $query = $this->pdo->prepare(
+                'INSERT INTO movimentacoes_estoque
+                    (material_id, tipo, quantidade, origem, usuario_id, observacao)
+                 VALUES (:material_id, :tipo, :quantidade, :origem, :usuario_id, :observacao)'
+            );
+            $query->execute([
+                'material_id' => $itemId,
+                'tipo' => $tipo,
+                'quantidade' => $quantidade,
+                'origem' => $origem,
+                'usuario_id' => $usuarioId,
+                'observacao' => $observacao,
+            ]);
+            $this->pdo->commit();
+        } catch (Throwable $error) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+
+            throw $error;
+        }
+
+        return $this->buscarItemPorId($itemId)
+            ?? throw new DomainException('Material não encontrado.');
+    }
+
     private function buscarItemParaAtualizacao(int $id): ?array
     {
-        $query = $this->pdo->prepare(
-            'SELECT id, nome, tipo, quantidade_disponivel, unidade_medida
-             FROM itens_estoque
-             WHERE id = :id
-             FOR UPDATE'
-        );
+        $query = $this->pdo->prepare($this->consultaItem() . ' WHERE m.id = :id FOR UPDATE');
         $query->execute(['id' => $id]);
         $item = $query->fetch();
 
         return $item === false ? null : $this->mapearItem($item);
     }
 
-    private function atualizarQuantidade(int $itemId, int $quantidade): void
+    private function consultaItem(): string
     {
-        $query = $this->pdo->prepare(
-            'UPDATE itens_estoque
-             SET quantidade_disponivel = :quantidade
-             WHERE id = :id'
-        );
-        $query->execute(['quantidade' => $quantidade, 'id' => $itemId]);
-    }
-
-    private function registrarMovimentacao(
-        int $itemId,
-        string $tipo,
-        int $quantidade,
-        ?string $origem
-    ): void {
-        $query = $this->pdo->prepare(
-            'INSERT INTO movimentacoes_estoque (item_id, tipo, quantidade, origem)
-             VALUES (:item_id, :tipo, :quantidade, :origem)'
-        );
-        $query->execute([
-            'item_id' => $itemId,
-            'tipo' => $tipo,
-            'quantidade' => $quantidade,
-            'origem' => $origem,
-        ]);
+        return 'SELECT m.id, m.nome, m.tipo, m.descricao, m.unidade_medida,
+                       m.estoque_minimo, m.ativo,
+                       e.quantidade_atual AS quantidade_disponivel
+                FROM materiais m
+                INNER JOIN estoques e ON e.material_id = m.id';
     }
 
     private function mapearItem(array $item): array
     {
         $item['id'] = (int) $item['id'];
-        $item['quantidade_disponivel'] = (int) $item['quantidade_disponivel'];
+        $item['quantidade_disponivel'] = (float) $item['quantidade_disponivel'];
+        $item['estoque_minimo'] = (float) $item['estoque_minimo'];
+        $item['ativo'] = (bool) $item['ativo'];
 
         return $item;
-    }
-
-    private function garantirEstrutura(): void
-    {
-        $this->pdo->exec(
-            'CREATE TABLE IF NOT EXISTS itens_estoque (
-                id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                nome VARCHAR(120) NOT NULL,
-                tipo VARCHAR(30) NOT NULL,
-                quantidade_disponivel INT UNSIGNED NOT NULL DEFAULT 0,
-                unidade_medida VARCHAR(30) NOT NULL,
-                criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                atualizado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                UNIQUE KEY itens_estoque_nome_unico (nome)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
-        );
-
-        $this->pdo->exec(
-            'CREATE TABLE IF NOT EXISTS movimentacoes_estoque (
-                id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                item_id BIGINT UNSIGNED NOT NULL,
-                tipo VARCHAR(20) NOT NULL,
-                quantidade INT UNSIGNED NOT NULL,
-                origem VARCHAR(40) NULL,
-                data_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                INDEX movimentacoes_item_indice (item_id),
-                INDEX movimentacoes_data_indice (data_hora),
-                CONSTRAINT movimentacoes_item_fk
-                    FOREIGN KEY (item_id) REFERENCES itens_estoque (id)
-                    ON UPDATE CASCADE ON DELETE RESTRICT
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci'
-        );
     }
 }

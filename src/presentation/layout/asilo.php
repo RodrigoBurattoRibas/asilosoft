@@ -42,9 +42,6 @@
         <?php endif; ?>
     </div>
     <main class="conteudo">
-        <?php if ($modoDemonstracao): ?>
-            <p class="aviso demonstracao">Modo demonstração: os dados deste acesso não são permanentes.</p>
-        <?php endif; ?>
         <?php require $arquivoDaView; ?>
     </main>
     <script src="src/assets/js/asilosoft.js"></script>

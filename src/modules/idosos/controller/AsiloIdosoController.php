@@ -6,11 +6,9 @@ require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
 require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
 require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
-require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloRepositorioUsuariosSessao.php';
 require_once dirname(__DIR__, 2) . '/usuarios/services/AsiloFiltroSituacao.php';
 require_once dirname(__DIR__) . '/repository/AsiloIdosoRepository.php';
 require_once dirname(__DIR__) . '/repository/AsiloQuartoRepository.php';
-require_once dirname(__DIR__) . '/repository/AsiloRepositorioIdososSessao.php';
 require_once dirname(__DIR__) . '/services/AsiloIdosoService.php';
 
 final class AsiloIdosoController
@@ -19,23 +17,15 @@ final class AsiloIdosoController
     private AsiloAutenticacaoService $authentication;
     private AsiloIdosoService $residents;
     private AsiloFiltroSituacao $filter;
-    private bool $demoMode = false;
 
     public function __construct()
     {
         $this->session = new AsiloSession();
 
-        try {
-            $pdo = PDOMysqli::connection();
-            $userRepository = new AsiloUsuarioRepository($pdo);
-            $residentRepository = new AsiloIdosoRepository($pdo);
-            $roomRepository = new AsiloQuartoRepository($pdo);
-        } catch (PDOException) {
-            $this->demoMode = true;
-            $userRepository = new AsiloRepositorioUsuariosSessao($this->session);
-            $residentRepository = new AsiloRepositorioIdososSessao($this->session);
-            $roomRepository = $residentRepository;
-        }
+        $pdo = PDOMysqli::connection();
+        $userRepository = new AsiloUsuarioRepository($pdo);
+        $residentRepository = new AsiloIdosoRepository($pdo);
+        $roomRepository = new AsiloQuartoRepository($pdo);
 
         $this->authentication = new AsiloAutenticacaoService($userRepository, $this->session);
         $this->residents = new AsiloIdosoService($residentRepository, $roomRepository);
@@ -184,7 +174,6 @@ final class AsiloIdosoController
 
     private function view(string $viewFile, array $data = []): void
     {
-        $data['modoDemonstracao'] = $this->demoMode;
         AsiloView::render($viewFile, $data);
     }
 
