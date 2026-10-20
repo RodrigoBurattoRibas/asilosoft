@@ -24,6 +24,13 @@ final class AsiloSaudeRepository
         }, $query->fetchAll());
     }
 
+    public function pertenceAoIdoso(int $registroId, int $idosoId): bool
+    {
+        $q = $this->pdo->prepare('SELECT id FROM registros_saude WHERE id=:id AND idoso_id=:idoso');
+        $q->execute(['id'=>$registroId, 'idoso'=>$idosoId]);
+        return $q->fetchColumn() !== false;
+    }
+
     public function registrar(int $idosoId, int $usuarioId, string $descricao, bool $visivelParaFamiliar): void
     {
         $query = $this->pdo->prepare(

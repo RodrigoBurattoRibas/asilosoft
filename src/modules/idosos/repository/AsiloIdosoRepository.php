@@ -20,7 +20,7 @@ final class AsiloIdosoRepository
     public function buscarPorId(int $id): ?array
     {
         $query = $this->pdo->prepare(
-            'SELECT id, nome, cpf, identificador, quarto_id, ativo FROM idosos WHERE id = :id LIMIT 1'
+            'SELECT i.id, i.nome, i.cpf, i.identificador, i.quarto_id, i.ativo, q.codigo AS quarto_codigo FROM idosos i LEFT JOIN quartos q ON q.id=i.quarto_id WHERE i.id = :id LIMIT 1'
         );
         $query->execute(['id' => $id]);
         $resident = $query->fetch();
@@ -71,6 +71,20 @@ final class AsiloIdosoRepository
         );
 
         return array_map(fn (array $resident): array => $this->mapear($resident), $query->fetchAll());
+    }
+
+    public function pesquisar(string $termo, bool $ativo, int $pagina = 1): array
+    {
+        $offset = (max(1, $pagina) - 1) * 30;
+        $cpf = preg_replace('/\D/', '', $termo);
+        $q = $this->pdo->prepare(
+            'SELECT i.id,i.nome,i.cpf,i.identificador,i.quarto_id,i.ativo,q.codigo quarto_codigo
+             FROM idosos i LEFT JOIN quartos q ON q.id=i.quarto_id
+             WHERE i.ativo=:ativo AND (i.nome LIKE :nome OR i.identificador LIKE :identificador OR i.cpf=:cpf)
+             ORDER BY i.nome,i.id LIMIT 31 OFFSET ' . $offset
+        );
+        $q->execute(['ativo'=>$ativo ? 1 : 0, 'nome'=>'%'.$termo.'%', 'identificador'=>'%'.$termo.'%', 'cpf'=>$cpf]);
+        return array_map(fn(array $r): array => $this->mapear($r), $q->fetchAll());
     }
 
     private function buscarUm(string $field, string $value): ?array

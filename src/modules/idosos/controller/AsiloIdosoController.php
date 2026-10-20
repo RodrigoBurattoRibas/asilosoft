@@ -12,6 +12,9 @@ require_once dirname(__DIR__) . '/repository/AsiloIdosoRepository.php';
 require_once dirname(__DIR__) . '/repository/AsiloSaudeRepository.php';
 require_once dirname(__DIR__) . '/services/AsiloIdosoService.php';
 
+require_once dirname(__DIR__) . '/services/AsiloSaudeService.php';
+require_once dirname(__DIR__, 3) . '/core/Security/AsiloAuthorization.php';
+
 final class AsiloIdosoController
 {
     private AsiloSession $session;
@@ -35,13 +38,17 @@ final class AsiloIdosoController
 
     public function listar(): void
     {
-        $currentUser = $this->exigirAdministrador();
-        $status = $this->filter->normalizar((string) ($_GET['situacao'] ?? 'ativos'));
+        $currentUser = $this->exigirAcessoSaude();
+        $status = $this->filter->normalizar(is_string($_GET['situacao'] ?? null) ? $_GET['situacao'] : 'ativos');
 
+        $pagina = max(1, min(100000, filter_var($_GET['pagina'] ?? 1, FILTER_VALIDATE_INT) ?: 1));
+        $busca = is_string($_GET['busca'] ?? null) ? mb_substr(trim($_GET['busca']), 0, 150) : '';
+        $resultados = $this->residents->pesquisar($busca, $status === 'ativos', $pagina);
         $this->view(dirname(__DIR__) . '/view/lista.php', [
             'titulo' => 'Idosos',
             'usuarioAtual' => $currentUser,
-            'idosos' => $this->filter->filtrar($this->residents->listar(), $status),
+            'idosos' => array_slice($resultados, 0, 30),
+            'busca' => $busca, 'pagina' => $pagina, 'temProxima' => count($resultados) > 30,
             'quartos' => $this->residents->listarQuartos(),
             'situacao' => $status,
             'secaoAtual' => 'idosos',
@@ -198,30 +205,29 @@ final class AsiloIdosoController
 
     public function registrarSaude(): never
     {
-        $currentUser = $this->exigirAcessoSaude();
+        $currentUser = $this->exigirAcessoSaude(true);
         $id = $this->requireId();
-        $descricao = trim((string) ($_POST['descricao'] ?? ''));
-        if ($descricao === '' || mb_strlen($descricao) > 65535) {
-            $this->session->flash('erro', 'Informe a descrição do acompanhamento de saúde.');
-            $this->redirect('idosos-saude', ['id' => $id]);
+        try {
+            (new AsiloSaudeService(new AsiloSaudeRepository(PDOMysqli::connection()), $this->residents))
+                ->registrar($id, $currentUser, $_POST);
+            $this->session->flash('sucesso', 'Registro incluído; o histórico anterior foi preservado.');
+        } catch (DomainException $error) {
+            $this->session->flash('erro', $error->getMessage());
+        } catch (PDOException $error) {
+            $this->session->flash('erro', 'Não foi possível registrar o acompanhamento. Tente novamente.');
         }
-        if ($this->residents->buscarPorId($id) === null) {
-            $this->notFound();
-        }
-        (new AsiloSaudeRepository(PDOMysqli::connection()))->registrar(
-            $id, (int) $currentUser['id'], $descricao, isset($_POST['visivel_para_familiar'])
-        );
-        $this->session->flash('sucesso', 'Registro de saúde incluído.');
         $this->redirect('idosos-saude', ['id' => $id]);
     }
 
-    private function exigirAcessoSaude(): array
+    private function exigirAcessoSaude(bool $escrita = false): array
     {
         $user = $this->authentication->usuarioAtual();
         if ($user === null) {
             $this->redirect('login');
         }
-        if (!in_array($user['perfil'], ['Administrador', 'Profissional de Saúde'], true)) {
+        try {
+            AsiloAuthorization::permitir($user, $escrita ? ['Profissional de Saúde'] : ['Administrador', 'Profissional de Saúde']);
+        } catch (RuntimeException $error) {
             http_response_code(403);
             $this->view(dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php', ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]);
             exit;

@@ -12,6 +12,11 @@ final class AsiloIdosoService
         return $this->repository->listar();
     }
 
+    public function pesquisar(string $termo, bool $ativo, int $pagina): array
+    {
+        return $this->repository->pesquisar(mb_substr(trim($termo), 0, 150), $ativo, $pagina);
+    }
+
     public function buscarPorId(int $id): ?array
     {
         return $this->repository->buscarPorId($id);
