@@ -37,7 +37,10 @@ final class DatabaseMigrator
 
             try {
                 foreach ($this->statements($sql) as $statement) {
-                    $pdo->exec($statement);
+                    // EXECUTE pode retornar o SELECT de uma migration condicional.
+                    // Consumir o cursor evita bloquear a próxima instrução PDO/MySQL.
+                    $query = $pdo->query($statement);
+                    $query->closeCursor();
                 }
                 $pdo->prepare('INSERT INTO schema_migrations (versao) VALUES (:versao)')
                     ->execute(['versao' => $version]);
