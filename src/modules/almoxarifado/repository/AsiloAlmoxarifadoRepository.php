@@ -69,7 +69,7 @@ final class AsiloAlmoxarifadoRepository
 
     public function registrarEntrada(
         int $itemId,
-        float $quantidade,
+        string $quantidade,
         string $origem,
         int $usuarioId,
         ?string $observacao
@@ -86,7 +86,7 @@ final class AsiloAlmoxarifadoRepository
 
     public function registrarRetirada(
         int $itemId,
-        float $quantidade,
+        string $quantidade,
         int $usuarioId,
         ?string $observacao
     ): array {
@@ -113,10 +113,13 @@ final class AsiloAlmoxarifadoRepository
                     me.movimentado_em AS data_hora,
                     me.usuario_id,
                     u.nome AS usuario_nome,
+                    um.idoso_id, i.nome AS idoso_nome,
                     me.observacao
              FROM movimentacoes_estoque me
              INNER JOIN materiais m ON m.id = me.material_id
              LEFT JOIN usuarios u ON u.id = me.usuario_id
+             LEFT JOIN usos_materiais um ON um.id = me.uso_material_id
+             LEFT JOIN idosos i ON i.id = um.idoso_id
              ORDER BY me.movimentado_em DESC, me.id DESC'
         );
 
@@ -132,7 +135,7 @@ final class AsiloAlmoxarifadoRepository
     private function registrarMovimentacao(
         int $itemId,
         string $tipo,
-        float $quantidade,
+        string $quantidade,
         ?string $origem,
         int $usuarioId,
         ?string $observacao
@@ -140,10 +143,17 @@ final class AsiloAlmoxarifadoRepository
         $this->pdo->beginTransaction();
 
         try {
-            if ($this->buscarItemParaAtualizacao($itemId) === null) {
+            $item = $this->buscarItemParaAtualizacao($itemId);
+            if ($item === null || !$item['ativo']) {
                 throw new DomainException('Material não encontrado.');
             }
 
+            if ($tipo === 'Saída' && $quantidade > $item['quantidade_disponivel']) {
+                throw new DomainException('Saldo insuficiente para a retirada.');
+            }
+            if ($tipo === 'Entrada' && (float) $quantidade + $item['quantidade_disponivel'] > 999999999.999) {
+                throw new DomainException('Entrada excede o limite do estoque.');
+            }
             $query = $this->pdo->prepare(
                 'INSERT INTO movimentacoes_estoque
                     (material_id, tipo, quantidade, origem, usuario_id, observacao)
@@ -168,6 +178,56 @@ final class AsiloAlmoxarifadoRepository
 
         return $this->buscarItemPorId($itemId)
             ?? throw new DomainException('Material não encontrado.');
+    }
+
+    public function listarIdososAtivos(): array
+    {
+        return $this->pdo->query('SELECT id, nome FROM idosos WHERE ativo=1 ORDER BY nome, id')->fetchAll();
+    }
+
+    public function registrarUso(int $idosoId, int $materialId, string $quantidade,
+        int $usuarioId, ?string $observacao, string $chave): array
+    {
+        $this->pdo->beginTransaction();
+        try {
+            // All stock writers lock the same material/stock rows before inserting.
+            $item = $this->buscarItemParaAtualizacao($materialId);
+            $existing = $this->pdo->prepare('SELECT * FROM usos_materiais WHERE chave_requisicao=:chave FOR UPDATE');
+            $existing->execute(['chave' => $chave]);
+            $uso = $existing->fetch();
+            if ($uso) {
+                if ((int) $uso['usuario_id'] !== $usuarioId || (int) $uso['idoso_id'] !== $idosoId
+                    || (int) $uso['material_id'] !== $materialId || $uso['quantidade'] !== $quantidade
+                    || $uso['observacao'] !== $observacao) {
+                    throw new DomainException('Este formulário já foi utilizado com outros dados.');
+                }
+                $this->pdo->commit();
+                return $uso;
+            }
+            if (!$item || !$item['ativo']) {
+                throw new DomainException('Material ativo não encontrado.');
+            }
+            $idoso = $this->pdo->prepare('SELECT id FROM idosos WHERE id=:id AND ativo=1 FOR UPDATE');
+            $idoso->execute(['id' => $idosoId]);
+            if (!$idoso->fetch()) {
+                throw new DomainException('Idoso ativo não encontrado.');
+            }
+            if ($quantidade > $item['quantidade_disponivel']) {
+                throw new DomainException('Saldo insuficiente para o consumo.');
+            }
+            // ai_um_registrar_saida creates exactly one movement and updates stock.
+            $query = $this->pdo->prepare('INSERT INTO usos_materiais
+                (idoso_id,material_id,usuario_id,quantidade,observacao,chave_requisicao)
+                VALUES (:idoso,:material,:usuario,:quantidade,:observacao,:chave)');
+            $query->execute(['idoso'=>$idosoId,'material'=>$materialId,'usuario'=>$usuarioId,
+                'quantidade'=>$quantidade,'observacao'=>$observacao,'chave'=>$chave]);
+            $id = (int) $this->pdo->lastInsertId();
+            $this->pdo->commit();
+            return ['id' => $id];
+        } catch (Throwable $error) {
+            if ($this->pdo->inTransaction()) $this->pdo->rollBack();
+            throw $error;
+        }
     }
 
     private function buscarItemParaAtualizacao(int $id): ?array

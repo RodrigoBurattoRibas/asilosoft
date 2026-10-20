@@ -2,6 +2,7 @@
 
 require_once dirname(__DIR__, 3) . '/core/Session/AsiloSession.php';
 require_once dirname(__DIR__, 3) . '/core/Security/CsrfToken.php';
+require_once dirname(__DIR__, 3) . '/core/Security/AsiloAuthorization.php';
 require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
 require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
@@ -141,6 +142,32 @@ final class AsiloAlmoxarifadoController
         }
     }
 
+    public function uso(): void
+    {
+        $user = $this->exigirAcesso(true);
+        $this->view(dirname(__DIR__) . '/view/uso.php', [
+            'titulo'=>'Consumo individual', 'usuarioAtual'=>$user, 'secaoAtual'=>'almoxarifado',
+            'idosos'=>$this->stock->listarIdososAtivos(),
+            'materiais'=>array_filter($this->stock->listarItens(), fn($item)=>$item['ativo']),
+            'chaveRequisicao'=>bin2hex(random_bytes(32)),
+            'csrfToken'=>CsrfToken::obter('asilosoft_almoxarifado'),
+        ]);
+    }
+
+    public function registrarUso(): never
+    {
+        $user = $this->exigirAcesso(true);
+        try {
+            $this->stock->registrarUso($_POST, (int) $user['id']);
+            $this->session->flash('sucesso', 'Consumo registrado. Reenvios do mesmo formulário não geram nova baixa.');
+        } catch (DomainException $error) {
+            $this->session->flash('erro', $error->getMessage());
+        } catch (PDOException $error) {
+            $this->session->flash('erro', 'Não foi possível registrar o consumo. Verifique os dados e tente novamente.');
+        }
+        $this->redirect('almoxarifado-uso');
+    }
+
     private function formularioMovimentacao(string $tipo): void
     {
         $currentUser = $this->exigirAcesso();
@@ -160,16 +187,22 @@ final class AsiloAlmoxarifadoController
         ]);
     }
 
-    private function exigirAcesso(): array
+    private function exigirAcesso(bool $consumo = false): array
     {
         $user = $this->authentication->usuarioAtual();
         if ($user === null) {
             $this->redirect('login');
         }
 
-        if (!in_array($user['perfil'], ['Administrador', 'Almoxarife'], true)) {
-            $this->session->flash('erro', 'Você não tem permissão para acessar o almoxarifado.');
-            $this->redirect('home');
+        try {
+            AsiloAuthorization::permitir($user, $consumo
+                ? ['Administrador', 'Almoxarife', 'Profissional de Saúde']
+                : ['Administrador', 'Almoxarife']);
+        } catch (RuntimeException $error) {
+            http_response_code(403);
+            $this->view(dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
+                ['titulo'=>'Acesso negado', 'usuarioAtual'=>$user]);
+            exit;
         }
 
         return $user;

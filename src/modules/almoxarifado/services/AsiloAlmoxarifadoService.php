@@ -93,6 +93,27 @@ final class AsiloAlmoxarifadoService
         );
     }
 
+    public function listarIdososAtivos(): array
+    {
+        return $this->repository->listarIdososAtivos();
+    }
+
+    public function registrarUso(array $dados, int $usuarioId): array
+    {
+        $idosoId = filter_var($dados['idoso_id'] ?? null, FILTER_VALIDATE_INT);
+        $materialId = filter_var($dados['material_id'] ?? null, FILTER_VALIDATE_INT);
+        $chave = $dados['chave_requisicao'] ?? '';
+        if (!$idosoId || $idosoId < 1 || !$materialId || $materialId < 1 || $usuarioId < 1) {
+            throw new DomainException('Selecione idoso e material válidos.');
+        }
+        if (!is_string($chave) || !preg_match('/^[a-f0-9]{64}$/D', $chave)) {
+            throw new DomainException('Formulário inválido. Abra um novo formulário de consumo.');
+        }
+        return $this->repository->registrarUso($idosoId, $materialId,
+            self::validarQuantidade($dados['quantidade'] ?? null), $usuarioId,
+            $this->validarObservacao($dados['observacao'] ?? null), $chave);
+    }
+
     private function garantirItem(int $id): array
     {
         return $this->repository->buscarItemPorId($id)
@@ -138,6 +159,9 @@ final class AsiloAlmoxarifadoService
 
     private function validarObservacao(mixed $observacao): ?string
     {
+        if ($observacao !== null && !is_string($observacao)) {
+            throw new DomainException('Observação inválida.');
+        }
         $observacao = trim((string) ($observacao ?? ''));
         if (mb_strlen($observacao) > 500) {
             throw new DomainException('A observação deve ter até 500 caracteres.');
@@ -146,16 +170,16 @@ final class AsiloAlmoxarifadoService
         return $observacao === '' ? null : $observacao;
     }
 
-    private function validarQuantidade(mixed $quantidade): float
+    public static function validarQuantidade(mixed $quantidade): string
     {
-        return $this->validarDecimal(
+        return self::validarDecimal(
             $quantidade,
             'A quantidade deve ser um número maior que zero.',
             false
         );
     }
 
-    private function validarDecimal(mixed $value, string $message, bool $zeroAllowed): float
+    private static function validarDecimal(mixed $value, string $message, bool $zeroAllowed): string
     {
         if (!is_scalar($value)) {
             throw new DomainException($message);
@@ -167,10 +191,10 @@ final class AsiloAlmoxarifadoService
         }
 
         $number = round((float) $value, 3);
-        if ($number < 0 || (!$zeroAllowed && $number <= 0)) {
+        if ($number > 999999999.999 || $number < 0 || (!$zeroAllowed && $number <= 0)) {
             throw new DomainException($message);
         }
 
-        return $number;
+        return number_format($number, 3, '.', '');
     }
 }

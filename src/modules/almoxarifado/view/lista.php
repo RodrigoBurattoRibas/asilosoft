@@ -3,6 +3,7 @@
         <p class="sobretitulo">Estoque</p>
         <h1>Almoxarifado</h1>
     </div>
+    <a class="botao" href="?route=almoxarifado-uso">Consumo por idoso</a>
     <a class="botao" href="?route=almoxarifado-novo">Cadastrar item</a>
 </div>
 
@@ -91,7 +92,8 @@
                     </td>
                     <td><?= AsiloView::escape($movimentacao['origem'] ?? '—') ?></td>
                     <td><?= AsiloView::escape($movimentacao['usuario_nome'] ?? '—') ?></td>
-                    <td><?= AsiloView::escape($movimentacao['observacao'] ?? '—') ?></td>
+                    <td><?= AsiloView::escape($movimentacao['observacao'] ?? '—') ?>
+                    <?php if ($movimentacao['idoso_id']): ?> · Idoso: <?= AsiloView::escape($movimentacao['idoso_nome']) ?> (#<?= AsiloView::escape($movimentacao['idoso_id']) ?>)<?php endif; ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>

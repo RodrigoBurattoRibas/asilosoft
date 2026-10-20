@@ -15,3 +15,6 @@ Router::add('almoxarifado-entrada', 'almoxarifado', 'AsiloAlmoxarifadoController
 Router::add('almoxarifado-registrar-entrada', 'almoxarifado', 'AsiloAlmoxarifadoController', 'registrarEntrada', false, $almoxarifadoPost);
 Router::add('almoxarifado-retirada', 'almoxarifado', 'AsiloAlmoxarifadoController', 'retirada', false, $almoxarifadoGet);
 Router::add('almoxarifado-registrar-retirada', 'almoxarifado', 'AsiloAlmoxarifadoController', 'registrarRetirada', false, $almoxarifadoPost);
+
+Router::add('almoxarifado-uso', 'almoxarifado', 'AsiloAlmoxarifadoController', 'uso', false, $almoxarifadoGet);
+Router::add('almoxarifado-registrar-uso', 'almoxarifado', 'AsiloAlmoxarifadoController', 'registrarUso', false, $almoxarifadoPost);
