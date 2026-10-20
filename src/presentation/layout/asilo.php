@@ -17,9 +17,20 @@
                     <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="?route=usuarios">Usuários</a>
                     <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="?route=idosos">Idosos</a>
                     <a class="<?= ($secaoAtual ?? '') === 'quartos' ? 'atual' : '' ?>" href="?route=quartos">Quartos</a>
+                    <a href="?route=familiares">Familiares</a>
                 <?php endif; ?>
                 <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife'], true)): ?>
                     <a class="<?= ($secaoAtual ?? '') === 'almoxarifado' ? 'atual' : '' ?>" href="?route=almoxarifado">Almoxarifado</a>
+                    <a href="?route=compras">Compras</a>
+                <?php endif; ?>
+                <?php if (($usuarioAtual['perfil'] ?? '') === 'Profissional de Saúde'): ?>
+                    <a href="?route=idosos">Fichas e prontuários</a>
+                <?php endif; ?>
+                <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife', 'Profissional de Saúde'], true)): ?>
+                    <a href="?route=almoxarifado-uso">Uso por idoso</a>
+                <?php endif; ?>
+                <?php if (($usuarioAtual['perfil'] ?? '') === 'Familiar'): ?>
+                    <a href="?route=meus-idosos">Meus idosos</a>
                 <?php endif; ?>
             </nav>
             <div class="usuario-logado">

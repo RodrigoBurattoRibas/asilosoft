@@ -59,6 +59,22 @@ final class AsiloHomeController
             ]];
         }
 
+        if ($user['perfil'] === 'Administrador') {
+            $atalhos[] = ['titulo' => 'Familiares', 'descricao' => 'Gerencie contatos, contas e vínculos dos residentes.', 'rota' => 'familiares'];
+        }
+        if (in_array($user['perfil'], ['Administrador', 'Almoxarife'], true)) {
+            $atalhos[] = ['titulo' => 'Compras', 'descricao' => 'Acompanhe solicitações de materiais e medicamentos.', 'rota' => 'compras'];
+        }
+        if ($user['perfil'] === 'Profissional de Saúde') {
+            $atalhos[] = ['titulo' => 'Fichas e prontuários', 'descricao' => 'Busque residentes e registre o acompanhamento clínico.', 'rota' => 'idosos'];
+        }
+        if (in_array($user['perfil'], ['Administrador', 'Almoxarife', 'Profissional de Saúde'], true)) {
+            $atalhos[] = ['titulo' => 'Uso por idoso', 'descricao' => 'Registre o consumo individual de materiais.', 'rota' => 'almoxarifado-uso'];
+        }
+        if ($user['perfil'] === 'Familiar') {
+            $atalhos[] = ['titulo' => 'Meus idosos', 'descricao' => 'Consulte o acompanhamento publicado dos seus familiares.', 'rota' => 'meus-idosos'];
+        }
+
         $this->view(dirname(__DIR__) . '/view/index.php', [
             'titulo' => 'Início',
             'usuarioAtual' => $user,

@@ -62,3 +62,14 @@ th { background: var(--linho); }
 .botao-link { background: transparent; color: var(--madeira); padding: 0; text-decoration: underline; }
 .botao-link:hover { background: transparent; color: var(--cobre); }
 @media (max-width: 600px) { .cabecalho { align-items: flex-start; flex-wrap: wrap; padding: .8rem 1rem; } .conteudo { padding-top: 1.5rem; } .titulo-pagina { align-items: flex-start; flex-direction: column; gap: .8rem; } .navegacao { margin: .6rem 0 0; order: 3; width: 100%; } .abas { overflow-x: auto; } }
+
+/* Mantém a navegação e os formulários utilizáveis nas telas menores. */
+.cabecalho, .navegacao { flex-wrap: wrap; gap: .75rem; }
+.cabecalho { padding-top: .75rem; padding-bottom: .75rem; }
+.navegacao { margin: .5rem 1rem; }
+textarea { background: #fffdf7; border: 1px solid #b9976d; font: inherit; padding: .65rem; resize: vertical; min-height: 7rem; }
+input, select, textarea { max-width: 100%; min-width: 0; }
+.cartao { min-width: 0; }
+@media (max-width: 600px) { .navegacao { margin: .6rem 0 0; } .acoes { white-space: normal; } }
+.usuario-logado .botao-link { color: var(--creme); }
+label:has(input[type="checkbox"]) { display: flex; align-items: center; gap: .5rem; }
