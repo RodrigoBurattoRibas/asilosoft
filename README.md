@@ -23,6 +23,9 @@ src/
     idosos/
     quartos/
     usuarios/
+    familiares/
+    zacompanhar/
+    zcompras/
   presentation/
 ```
 
@@ -67,3 +70,17 @@ php src/infra/Database/bootstrap.php
 ```
 
 A aplicação exige uma conexão PDO válida; sem banco configurado, ela interrompe a requisição com erro de configuração. Não existe fallback para dados em sessão. `PDOMysqli` configura UTF-8 (`utf8mb4`), exceções PDO, resultados associativos e prepared statements nativos.
+
+## Fluxos integrados
+
+- Administrador gerencia familiares e associa contas ativas de perfil Familiar. Na ficha do idoso, vincula contatos, parentesco e responsável principal.
+- Administrador e Profissional de Saúde buscam idosos por nome, CPF ou identificador. Somente o profissional registra saúde; correções geram nova anotação, preservando o histórico.
+- Administrador, Almoxarife e Profissional de Saúde registram consumo individual. A trigger realiza uma única baixa; reenvios usam chave persistente única.
+- Administrador/Almoxarife solicitam compras. Administrador aprova ou recusa pendentes e marca aprovadas como atendidas. Compras não movimentam estoque.
+- Familiar consulta apenas acompanhamento publicado de idosos ativos vinculados à sua conta. Remoção do vínculo e desativação revogam acesso na próxima requisição.
+
+Aplique também as migrations `007_convergir_tipo_material` e `008_idempotencia_uso` pelo bootstrap antes de usar o consumo. As migrations anteriores foram preservadas. Erros PHP ficam ocultos por padrão; `ASILOSOFT_DEBUG=1` habilita exibição somente para desenvolvimento.
+
+## Validação
+
+Os testes usam PHP puro e MySQL isolado, sem novas dependências. Veja [instruções dos testes](tests/README.md) e [status das sprints](STATUS_CONCLUSAO_SPRINTS.md), incluindo limites da validação e ajustes recomendados para M2.

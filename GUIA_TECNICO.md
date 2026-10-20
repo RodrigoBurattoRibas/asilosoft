@@ -1,6 +1,6 @@
 # Guia técnico do AsiloSoft
 
-> Referência do estado atual do repositório. Atualizado em 01/10/2026.
+> Referência do estado atual do repositório. Atualizado em 20/10/2026.
 
 ## 1. Visão geral
 
@@ -14,9 +14,9 @@ O **AsiloSoft** é um sistema web para apoio à gestão de instituições de lon
 - Validação de capacidade dos quartos e unicidade de CPF/identificador.
 - Persistência de usuários, quartos, idosos e estoque em MySQL.
 
-### Funcionalidades previstas, mas sem módulo web implementado
+### Funcionalidades integradas em S2, S3, S5, S6 e S7
 
-O schema ainda prevê familiares, registros de saúde, uso de materiais, solicitações de compra e auditoria. Esses recursos ainda não têm rotas, controllers, services, repositories e views no diretório `src/modules`.
+Familiares e associação a contas/vínculos, ficha pesquisável e prontuário, consumo individual, solicitações de compra e portal familiar possuem fluxos web. A auditoria continua implementada por triggers; não foi criado painel próprio de auditoria. Consulte `STATUS_CONCLUSAO_SPRINTS.md` para evidências e limites.
 
 ## 2. Arquitetura
 
@@ -99,7 +99,7 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 | `usuarios-editar` | GET | Administrador | Não | Exibe edição de usuário | `id` inteiro positivo |
 | `usuarios-atualizar` | POST | Administrador | `asilosoft_usuarios` | Atualiza usuário | `id`, campos de usuário, `csrf_token` |
 | `usuarios-status` | POST | Administrador | `asilosoft_usuarios` | Ativa ou desativa usuário | `id`, `ativo=0|1`, `csrf_token` |
-| `idosos` | GET | Administrador | Não | Lista idosos ativos ou desativados | `situacao=ativos|desativados` |
+| `idosos` | GET | Administrador/Profissional de Saúde | Não | Lista idosos ativos ou desativados | `situacao=ativos|desativados` |
 | `idosos-novo` | GET | Administrador | Não | Exibe cadastro de idoso | — |
 | `idosos-criar` | POST | Administrador | `asilosoft_idosos` | Cria idoso e o aloca em quarto | `nome`, `cpf`, `identificador`, `quarto_id`, `csrf_token` |
 | `idosos-editar` | GET | Administrador | Não | Exibe edição de idoso | `id` inteiro positivo |
@@ -113,7 +113,7 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 | `quartos-atualizar` | POST | Administrador | `asilosoft_quartos` | Atualiza código e capacidade | `id`, `codigo`, `capacidade`, `csrf_token` |
 | `quartos-status` | POST | Administrador | `asilosoft_quartos` | Ativa ou desativa quarto vazio | `id`, `ativo=0|1`, `csrf_token` |
 
-**Nota de autorização:** as rotas de usuários, idosos e quartos são privadas no roteador, mas os respectivos controllers chamam `exigirAdministrador()`. Um usuário autenticado sem perfil adequado recebe uma mensagem e é redirecionado para `home`.
+**Nota de autorização:** as rotas de usuários, idosos e quartos são privadas no roteador, mas os respectivos controllers verificam o perfil; a listagem de idosos permite também consulta pelo profissional. Um usuário autenticado sem perfil adequado recebe uma mensagem e é redirecionado para `home`.
 
 ## 5. Módulos e regras atuais
 
@@ -165,11 +165,11 @@ As migrações versionadas em `src/infra/Database/migrations/` criam estas entid
 | Área | Tabelas | Situação na aplicação |
 | --- | --- | --- |
 | Pessoas e ocupação | `usuarios`, `idosos`, `quartos` | Implementada no módulo web |
-| Familiares | `familiares`, `idosos_familiares` | Disponível no banco, sem módulo web |
-| Saúde | `registros_saude` | Disponível no banco, sem módulo web |
+| Familiares | `familiares`, `idosos_familiares` | Implementada no fluxo web |
+| Saúde | `registros_saude` | Implementada no fluxo web |
 | Materiais e estoque | `materiais`, `estoques`, `movimentacoes_estoque` | Implementada no módulo web |
-| Uso e compras | `usos_materiais`, `solicitacoes_compra` | Disponível no banco, sem módulo web |
-| Auditoria | `logs_auditoria` | Disponível no banco, sem módulo web |
+| Uso e compras | `usos_materiais`, `solicitacoes_compra` | Implementada no fluxo web |
+| Auditoria | `logs_auditoria` | Triggers; sem painel web próprio |
 
 O schema também impõe capacidade de quarto, cria o saldo de estoque ao cadastrar material, impede saída acima do saldo, projeta movimentações no saldo e registra auditoria para materiais e registros de saúde. As regras de quarto são repetidas na camada PHP e em triggers SQL, o que protege tanto o fluxo web quanto alterações diretas no banco.
 
@@ -220,8 +220,37 @@ php -S localhost:8000
 
 ## 10. Pontos de atenção para evolução
 
-- Não há suíte de testes automatizados ou gerenciador de dependências configurado.
-- `index.php` liga `display_errors`; desative-o em produção e direcione erros para logs.
-- A autenticação por perfil está implementada para administradores e almoxarifes. Antes de expor novos módulos, defina uma matriz de permissões por perfil.
+- Há testes PHP puros de integração MySQL/HTTP e regras em `tests/`; não há gerenciador de dependências.
+- `index.php` desliga `display_errors` por padrão e habilita logs; somente `ASILOSOFT_DEBUG=1` exibe erros em desenvolvimento.
+- Os quatro perfis têm navegação e autorização no servidor. A matriz abaixo distingue consulta clínica de escrita e consumo de gestão do estoque.
 - Falhas de conexão devem ser monitoradas e corrigidas na configuração do ambiente; a aplicação não usa dados de sessão como fallback.
 - Novos módulos devem seguir a mesma estrutura de controller, service, repository PDO, rotas e views.
+
+## 11. Contratos dos fluxos completados
+
+| Fluxo/rota | Perfis | Método / CSRF |
+| --- | --- | --- |
+| `familiares`, `familiares-novo`, `familiares-editar` | Administrador | GET |
+| `familiares-criar`, `familiares-atualizar`, `idosos-familiares-vincular`, `idosos-familiares-desvincular` | Administrador | POST / `asilosoft_familiares` |
+| `idosos`, `idosos-ficha`, `idosos-saude` | Administrador, Profissional de Saúde | GET |
+| `idosos-saude-registrar` | Profissional de Saúde | POST / `asilosoft_idosos` |
+| `almoxarifado-uso` | Administrador, Almoxarife, Profissional de Saúde | GET |
+| `almoxarifado-registrar-uso` | mesmos perfis de consumo | POST / `asilosoft_almoxarifado` |
+| `compras`, `compras-nova` | Administrador, Almoxarife | GET |
+| `compras-criar` | Administrador, Almoxarife | POST / `asilosoft_compras` |
+| `compras-situacao` | Administrador | POST / `asilosoft_compras` |
+| `meus-idosos`, `acompanhamento-familiar` | Familiar | GET |
+
+As rotas embutidas de quarto agora são `idosos-quartos-criar` e `idosos-quartos-atualizar`, com token de idosos. As rotas `quartos-criar/atualizar` permanecem no módulo de quartos com seu próprio token. `RouteLoader` ordena apenas `*/routes/web.php`; `zacompanhar/routes/compras.php` está vazio e não é carregado. Foi preservado.
+
+A busca usa `busca`, `pagina` e `situacao`, ordena por nome/id e retorna 30 registros por página; não faz join com familiares, evitando duplicação. Ficha e clínica têm services/repositories próprios. Retificações acrescentam anotação referenciando o registro anterior, com novo autor/data e auditoria INSERT; não removem nem alteram silenciosamente o original.
+
+A associação de conta admite contato sem usuário, exige Familiar ativo e respeita unicidade. Campo ausente preserva associação, campo vazio remove explicitamente. Vínculos bloqueiam a linha do idoso em transação antes de trocar o principal: no máximo um, podendo não haver principal. Conta e vínculo são verificados em cada consulta do portal; idosos desativados ficam fora tanto da lista quanto da URL direta.
+
+Consumo aceita DECIMAL(12,3) positivo até 999999999.999. O repository bloqueia registros e grava `usos_materiais`; `ai_um_registrar_saida` cria a movimentação e o saldo é projetado pelas triggers. Falhas revertem tudo. A chave única `chave_requisicao` evita reenvio inclusive entre sessões; repetição com conteúdo diferente é rejeitada. Profissional consome por necessidade assistencial descrita nos requisitos, sem acesso à gestão de estoque ou compras.
+
+Máquina de compras adotada como decisão de implementação: Pendente → Aprovada/Recusada; Aprovada → Atendida; terminais Recusada/Atendida. A atualização compara a situação exibida no formulário com a situação persistida (compare-and-set), impedindo gravação obsoleta. Entrada de material permanece uma ação separada com origem obrigatória.
+
+Migrations 006 são registradas por nome completo; não colidem na chave de versão, mas a primeira aplicada determinava VARCHAR/ENUM. A 007 converge para VARCHAR(30), preservando valores existentes. A 008 acrescenta chave de consumo nullable/única, preservando usos antigos. O migrator fecha cursores de instruções condicionais, necessário quando a segunda 006 executa SELECT 1.
+
+Resultados de integração, regressão, navegador e benchmark estão em `STATUS_CONCLUSAO_SPRINTS.md`; execução reproduzível em `tests/README.md`.

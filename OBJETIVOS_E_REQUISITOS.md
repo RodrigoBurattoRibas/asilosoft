@@ -124,8 +124,9 @@ Os atores previstos são Administrador/Gestor, Profissional de Saúde, Almoxarif
 | Arquitetura em camadas, PHP, JavaScript, MySQL e sem framework | Implementado |
 | RF11, RF10 e RNF02 | Implementados: login, gestão de usuários e hash de senha |
 | Parte de RF01, RN01, RN02 e RN09 | Implementados: idosos, quartos, capacidade, ativação/desativação |
-| Perfis previstos e restrição administrativa | Parcial: perfis existem; as telas atuais exigem administrador |
-| RF02-RF09 e RF12 | Ainda sem módulos web; parte do modelo de dados já existe no schema |
-| RNF01, RNF05-RNF08 | Requisitos de qualidade pendentes de validação/documentação de evidências |
+| Perfis previstos e restrição administrativa | Quatro perfis integrados; escrita clínica exclusiva de profissional e gestão administrativa restrita |
+| RF02, RF03, RF05, RF07, RF08, RF09 e RF12 | Fluxos web implementados e validados em MySQL/HTTP isolados em 20/10/2026; ver STATUS_CONCLUSAO_SPRINTS.md |
+| RF04 e RF06 | Estoque preservado e integrado ao uso individual; regressões de saldo, origem e concorrência executadas |
+| RNF01, RNF05-RNF08 | Revisão responsiva local e benchmark pontual realizados; homologação de usabilidade, navegadores Chrome/Edge/Firefox e disponibilidade permanecem pendentes |
 
-Essa diferença é esperada pelo planejamento por sprints: o schema antecipa parte do domínio, enquanto a camada web entregue até agora cobre os primeiros blocos de acesso, usuários e idosos.
+A conclusão funcional local de S2/S3/S5/S6/S7 não implica conclusão de S8–S11. As decisões de estados de compra, consumo por profissional, principal opcional e retificação por nova anotação estão documentadas no guia técnico, sem serem apresentadas como exigências literais da M1.
