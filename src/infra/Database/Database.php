@@ -11,6 +11,10 @@ class PDOMysqli
             return self::$conn;
         }
 
+        if (!in_array('mysql', PDO::getAvailableDrivers(), true)) {
+            throw new PDOException('A extensão pdo_mysql não está habilitada no PHP.');
+        }
+
         $dsn = sprintf(
             'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
             self::envValue(['MYSQLHOST', 'ASILOSOFT_DB_HOST']),

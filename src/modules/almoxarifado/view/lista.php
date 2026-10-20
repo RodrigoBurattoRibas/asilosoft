@@ -13,13 +13,14 @@
                 <th>Item</th>
                 <th>Tipo</th>
                 <th>Quantidade disponível</th>
+                <th>Estoque mínimo</th>
                 <th>Situação</th>
                 <th>Ações</th>
             </tr>
         </thead>
         <tbody>
         <?php if ($itens === []): ?>
-            <tr><td colspan="5" class="texto-suave">Nenhum item cadastrado no almoxarifado.</td></tr>
+            <tr><td colspan="6" class="texto-suave">Nenhum item cadastrado no almoxarifado.</td></tr>
         <?php else: ?>
             <?php foreach ($itens as $item): ?>
                 <tr>
@@ -29,9 +30,11 @@
                         <?= AsiloView::escape($item['quantidade_disponivel']) ?>
                         <?= AsiloView::escape($item['unidade_medida']) ?>
                     </td>
+                    <td><?= AsiloView::escape($item['estoque_minimo']) ?> <?= AsiloView::escape($item['unidade_medida']) ?></td>
                     <td>
-                        <span class="etiqueta <?= $item['quantidade_disponivel'] > 0 ? 'ativo' : 'inativo' ?>">
-                            <?= $item['quantidade_disponivel'] > 0 ? 'Disponível' : 'Sem estoque' ?>
+                        <?php $estoqueBaixo = $item['quantidade_disponivel'] < $item['estoque_minimo']; ?>
+                        <span class="etiqueta <?= $item['quantidade_disponivel'] <= 0 || $estoqueBaixo ? 'inativo' : 'ativo' ?>">
+                            <?= $item['quantidade_disponivel'] <= 0 ? 'Sem estoque' : ($estoqueBaixo ? 'Abaixo do mínimo' : 'Disponível') ?>
                         </span>
                     </td>
                     <td class="acoes">
@@ -64,11 +67,13 @@
                 <th>Movimentação</th>
                 <th>Quantidade</th>
                 <th>Origem</th>
+                <th>Responsável</th>
+                <th>Observação</th>
             </tr>
         </thead>
         <tbody>
         <?php if ($movimentacoes === []): ?>
-            <tr><td colspan="5" class="texto-suave">Nenhuma movimentação registrada.</td></tr>
+            <tr><td colspan="7" class="texto-suave">Nenhuma movimentação registrada.</td></tr>
         <?php else: ?>
             <?php foreach ($movimentacoes as $movimentacao): ?>
                 <?php $horario = strtotime($movimentacao['data_hora']); ?>
@@ -85,6 +90,8 @@
                         <?= AsiloView::escape($movimentacao['unidade_medida']) ?>
                     </td>
                     <td><?= AsiloView::escape($movimentacao['origem'] ?? '—') ?></td>
+                    <td><?= AsiloView::escape($movimentacao['usuario_nome'] ?? '—') ?></td>
+                    <td><?= AsiloView::escape($movimentacao['observacao'] ?? '—') ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>

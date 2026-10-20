@@ -6,9 +6,7 @@ require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
 require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
 require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
-require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloRepositorioUsuariosSessao.php';
 require_once dirname(__DIR__) . '/repository/AsiloAlmoxarifadoRepository.php';
-require_once dirname(__DIR__) . '/repository/AsiloRepositorioAlmoxarifadoSessao.php';
 require_once dirname(__DIR__) . '/services/AsiloAlmoxarifadoService.php';
 
 final class AsiloAlmoxarifadoController
@@ -16,21 +14,14 @@ final class AsiloAlmoxarifadoController
     private AsiloSession $session;
     private AsiloAutenticacaoService $authentication;
     private AsiloAlmoxarifadoService $stock;
-    private bool $demoMode = false;
 
     public function __construct()
     {
         $this->session = new AsiloSession();
 
-        try {
-            $pdo = PDOMysqli::connection();
-            $userRepository = new AsiloUsuarioRepository($pdo);
-            $stockRepository = new AsiloAlmoxarifadoRepository($pdo);
-        } catch (PDOException) {
-            $this->demoMode = true;
-            $userRepository = new AsiloRepositorioUsuariosSessao($this->session);
-            $stockRepository = new AsiloRepositorioAlmoxarifadoSessao($this->session);
-        }
+        $pdo = PDOMysqli::connection();
+        $userRepository = new AsiloUsuarioRepository($pdo);
+        $stockRepository = new AsiloAlmoxarifadoRepository($pdo);
 
         $this->authentication = new AsiloAutenticacaoService($userRepository, $this->session);
         $this->stock = new AsiloAlmoxarifadoService($stockRepository);
@@ -117,11 +108,11 @@ final class AsiloAlmoxarifadoController
 
     public function registrarEntrada(): never
     {
-        $this->exigirAcesso();
+        $currentUser = $this->exigirAcesso();
         $id = $this->requireId();
 
         try {
-            $this->stock->registrarEntrada($id, $_POST);
+            $this->stock->registrarEntrada($id, $_POST, (int) $currentUser['id']);
             $this->session->flash('sucesso', 'Entrada registrada e estoque atualizado.');
             $this->redirect('almoxarifado');
         } catch (DomainException $error) {
@@ -137,11 +128,11 @@ final class AsiloAlmoxarifadoController
 
     public function registrarRetirada(): never
     {
-        $this->exigirAcesso();
+        $currentUser = $this->exigirAcesso();
         $id = $this->requireId();
 
         try {
-            $this->stock->registrarRetirada($id, $_POST);
+            $this->stock->registrarRetirada($id, $_POST, (int) $currentUser['id']);
             $this->session->flash('sucesso', 'Retirada registrada e estoque atualizado.');
             $this->redirect('almoxarifado');
         } catch (DomainException $error) {
@@ -177,12 +168,8 @@ final class AsiloAlmoxarifadoController
         }
 
         if (!in_array($user['perfil'], ['Administrador', 'Almoxarife'], true)) {
-            http_response_code(403);
-            $this->view(
-                dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
-                ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]
-            );
-            exit;
+            $this->session->flash('erro', 'Você não tem permissão para acessar o almoxarifado.');
+            $this->redirect('home');
         }
 
         return $user;
@@ -190,7 +177,6 @@ final class AsiloAlmoxarifadoController
 
     private function view(string $viewFile, array $data = []): void
     {
-        $data['modoDemonstracao'] = $this->demoMode;
         AsiloView::render($viewFile, $data);
     }
 

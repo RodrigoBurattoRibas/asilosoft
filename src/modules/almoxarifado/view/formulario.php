@@ -56,6 +56,22 @@
             </datalist>
         </label>
 
+        <label>Descrição
+            <textarea name="descricao" maxlength="500" rows="3" placeholder="Detalhes opcionais do material"><?= AsiloView::escape($item['descricao'] ?? '') ?></textarea>
+        </label>
+
+        <label>Estoque mínimo
+            <input
+                type="number"
+                name="estoque_minimo"
+                min="0"
+                max="999999999"
+                step="0.001"
+                required
+                value="<?= AsiloView::escape($item['estoque_minimo'] ?? '0') ?>"
+            >
+        </label>
+
         <?php if ($edicao): ?>
             <p class="texto-suave">
                 Estoque atual: <strong><?= AsiloView::escape($item['quantidade_disponivel']) ?> <?= AsiloView::escape($item['unidade_medida']) ?></strong>.

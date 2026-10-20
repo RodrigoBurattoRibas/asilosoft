@@ -1,2 +1,10 @@
-ALTER TABLE materiais ADD COLUMN IF NOT EXISTS tipo VARCHAR(30) NOT NULL DEFAULT 'Material' AFTER nome;
-
+SET @asilo_tipo_sql = IF(
+    EXISTS (SELECT 1 FROM information_schema.columns
+            WHERE table_schema = DATABASE()
+              AND table_name = 'materiais' AND column_name = 'tipo'),
+    'SELECT 1',
+    'ALTER TABLE materiais ADD COLUMN tipo VARCHAR(30) NOT NULL DEFAULT ''Material'' AFTER nome'
+);
+PREPARE asilo_tipo_stmt FROM @asilo_tipo_sql;
+EXECUTE asilo_tipo_stmt;
+DEALLOCATE PREPARE asilo_tipo_stmt;

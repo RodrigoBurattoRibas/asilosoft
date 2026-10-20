@@ -2,7 +2,7 @@
 
 O banco usa PHP/PDO e MySQL 8.0.16+; não requer framework ou ORM. A fonte de verdade é `src/infra/Database/migrations/`. Execute `php src/infra/Database/bootstrap.php` para criar/atualizar a base configurada. Faça backup antes de migrar; uma reversão é sempre uma nova migração compensatória, nunca a edição de uma versão aplicada.
 
-A sequência opcional de dados é `bootstrap`, `seed_admin` e `seed_dados_ficticios`. Os seeders são idempotentes e os dados de demonstração são fictícios.
+Após configurar o `.env`, execute `php src/infra/Database/bootstrap.php`. O comando aplica as migrations pendentes de forma idempotente. O sistema não cria dados fictícios nem usa repositórios alternativos em sessão.
 
 ## Relações e regras
 

@@ -1,8 +1,6 @@
 <?php
 
 
-require_once __DIR__ . '/AsiloQuartoRepository.php';
-
 final class AsiloIdosoRepository
 {
     public function __construct(private PDO $pdo)
@@ -28,19 +26,6 @@ final class AsiloIdosoRepository
         $resident = $query->fetch();
 
         return $resident === false ? null : $this->mapear($resident);
-    }
-
-    public function buscarQuartoPorId(int $id): ?array
-    {
-        return (new AsiloQuartoRepository($this->pdo))->buscarPorId($id);
-    }
-
-    public function contarOcupacaoDoQuarto(int $roomId): int
-    {
-        $query = $this->pdo->prepare('SELECT COUNT(*) FROM idosos WHERE quarto_id = :quarto_id AND ativo = 1');
-        $query->execute(['quarto_id' => $roomId]);
-
-        return (int) $query->fetchColumn();
     }
 
     public function criar(array $data): array

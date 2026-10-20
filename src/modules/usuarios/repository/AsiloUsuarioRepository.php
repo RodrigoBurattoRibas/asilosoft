@@ -34,6 +34,7 @@ final class AsiloUsuarioRepository
 
     public function criar(array $data): array
     {
+        $data['ativo'] = !empty($data['ativo']) ? 1 : 0;
         $query = $this->pdo->prepare(
             'INSERT INTO usuarios (nome, email, senha_hash, perfil, ativo)
              VALUES (:nome, :email, :senha_hash, :perfil, :ativo)'
@@ -49,6 +50,10 @@ final class AsiloUsuarioRepository
         $data = array_intersect_key($data, array_flip($allowed));
         if ($data === []) {
             return $this->buscarPorId($id) ?? throw new DomainException('Usuário não encontrado.');
+        }
+
+        if (array_key_exists('ativo', $data)) {
+            $data['ativo'] = !empty($data['ativo']) ? 1 : 0;
         }
 
         $fields = array_map(static fn (string $field): string => "{$field} = :{$field}", array_keys($data));

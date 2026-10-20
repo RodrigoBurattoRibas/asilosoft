@@ -5,39 +5,32 @@ require_once dirname(__DIR__, 3) . '/core/Security/CsrfToken.php';
 require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
 require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
-require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloRepositorioUsuariosSessao.php';
 require_once dirname(__DIR__) . '/services/AsiloAutenticacaoService.php';
 
 final class AsiloAutenticacaoController
 {
     private AsiloSession $session;
     private AsiloAutenticacaoService $authentication;
-    private bool $demoMode = false;
 
     public function __construct()
     {
         $this->session = new AsiloSession();
 
-        try {
-            $repository = new AsiloUsuarioRepository(PDOMysqli::connection());
-        } catch (PDOException) {
-            $this->demoMode = true;
-            $repository = new AsiloRepositorioUsuariosSessao($this->session);
-        }
-
-        $this->authentication = new AsiloAutenticacaoService($repository, $this->session);
+        $this->authentication = new AsiloAutenticacaoService(
+            new AsiloUsuarioRepository(PDOMysqli::connection()),
+            $this->session
+        );
     }
 
     public function formulario(): void
     {
         if ($this->authentication->usuarioAtual() !== null) {
-            $this->redirect('usuarios');
+            $this->redirect('home');
         }
 
         AsiloView::render(dirname(__DIR__) . '/view/login.php', [
             'titulo' => 'Entrar',
             'csrfToken' => CsrfToken::obter('asilosoft_login'),
-            'modoDemonstracao' => $this->demoMode,
         ]);
     }
 
@@ -48,7 +41,7 @@ final class AsiloAutenticacaoController
                 (string) ($_POST['email'] ?? ''),
                 (string) ($_POST['senha'] ?? '')
             );
-            $this->redirect('usuarios');
+            $this->redirect('home');
         } catch (DomainException $error) {
             $this->session->flash('erro', $error->getMessage());
             $this->redirect('login');

@@ -5,8 +5,9 @@ Sistema web para apoio à gestão de instituições de longa permanência para i
 ## Tecnologias
 
 - PHP 8
+- Extensão PHP `pdo_mysql`
 - JavaScript puro
-- MySQL, com modo demonstração em sessão
+- MySQL via PDO
 
 ## Estrutura
 
@@ -20,11 +21,16 @@ src/
     almoxarifado/
     autenticacao/
     idosos/
+    quartos/
     usuarios/
   presentation/
 ```
 
 Cada módulo possui suas próprias rotas, controllers, serviços, repositórios e views.
+
+Após o login, todos os perfis são enviados para a home (`?route=home`). A home mostra somente as áreas permitidas para o perfil atual. Tentativas de acesso a áreas sem permissão retornam para a home com uma mensagem informativa.
+
+O módulo de quartos permite cadastrar a capacidade dos quartos, acompanhar ocupação e ativar/desativar espaços. Ao cadastrar um idoso sem vaga disponível, o sistema sugere criar um quarto. O acesso é permitido ao perfil `Administrador`.
 
 O módulo de almoxarifado permite cadastrar materiais, insumos e medicamentos, registrar entradas com origem, registrar retiradas e consultar o histórico de movimentações. O acesso é permitido aos perfis `Administrador` e `Almoxarife`.
 
@@ -54,9 +60,10 @@ MYSQLPASSWORD=sua_senha
 
 No Railway, essas mesmas variáveis podem ser preenchidas pelas referências fornecidas pelo serviço. Para executar localmente, use valores concretos no `.env`.
 
-Se a conexão não estiver disponível, a aplicação inicia automaticamente no modo demonstração:
+As tabelas e regras do banco são criadas pelas migrations versionadas. Execute uma vez após configurar o `.env`:
 
-- E-mail: `admin@asilosoft.local`
-- Senha: `asilosoft123`
+```bash
+php src/infra/Database/bootstrap.php
+```
 
-Os dados do modo demonstração permanecem somente na sessão do navegador.
+A aplicação exige uma conexão PDO válida; sem banco configurado, ela interrompe a requisição com erro de configuração. Não existe fallback para dados em sessão. `PDOMysqli` configura UTF-8 (`utf8mb4`), exceções PDO, resultados associativos e prepared statements nativos.

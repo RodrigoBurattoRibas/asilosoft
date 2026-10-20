@@ -6,7 +6,6 @@ require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
 require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/autenticacao/services/AsiloAutenticacaoService.php';
 require_once dirname(__DIR__) . '/repository/AsiloUsuarioRepository.php';
-require_once dirname(__DIR__) . '/repository/AsiloRepositorioUsuariosSessao.php';
 require_once dirname(__DIR__) . '/services/AsiloUsuarioService.php';
 require_once dirname(__DIR__) . '/services/AsiloFiltroSituacao.php';
 
@@ -16,19 +15,12 @@ final class AsiloUsuarioController
     private AsiloAutenticacaoService $authentication;
     private AsiloUsuarioService $users;
     private AsiloFiltroSituacao $filter;
-    private bool $demoMode = false;
 
     public function __construct()
     {
         $this->session = new AsiloSession();
 
-        try {
-            $repository = new AsiloUsuarioRepository(PDOMysqli::connection());
-        } catch (PDOException) {
-            $this->demoMode = true;
-            $repository = new AsiloRepositorioUsuariosSessao($this->session);
-        }
-
+        $repository = new AsiloUsuarioRepository(PDOMysqli::connection());
         $this->authentication = new AsiloAutenticacaoService($repository, $this->session);
         $this->users = new AsiloUsuarioService($repository);
         $this->filter = new AsiloFiltroSituacao();
@@ -113,9 +105,14 @@ final class AsiloUsuarioController
         $this->exigirAdministrador();
 
         try {
+            $status = $_POST['ativo'] ?? null;
+            if (!is_string($status) || !in_array($status, ['0', '1'], true)) {
+                throw new DomainException('Situação de usuário inválida.');
+            }
+
             $this->users->alterarStatus(
                 $this->requireId(),
-                (string) ($_POST['ativo'] ?? '') === '1'
+                $status === '1'
             );
             $this->session->flash('sucesso', 'Situação do usuário atualizada.');
         } catch (DomainException $error) {
@@ -133,12 +130,8 @@ final class AsiloUsuarioController
         }
 
         if ($user['perfil'] !== 'Administrador') {
-            http_response_code(403);
-            $this->view(
-                dirname(__DIR__, 3) . '/presentation/components/asiloAcessoNegado.php',
-                ['titulo' => 'Acesso negado', 'usuarioAtual' => $user]
-            );
-            exit;
+            $this->session->flash('erro', 'Você não tem permissão para acessar a administração de usuários.');
+            $this->redirect('home');
         }
 
         return $user;
@@ -146,7 +139,6 @@ final class AsiloUsuarioController
 
     private function view(string $viewFile, array $data = []): void
     {
-        $data['modoDemonstracao'] = $this->demoMode;
         AsiloView::render($viewFile, $data);
     }
 

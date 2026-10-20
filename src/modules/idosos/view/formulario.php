@@ -9,6 +9,7 @@
 <section class="cartao">
     <?php if ($quartos === [] && !$edicao): ?>
         <p class="texto-suave">Não há quartos com vagas disponíveis no momento.</p>
+        <p><a class="botao" href="?route=quartos-novo">Cadastrar um quarto</a></p>
     <?php else: ?>
         <form
             method="post"

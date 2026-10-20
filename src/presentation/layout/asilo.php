@@ -7,14 +7,16 @@
     <link rel="stylesheet" href="src/assets/css/asilosoft.css">
 </head>
 <body>
-    <?php $rotaInicial = ($usuarioAtual['perfil'] ?? '') === 'Almoxarife' ? 'almoxarifado' : 'usuarios'; ?>
+    <?php $rotaInicial = 'home'; ?>
     <header class="cabecalho">
         <a class="marca" href="?route=<?= AsiloView::escape($rotaInicial) ?>">AsiloSoft</a>
         <?php if (isset($usuarioAtual)): ?>
             <nav class="navegacao" aria-label="Navegação principal">
+                <a class="<?= ($secaoAtual ?? '') === 'home' ? 'atual' : '' ?>" href="?route=home">Início</a>
                 <?php if (($usuarioAtual['perfil'] ?? '') === 'Administrador'): ?>
                     <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="?route=usuarios">Usuários</a>
                     <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="?route=idosos">Idosos</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'quartos' ? 'atual' : '' ?>" href="?route=quartos">Quartos</a>
                 <?php endif; ?>
                 <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife'], true)): ?>
                     <a class="<?= ($secaoAtual ?? '') === 'almoxarifado' ? 'atual' : '' ?>" href="?route=almoxarifado">Almoxarifado</a>
@@ -42,9 +44,6 @@
         <?php endif; ?>
     </div>
     <main class="conteudo">
-        <?php if ($modoDemonstracao): ?>
-            <p class="aviso demonstracao">Modo demonstração: os dados deste acesso não são permanentes.</p>
-        <?php endif; ?>
         <?php require $arquivoDaView; ?>
     </main>
     <script src="src/assets/js/asilosoft.js"></script>

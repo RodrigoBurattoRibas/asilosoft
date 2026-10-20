@@ -26,7 +26,8 @@
             <input
                 type="number"
                 name="quantidade"
-                min="1"
+                min="0.001"
+                step="0.001"
                 <?= $entrada ? '' : 'max="' . AsiloView::escape($item['quantidade_disponivel']) . '"' ?>
                 required
             >
@@ -41,7 +42,12 @@
                     <?php endforeach; ?>
                 </select>
             </label>
+
         <?php endif; ?>
+
+        <label>Observação
+            <textarea name="observacao" maxlength="500" rows="3" placeholder="Detalhes opcionais da movimentação"></textarea>
+        </label>
 
         <button type="submit">Registrar <?= mb_strtolower($tipoMovimentacao) ?></button>
     </form>
