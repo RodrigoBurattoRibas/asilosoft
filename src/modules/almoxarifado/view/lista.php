@@ -3,7 +3,6 @@
         <p class="sobretitulo">Estoque</p>
         <h1>Almoxarifado</h1>
     </div>
-    <a class="botao" href="?route=almoxarifado-uso">Consumo por idoso</a>
     <a class="botao" href="?route=almoxarifado-novo">Cadastrar item</a>
 </div>
 
@@ -11,7 +10,7 @@
     <table>
         <thead>
             <tr>
-                <th>Item</th>
+                <th>Nome do item</th>
                 <th>Tipo</th>
                 <th>Quantidade disponível</th>
                 <th>Estoque mínimo</th>
@@ -64,7 +63,7 @@
         <thead>
             <tr>
                 <th>Data</th>
-                <th>Item</th>
+                <th>Nome do item</th>
                 <th>Movimentação</th>
                 <th>Quantidade</th>
                 <th>Origem</th>

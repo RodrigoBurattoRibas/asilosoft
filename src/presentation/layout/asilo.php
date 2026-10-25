@@ -12,25 +12,25 @@
         <a class="marca" href="?route=<?= AsiloView::escape($rotaInicial) ?>">AsiloSoft</a>
         <?php if (isset($usuarioAtual)): ?>
             <nav class="navegacao" aria-label="Navegação principal">
-                <a class="<?= ($secaoAtual ?? '') === 'home' ? 'atual' : '' ?>" href="?route=home">Início</a>
+                <a class="<?= ($secaoAtual ?? '') === 'home' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'home' ? 'aria-current="page"' : '' ?> href="?route=home">Início</a>
                 <?php if (($usuarioAtual['perfil'] ?? '') === 'Administrador'): ?>
-                    <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" href="?route=usuarios">Usuários</a>
-                    <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" href="?route=idosos">Idosos</a>
-                    <a class="<?= ($secaoAtual ?? '') === 'quartos' ? 'atual' : '' ?>" href="?route=quartos">Quartos</a>
-                    <a href="?route=familiares">Familiares</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'usuarios' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'usuarios' ? 'aria-current="page"' : '' ?> href="?route=usuarios">Usuários</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'idosos' ? 'aria-current="page"' : '' ?> href="?route=idosos">Idosos</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'quartos' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'quartos' ? 'aria-current="page"' : '' ?> href="?route=quartos">Quartos</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'familiares' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'familiares' ? 'aria-current="page"' : '' ?> href="?route=familiares">Familiares</a>
                 <?php endif; ?>
                 <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife'], true)): ?>
-                    <a class="<?= ($secaoAtual ?? '') === 'almoxarifado' ? 'atual' : '' ?>" href="?route=almoxarifado">Almoxarifado</a>
-                    <a href="?route=compras">Compras</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'almoxarifado' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'almoxarifado' ? 'aria-current="page"' : '' ?> href="?route=almoxarifado">Almoxarifado</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'compras' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'compras' ? 'aria-current="page"' : '' ?> href="?route=compras">Compras</a>
                 <?php endif; ?>
                 <?php if (($usuarioAtual['perfil'] ?? '') === 'Profissional de Saúde'): ?>
-                    <a href="?route=idosos">Fichas e prontuários</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'idosos' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'idosos' ? 'aria-current="page"' : '' ?> href="?route=idosos">Fichas e prontuários</a>
                 <?php endif; ?>
                 <?php if (in_array(($usuarioAtual['perfil'] ?? ''), ['Administrador', 'Almoxarife', 'Profissional de Saúde'], true)): ?>
-                    <a href="?route=almoxarifado-uso">Uso por idoso</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'consumo' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'consumo' ? 'aria-current="page"' : '' ?> href="?route=almoxarifado-uso">Uso por idoso</a>
                 <?php endif; ?>
                 <?php if (($usuarioAtual['perfil'] ?? '') === 'Familiar'): ?>
-                    <a href="?route=meus-idosos">Meus idosos</a>
+                    <a class="<?= ($secaoAtual ?? '') === 'familiares' ? 'atual' : '' ?>" <?= ($secaoAtual ?? '') === 'familiares' ? 'aria-current="page"' : '' ?> href="?route=meus-idosos">Meus idosos</a>
                 <?php endif; ?>
             </nav>
             <div class="usuario-logado">

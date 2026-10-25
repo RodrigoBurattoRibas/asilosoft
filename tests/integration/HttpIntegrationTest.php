@@ -93,6 +93,16 @@ try {
     ok(request('estoque','idosos-ficha&id=1')[0]===403,'Ficha clínica proibida almoxarife');
     $use=request('saude','almoxarifado-uso')[1];
     $useData=['csrf_token'=>formToken($use),'chave_requisicao'=>field($use,'chave_requisicao'),'idoso_id'=>1,'material_id'=>1,'quantidade'=>'2.125'];
+    $failedUse = request('saude','almoxarifado-registrar-uso',array_replace($useData, ['quantidade'=>'999','observacao'=>'Preservar tentativa']));
+    ok($failedUse[0]===200 && str_contains($failedUse[1],'role="alert"') && str_contains($failedUse[1],'Saldo insuficiente'), 'Consumo mostra erro persistente');
+    $dom = new DOMDocument(); @$dom->loadHTML($failedUse[1]); $xpath = new DOMXPath($dom);
+    ok($xpath->query('//select[@name="idoso_id"]/option[@selected]')->item(0)?->getAttribute('value')==='1'
+        && $xpath->query('//select[@name="material_id"]/option[@selected]')->item(0)?->getAttribute('value')==='1'
+        && $xpath->query('//input[@name="quantidade"]')->item(0)?->getAttribute('value')==='999'
+        && $xpath->query('//textarea[@name="observacao"]')->item(0)?->textContent==='Preservar tentativa'
+        && field($failedUse[1],'chave_requisicao')===$useData['chave_requisicao'], 'Falha preserva idoso, item, quantidade, observação e chave');
+    ok((int)$pdo->query('SELECT COUNT(*) FROM usos_materiais')->fetchColumn()===0
+        && (float)$pdo->query('SELECT quantidade_atual FROM estoques WHERE material_id=1')->fetchColumn()===10.0, 'Falha de consumo não grava nem baixa estoque');
     request('saude','almoxarifado-registrar-uso',$useData);request('saude','almoxarifado-registrar-uso',$useData);
     ok((int)$pdo->query('SELECT COUNT(*) FROM usos_materiais')->fetchColumn()===1,'T07 reenvio HTTP não duplica uso');
     ok((float)$pdo->query('SELECT quantidade_atual FROM estoques WHERE material_id=1')->fetchColumn()===7.875,'T07 saldo uma única baixa');

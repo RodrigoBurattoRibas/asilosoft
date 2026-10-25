@@ -142,14 +142,15 @@ final class AsiloAlmoxarifadoController
         }
     }
 
-    public function uso(): void
+    public function uso(array $dados = [], ?string $erroConsumo = null): void
     {
         $user = $this->exigirAcesso(true);
         $this->view(dirname(__DIR__) . '/view/uso.php', [
-            'titulo'=>'Consumo individual', 'usuarioAtual'=>$user, 'secaoAtual'=>'almoxarifado',
+            'dadosConsumo'=>$dados, 'erroConsumo'=>$erroConsumo,
+            'titulo'=>'Consumo individual', 'usuarioAtual'=>$user, 'secaoAtual'=>'consumo',
             'idosos'=>$this->stock->listarIdososAtivos(),
             'materiais'=>array_filter($this->stock->listarItens(), fn($item)=>$item['ativo']),
-            'chaveRequisicao'=>bin2hex(random_bytes(32)),
+            'chaveRequisicao'=>isset($dados['chave_requisicao']) && is_string($dados['chave_requisicao']) && preg_match('/^[a-f0-9]{64}$/D', $dados['chave_requisicao']) ? $dados['chave_requisicao'] : bin2hex(random_bytes(32)),
             'csrfToken'=>CsrfToken::obter('asilosoft_almoxarifado'),
         ]);
     }
@@ -159,11 +160,14 @@ final class AsiloAlmoxarifadoController
         $user = $this->exigirAcesso(true);
         try {
             $this->stock->registrarUso($_POST, (int) $user['id']);
-            $this->session->flash('sucesso', 'Consumo registrado. Reenvios do mesmo formulário não geram nova baixa.');
+            $this->session->flash('sucesso', 'Consumo registrado para o idoso selecionado. O estoque foi atualizado.');
         } catch (DomainException $error) {
-            $this->session->flash('erro', $error->getMessage());
+            $this->uso($_POST, $error->getMessage());
+            exit;
         } catch (PDOException $error) {
-            $this->session->flash('erro', 'Não foi possível registrar o consumo. Verifique os dados e tente novamente.');
+            error_log('Falha ao registrar consumo: ' . $error->getMessage());
+            $this->uso($_POST, 'Não foi possível registrar o consumo. Tente novamente; se o erro persistir, contate o administrador.');
+            exit;
         }
         $this->redirect('almoxarifado-uso');
     }

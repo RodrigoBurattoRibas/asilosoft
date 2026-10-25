@@ -75,7 +75,7 @@ final class AsiloCompraController
     private function view(string $file, array $data): void
     {
         AsiloView::render(dirname(__DIR__).'/view/'.$file, $data + ['titulo'=>'Solicitações de compra',
-            'usuarioAtual'=>$this->u,'secaoAtual'=>'almoxarifado','modoDemonstracao'=>false]);
+            'usuarioAtual'=>$this->u,'secaoAtual'=>'compras','modoDemonstracao'=>false]);
     }
     private function go(string $route): never { header('Location: ?route='.$route, true, 303); exit; }
     private function deny(): never
