@@ -33,7 +33,7 @@ Cada módulo possui suas próprias rotas, controllers, serviços, repositórios 
 
 Após o login, todos os perfis são enviados para a home (`?route=home`). A home mostra somente as áreas permitidas para o perfil atual. Tentativas de acesso a áreas sem permissão retornam para a home com uma mensagem informativa.
 
-O módulo de quartos permite cadastrar a capacidade dos quartos, acompanhar ocupação e ativar/desativar espaços. Ao cadastrar um idoso sem vaga disponível, o sistema sugere criar um quarto. O acesso é permitido ao perfil `Administrador`.
+O módulo de quartos concentra cadastro e edição, capacidade de 1 a 99 residentes, acompanhamento de ocupação e ativação/desativação. A tela de Idosos contém apenas as funções dos residentes, incluindo sua alocação em quartos. Ao cadastrar um idoso sem vaga disponível, o sistema sugere criar um quarto. O acesso é permitido ao perfil `Administrador`.
 
 O módulo de almoxarifado permite cadastrar materiais, insumos e medicamentos, registrar entradas com origem, registrar retiradas e consultar o histórico de movimentações. O acesso é permitido aos perfis `Administrador` e `Almoxarife`.
 

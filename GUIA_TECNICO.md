@@ -136,7 +136,7 @@ As rotas são endpoints de páginas/formulários, não uma API JSON pública. A 
 
 - Nome, CPF de 11 dígitos, identificador e quarto são obrigatórios na criação.
 - CPF e identificador precisam ser únicos.
-- Quartos são cadastrados e administrados pelo módulo `quartos`, com código único e capacidade entre 1 e 255 residentes.
+- Quartos são cadastrados e administrados pelo módulo `quartos`, com código único e capacidade entre 1 e 99 residentes.
 - Somente quartos ativos, existentes e com ocupação abaixo da capacidade podem receber nova alocação.
 - Um quarto ocupado não pode ser desativado nem ter a capacidade reduzida abaixo da ocupação atual.
 - Na edição, é permitido deixar `quarto_id` vazio, removendo a alocação. O quarto atual inativo continua selecionável apenas para preservar a edição do registro.
@@ -241,7 +241,7 @@ php -S localhost:8000 router.php
 | `compras-situacao` | Administrador | POST / `asilosoft_compras` |
 | `meus-idosos`, `acompanhamento-familiar` | Familiar | GET |
 
-As rotas embutidas de quarto agora são `idosos-quartos-criar` e `idosos-quartos-atualizar`, com token de idosos. As rotas `quartos-criar/atualizar` permanecem no módulo de quartos com seu próprio token. `RouteLoader` ordena apenas `*/routes/web.php`; `zacompanhar/routes/compras.php` está vazio e não é carregado. Foi preservado.
+O cadastro e a gestão de quartos são exclusivos do módulo `quartos`, pelas rotas `quartos-criar/atualizar` e `quartos-status`, com seu próprio token. As antigas rotas `idosos-quartos-criar` e `idosos-quartos-atualizar` foram removidas e retornam 404. A capacidade é validada entre 1 e 99 no formulário e no service, tanto na criação quanto na edição. `RouteLoader` ordena apenas `*/routes/web.php`; `zacompanhar/routes/compras.php` está vazio e não é carregado. Foi preservado.
 
 A busca usa `busca`, `pagina` e `situacao`, ordena por nome/id e retorna 30 registros por página; não faz join com familiares, evitando duplicação. Ficha e clínica têm services/repositories próprios. Retificações acrescentam anotação referenciando o registro anterior, com novo autor/data e auditoria INSERT; não removem nem alteram silenciosamente o original.
 

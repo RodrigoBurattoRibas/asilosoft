@@ -41,3 +41,7 @@ O benchmark mede consulta e mapeamento no repository. O aceite de RNF05 exige me
 ## Atividades da homologação
 
 Executar H01–H14 do roteiro, registrar evidências e defeitos, validar Chrome/Edge/Firefox e dispositivos da equipe, medir desempenho no destino e configurar/acompanhar disponibilidade. O requisito de 99% demanda uma janela de operação acordada. Não foram realizados deploy, aprovação humana ou alteração de documentos externos. Os artefatos preexistentes de `output/` foram preservados e não incorporados aos commits desta entrega.
+
+## Atualização: gestão de quartos
+
+Cadastro e administração foram centralizados em Quartos; Idosos mantém somente funções dos residentes e sua alocação. As rotas duplicadas foram removidas. O limite da capacidade agora é 99 no formulário e no servidor. Após a alteração, as seis suítes do runner foram executadas novamente e passaram. Os novos casos HTTP confirmam criação até 99, rejeição de 0/100/255, edição entre 1 e 99, ativação/desativação, isolamento por perfil e ausência de alterações ao tentar as rotas antigas (404). Não houve alteração no banco configurado.

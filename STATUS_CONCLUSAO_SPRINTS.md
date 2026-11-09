@@ -76,3 +76,9 @@ Para M2, atualizar mapa de RF/sprints, matriz de acesso, fluxo conta→familiar�
 Esta atualização complementa o levantamento de 20/10. A implementação funcional RF01–RF12 foi revalidada com seis suítes executáveis no MySQL 8.0.46 descartável. Retirada genérica agora exige finalidade, a inicialização do administrador é feita por CLI sem senha padrão, e o roteador de homologação bloqueia arquivos internos por HTTP. Alterações locais preexistentes de login e layout foram preservadas e commitadas.
 
 A entrega possui runner `bash tests/run.sh`, checklist funcional versionado em `docs/CHECKLIST_ENTREGA.md`, evidências em `docs/PRONTIDAO_HOMOLOGACAO.md` e roteiro/registro de aceite em `docs/HOMOLOGACAO.md`. S8–S10 têm implementação e regressões locais concluídas para submissão; a validação operacional no destino permanece no roteiro. S11 tem pacote e documentação preparados e aguarda execução/aceite da homologação. Nenhum deploy ou aceite humano foi simulado.
+
+## Gestão de quartos centralizada — 09/11/2026
+
+A partir desta alteração, o cadastro ocorre somente em Quartos → Novo quarto, e edição/ativação/desativação ficam no mesmo módulo. A listagem de Idosos não contém mais formulário nem tabela de gestão de quartos; a alocação do residente permanece nos dados do idoso. As antigas rotas `idosos-quartos-criar` e `idosos-quartos-atualizar` e seus handlers/services foram removidos. Os registros históricos deste relatório sobre duas entradas descrevem a versão anterior.
+
+Capacidade permitida: de 1 a 99, validada no formulário e no service de criação/edição. Nenhum registro existente foi alterado automaticamente, nem foi necessária migration. A regressão completa (`bash tests/run.sh`) passou nas seis suítes, incluindo limites 0/1/99/100/255, criação e edição pela área de Quartos, ativação/desativação, 404 nas rotas removidas, ausência da gestão em Idosos e restrição aos demais perfis.

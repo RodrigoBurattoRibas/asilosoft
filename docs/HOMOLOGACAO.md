@@ -19,7 +19,7 @@ Versão preparada em 09/11/2026. RF01–RF12 implementados; o aceite abaixo deve
    ```
 
 5. Iniciar `php -S localhost:8000 router.php` na raiz e abrir `http://localhost:8000`. Para encerrar, usar Ctrl+C. Manter debug desligado. Em servidor Apache/Nginx, permitir somente o front controller e os assets; bloquear arquivos internos. HTTPS deve ser fornecido no ambiente remoto.
-6. Entrar com o administrador e criar contas para Profissional de Saúde, Almoxarife e dois Familiares. Usar senhas próprias, sem credenciais padrão. Cadastrar quarto com capacidade 2, dois idosos, dois familiares e um material com estoque mínimo 5. Associar cada conta Familiar ao respectivo contato e vincular somente um deles ao primeiro idoso.
+6. Entrar com o administrador e criar contas para Profissional de Saúde, Almoxarife e dois Familiares. Usar senhas próprias, sem credenciais padrão. Em **Quartos → Novo quarto**, cadastrar um quarto com capacidade 2, dois idosos, dois familiares e um material com estoque mínimo 5. Associar cada conta Familiar ao respectivo contato e vincular somente um deles ao primeiro idoso.
 7. Para regressão automatizada, apontar as variáveis `ASILOSOFT_TEST_DB_*` a outro MySQL exclusivo e executar `bash tests/run.sh` conforme `tests/README.md`. Não apontar os testes para o banco usado pela equipe.
 
 ## Matriz de acesso esperada
@@ -44,7 +44,7 @@ Registrar cada caso como aprovado ou reprovado, com navegador, perfil, evidênci
 | Caso | Ação | Resultado esperado |
 | --- | --- | --- |
 | H01 — RF10/11 | Entrar com cada perfil, errar senha, desativar conta e tentar acessar novamente | Credenciais inválidas rejeitadas; conta desativada perde acesso; logout invalida acesso privado |
-| H02 — RF01 | Criar/editar idoso, repetir CPF/identificador, lotar quarto e tentar uma terceira alocação | Dados válidos persistem; duplicidade e excesso de capacidade rejeitados; quarto inativo não recebe alocação |
+| H02 — RF01 | Confirmar que Idosos não tem gestão de quartos; em Quartos criar/editar com capacidade 1 e 99 e rejeitar 0 e 100; ativar/desativar quarto vazio. Criar/editar idoso, repetir CPF/identificador, lotar quarto e tentar uma terceira alocação | Dados válidos persistem; duplicidade e excesso de capacidade rejeitados; quarto inativo não recebe alocação |
 | H03 — RF02 | Vincular dois contatos, escolher principal, associar um contato a dois idosos e remover vínculo | Vínculos corretos; no máximo um principal; remoção refletida na ficha e portal |
 | H04 — RF03/05 | Buscar por nome, CPF pontuado e identificador; registrar anotação privada e publicada; retificar | Busca encontra idoso; ficha consolidada; só Saúde escreve; original preservado após retificação |
 | H05 — RF04/06/07 | Criar material mínimo 5; entrar 10 com origem; retirar 2 com finalidade; tentar retirar 99 ou sem finalidade | Saldo 8; origem/autor/finalidade no histórico; tentativas inválidas não alteram saldo/histórico |
