@@ -31,7 +31,7 @@
                 type="number"
                 name="capacidade"
                 min="1"
-                max="255"
+                max="99"
                 required
                 value="<?= AsiloView::escape($quarto['capacidade'] ?? '1') ?>"
             >

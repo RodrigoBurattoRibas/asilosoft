@@ -70,8 +70,8 @@ final class AsiloQuartoService
             throw new DomainException('Informe um código de quarto com até 30 caracteres.');
         }
 
-        if ($capacidade === false || $capacidade < 1 || $capacidade > 255) {
-            throw new DomainException('A capacidade deve ser um número inteiro entre 1 e 255.');
+        if ($capacidade === false || $capacidade < 1 || $capacidade > 99) {
+            throw new DomainException('A capacidade deve ser um número inteiro entre 1 e 99.');
         }
 
         return [

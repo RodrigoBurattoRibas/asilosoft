@@ -49,7 +49,6 @@ final class AsiloIdosoController
             'usuarioAtual' => $currentUser,
             'idosos' => array_slice($resultados, 0, 30),
             'busca' => $busca, 'pagina' => $pagina, 'temProxima' => count($resultados) > 30,
-            'quartos' => $this->residents->listarQuartos(),
             'situacao' => $status,
             'secaoAtual' => 'idosos',
             'csrfToken' => CsrfToken::obter('asilosoft_idosos'),
@@ -159,31 +158,6 @@ final class AsiloIdosoController
             $this->session->flash('erro', $error->getMessage());
         }
 
-        $this->redirect('idosos');
-    }
-
-    public function criarQuarto(): never
-    {
-        $this->exigirAdministrador();
-        try {
-            $this->residents->criarQuarto($_POST);
-            $this->session->flash('sucesso', 'Quarto cadastrado com sucesso.');
-        } catch (DomainException $error) {
-            $this->session->flash('erro', $error->getMessage());
-        }
-        $this->redirect('idosos');
-    }
-
-    public function atualizarQuarto(): never
-    {
-        $this->exigirAdministrador();
-        $id = $this->requireId();
-        try {
-            $this->residents->atualizarQuarto($id, $_POST);
-            $this->session->flash('sucesso', 'Quarto atualizado com sucesso.');
-        } catch (DomainException $error) {
-            $this->session->flash('erro', $error->getMessage());
-        }
         $this->redirect('idosos');
     }
 

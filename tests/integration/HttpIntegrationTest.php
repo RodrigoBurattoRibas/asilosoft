@@ -125,13 +125,35 @@ try {
         if ($post) { ok(request('admin',$route,[])[0]===419,'T10 sem CSRF '.$route);ok(request('admin',$route,['csrf_token'=>'invalido'])[0]===419,'T10 CSRF inválido '.$route);ok(request('admin',$route)[0]===405,'T10 GET mutação '.$route); }
         else ok(request('admin',$route,[])[0]===405,'T10 POST leitura '.$route);
     }
-    $roomToken=formToken(request('admin','quartos-novo')[1]);
-    request('admin','quartos-criar',['csrf_token'=>$roomToken,'codigo'=>'B','capacidade'=>3]);
-    request('admin','idosos-quartos-criar',['csrf_token'=>$adminToken,'codigo'=>'C','capacidade'=>3]);
-    ok((int)$pdo->query('SELECT COUNT(*) FROM quartos')->fetchColumn()===3,'T11 ambos formulários de quartos');
-    request('admin','quartos-atualizar&id=2',['csrf_token'=>$roomToken,'codigo'=>'B','capacidade'=>4]);
-    request('admin','idosos-quartos-atualizar&id=3',['csrf_token'=>$adminToken,'codigo'=>'C','capacidade'=>4]);
-    ok((int)$pdo->query('SELECT SUM(capacidade) FROM quartos WHERE id IN (2,3)')->fetchColumn()===8,'T11 edição pelas duas rotas');
+    $residentPage = request('admin','idosos')[1];
+    ok(!str_contains($residentPage,'Quartos e vagas') && !str_contains($residentPage,'idosos-quartos-')
+        && !str_contains($residentPage,'name="capacidade"'), 'Idosos sem gestão de quartos');
+    $roomForm = request('admin','quartos-novo')[1];
+    $roomToken=formToken($roomForm);
+    $dom = new DOMDocument(); @$dom->loadHTML($roomForm); $xpath = new DOMXPath($dom);
+    ok($xpath->query('//input[@name="capacidade"]')->item(0)?->getAttribute('max')==='99', 'Formulário de quarto limita capacidade a 99');
+    foreach (['0','100','255'] as $invalidCapacity) {
+        request('admin','quartos-criar',['csrf_token'=>$roomToken,'codigo'=>'INVALIDO','capacidade'=>$invalidCapacity]);
+        ok((int)$pdo->query('SELECT COUNT(*) FROM quartos')->fetchColumn()===1, 'Cadastro rejeita capacidade '.$invalidCapacity);
+    }
+    request('admin','quartos-criar',['csrf_token'=>$roomToken,'codigo'=>'B','capacidade'=>99]);
+    ok((int)$pdo->query("SELECT capacidade FROM quartos WHERE codigo='B'")->fetchColumn()===99, 'Cadastro aceita capacidade máxima 99');
+    request('admin','quartos-atualizar&id=2',['csrf_token'=>$roomToken,'codigo'=>'B','capacidade'=>100]);
+    ok((int)$pdo->query('SELECT capacidade FROM quartos WHERE id=2')->fetchColumn()===99, 'Edição rejeita capacidade acima de 99');
+    request('admin','quartos-atualizar&id=2',['csrf_token'=>$roomToken,'codigo'=>'B','capacidade'=>1]);
+    ok((int)$pdo->query('SELECT capacidade FROM quartos WHERE id=2')->fetchColumn()===1, 'Edição aceita capacidade mínima 1');
+    request('admin','quartos-status&id=2',['csrf_token'=>$roomToken,'ativo'=>0]);
+    ok((int)$pdo->query('SELECT ativo FROM quartos WHERE id=2')->fetchColumn()===0, 'Desativação pelo módulo quartos');
+    request('admin','quartos-status&id=2',['csrf_token'=>$roomToken,'ativo'=>1]);
+    ok((int)$pdo->query('SELECT ativo FROM quartos WHERE id=2')->fetchColumn()===1, 'Ativação pelo módulo quartos');
+    foreach (['idosos-quartos-criar','idosos-quartos-atualizar&id=2'] as $removedRoute) {
+        ok(request('admin',$removedRoute,['csrf_token'=>$adminToken,'codigo'=>'REMOVIDO','capacidade'=>2])[0]===404, 'Rota antiga removida: '.$removedRoute);
+    }
+    ok((int)$pdo->query('SELECT COUNT(*) FROM quartos')->fetchColumn()===2
+        && (int)$pdo->query('SELECT capacidade FROM quartos WHERE id=2')->fetchColumn()===1, 'Rotas antigas não alteram quartos');
+    foreach (['saude','estoque','familia'] as $profile) {
+        ok(request($profile,'quartos')[0]===303 && request($profile,'quartos-novo')[0]===303, 'Quartos restritos ao administrador: '.$profile);
+    }
     request('admin','idosos-atualizar&id=1',['csrf_token'=>$adminToken,'nome'=>'Ana Teste','cpf'=>'12345678901','identificador'=>'RES-001','quarto_id'=>1]);
     ok((int)$pdo->query('SELECT quarto_id FROM idosos WHERE id=1')->fetchColumn()===1,'T14 edição preserva quarto');
     $stockToken=formToken(request('estoque','almoxarifado-entrada&id=1')[1]);

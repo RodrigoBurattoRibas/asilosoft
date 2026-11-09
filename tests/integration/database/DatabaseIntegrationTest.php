@@ -45,7 +45,7 @@ require_once __DIR__ . '/../../../src/infra/Routers/Router.php';
 require_once __DIR__ . '/../../../src/infra/Routers/RouteLoader.php';
 RouteLoader::load(__DIR__ . '/../../../src/modules');
 check(Router::configuracao('quartos-criar')['modulo'] === 'quartos', 'T11 handler administrativo de quartos');
-check(Router::configuracao('idosos-quartos-criar')['modulo'] === 'idosos', 'T11 handler de quartos no cadastro');
+check(Router::configuracao('idosos-quartos-criar') === null && Router::configuracao('idosos-quartos-atualizar') === null, 'T11 gestão de quartos removida do módulo idosos');
 foreach (Router::rotas() as $route=>$config) {
     check($config['middlewares'] !== [], "Middleware presente: $route");
 }
