@@ -28,13 +28,13 @@ try {
     $prepend=tempnam(sys_get_temp_dir(),'asilo-http-env-');
     file_put_contents($prepend, '<?php putenv('.var_export('MYSQLPASSWORD='.$cfg['SENHA'],true).');');
     $port=(int)(getenv('ASILOSOFT_TEST_HTTP_PORT') ?: 18087);
-    $server=proc_open([PHP_BINARY,'-d','auto_prepend_file='.$prepend,'-S','127.0.0.1:'.$port,'-t',$root],[0=>['pipe','r'],1=>['file','/tmp/asilosoft-http-test.log','a'],2=>['file','/tmp/asilosoft-http-test.log','a']],$pipes,$root,$env);
+    $server=proc_open([PHP_BINARY,'-d','auto_prepend_file='.$prepend,'-S','127.0.0.1:'.$port,'-t',$root,$root.'/router.php'],[0=>['pipe','r'],1=>['file','/tmp/asilosoft-http-test.log','a'],2=>['file','/tmp/asilosoft-http-test.log','a']],$pipes,$root,$env);
     if (!is_resource($server)) throw new RuntimeException('Servidor indisponível');
     for ($i=0;$i<40;$i++) { $socket=@fsockopen('127.0.0.1',$port); if ($socket) { fclose($socket); break; } usleep(50000); }
     function request(string $user,string $route,?array $post=null,string $method=''): array {
         global $port,$cookies;
         $cookies[$user] ??= tempnam(sys_get_temp_dir(),'asilo-cookie-');
-        $curl=curl_init('http://127.0.0.1:'.$port.'/?route='.$route);
+        $curl=curl_init('http://127.0.0.1:'.$port.(str_starts_with($route, '/') ? $route : '/?route='.$route));
         curl_setopt_array($curl,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_COOKIEFILE=>$cookies[$user],CURLOPT_COOKIEJAR=>$cookies[$user],CURLOPT_TIMEOUT=>10]);
         if ($post!==null) { curl_setopt($curl,CURLOPT_POST,true); curl_setopt($curl,CURLOPT_POSTFIELDS,http_build_query($post)); }
         if ($method!=='') curl_setopt($curl,CURLOPT_CUSTOMREQUEST,$method);
@@ -57,6 +57,10 @@ try {
         if (empty($m[1])) throw new RuntimeException('CSRF ausente');
         return html_entity_decode(end($m[1]),ENT_QUOTES);
     }
+    foreach (['/.env','/.git/config','/tests/README.md','/src/infra/Database/schema.sql','/scripts/criar-administrador.php','/README.md'] as $privatePath) {
+        ok(request('anonimo',$privatePath)[0]===404, 'Arquivo interno bloqueado: '.$privatePath);
+    }
+    ok(request('anonimo','/src/assets/css/asilosoft.css')[0]===200, 'CSS público acessível');
     foreach (['admin','saude','estoque','familia','outro'] as $u) {
         $token=field(request($u,'login')[1]);
         ok(request($u,'entrar',['csrf_token'=>$token,'email'=>$u.'@example.test','senha'=>'SenhaTeste123'])[0]===303,'T14 login '.$u);
@@ -134,7 +138,17 @@ try {
     request('estoque','almoxarifado-registrar-entrada&id=1',['csrf_token'=>$stockToken,'quantidade'=>'1']);
     ok((float)$pdo->query('SELECT quantidade_atual FROM estoques WHERE material_id=1')->fetchColumn()===7.875,'T08 entrada sem origem não grava');
     request('estoque','almoxarifado-registrar-entrada&id=1',['csrf_token'=>$stockToken,'quantidade'=>'1','origem'=>'Instituição']);
-    request('estoque','almoxarifado-registrar-retirada&id=1',['csrf_token'=>$stockToken,'quantidade'=>'1']);
+    $beforeWithdrawal = $pdo->query('SELECT quantidade_atual FROM estoques WHERE material_id=1')->fetchColumn();
+    $beforeMovements = $pdo->query('SELECT COUNT(*) FROM movimentacoes_estoque')->fetchColumn();
+    foreach (['', '   '] as $emptyPurpose) {
+        request('estoque','almoxarifado-registrar-retirada&id=1',['csrf_token'=>$stockToken,'quantidade'=>'1','observacao'=>$emptyPurpose]);
+        ok($pdo->query('SELECT quantidade_atual FROM estoques WHERE material_id=1')->fetchColumn()===$beforeWithdrawal
+            && $pdo->query('SELECT COUNT(*) FROM movimentacoes_estoque')->fetchColumn()===$beforeMovements,
+            'Retirada sem finalidade não altera saldo nem histórico');
+    }
+    request('estoque','almoxarifado-registrar-retirada&id=1',['csrf_token'=>$stockToken,'quantidade'=>'1','observacao'=>'Limpeza da enfermaria']);
+    $withdrawal = $pdo->query("SELECT observacao, usuario_id FROM movimentacoes_estoque WHERE tipo='Saída' ORDER BY id DESC LIMIT 1")->fetch();
+    ok($withdrawal && $withdrawal['observacao']==='Limpeza da enfermaria' && (int)$withdrawal['usuario_id']===3, 'Retirada registra finalidade e responsável');
     ok((float)$pdo->query('SELECT quantidade_atual FROM estoques WHERE material_id=1')->fetchColumn()===7.875,'T14 entrada e retirada genéricas preservadas');
     request('admin','idosos-familiares-desvincular&id=1',['csrf_token'=>$t,'familiar_id'=>1]);
     ok(request('familia','acompanhamento-familiar&id=1')[0]===403,'T06 remoção revoga próxima requisição');

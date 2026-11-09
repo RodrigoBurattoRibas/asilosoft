@@ -85,11 +85,16 @@ final class AsiloAlmoxarifadoService
             throw new DomainException('A retirada não pode deixar o estoque negativo.');
         }
 
+        $observacao = $this->validarObservacao($dados['observacao'] ?? null);
+        if ($observacao === null) {
+            throw new DomainException('Informe a finalidade da retirada na observação.');
+        }
+
         return $this->repository->registrarRetirada(
             $itemId,
             $quantidade,
             $usuarioId,
-            $this->validarObservacao($dados['observacao'] ?? null)
+            $observacao
         );
     }
 

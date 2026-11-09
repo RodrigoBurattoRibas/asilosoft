@@ -45,8 +45,8 @@
 
         <?php endif; ?>
 
-        <label>Observação
-            <textarea name="observacao" maxlength="500" rows="3" placeholder="Detalhes opcionais da movimentação"></textarea>
+        <label><?= $entrada ? 'Observação (opcional)' : 'Finalidade da retirada' ?>
+            <textarea name="observacao" maxlength="500" rows="3" <?= $entrada ? '' : 'required' ?> placeholder="<?= $entrada ? 'Detalhes opcionais da movimentação' : 'Informe para que o item será utilizado' ?>"></textarea>
         </label>
 
         <button type="submit">Registrar <?= mb_strtolower($tipoMovimentacao) ?></button>
