@@ -22,11 +22,15 @@ class PDOMysqli
             self::envValue(['MYSQLDATABASE', 'MYSQL_DATABASE', 'ASILOSOFT_DB_NOME'])
         );
 
+        // O timeout PDO cobre a conexão TCP; mysqlnd limita a espera pela resposta.
+        ini_set('mysqlnd.net_read_timeout', '5');
+
         self::$conn = new PDO(
             $dsn,
             self::envValue(['MYSQLUSER', 'ASILOSOFT_DB_USUARIO']),
             self::envValue(['MYSQLPASSWORD', 'MYSQL_ROOT_PASSWORD', 'ASILOSOFT_DB_SENHA'], ''),
             [
+                PDO::ATTR_TIMEOUT => 5,
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,

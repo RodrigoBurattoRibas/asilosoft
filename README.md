@@ -45,7 +45,9 @@ Inicie o servidor na raiz do projeto:
 php -S localhost:8000
 ```
 
-Depois acesse `http://localhost:8000`.
+Depois acesse `http://localhost:8000`. Para encerrar, pressione `Ctrl+C` no terminal do servidor.
+
+O formulário de login de uma sessão anônima não abre conexão com o banco. A conexão MySQL tem limite de espera de 5 segundos; falhas ao autenticar exibem uma mensagem para tentar novamente. O banco configurado precisa estar acessível para concluir o login.
 
 As rotas são carregadas no formato `?route=nome-da-rota`.
 

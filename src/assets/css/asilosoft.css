@@ -104,3 +104,11 @@ th, td { vertical-align: top; }
     .atalhos-home { grid-template-columns: minmax(0, 1fr); }
     .acoes > * { margin-bottom: .5rem; }
 }
+
+/* Mantém os dados e a ação de cada familiar na mesma linha. */
+.lista-familiares { list-style: none; margin: 0; padding: 0; }
+.linha-familiar { align-items: center; display: flex; flex-wrap: wrap; gap: .35rem .8rem; justify-content: space-between; padding: .35rem 0; }
+.dados-familiar { flex: 1 1 22rem; min-width: 0; overflow-wrap: anywhere; }
+.linha-familiar form { flex: 0 0 auto; margin: 0; }
+.linha-familiar .botao-link { color: var(--madeira); padding: .35rem 0; }
+@media (max-width: 600px) { .linha-familiar { align-items: flex-start; } .dados-familiar { flex-basis: 100%; } .linha-familiar form { margin-left: auto; } }

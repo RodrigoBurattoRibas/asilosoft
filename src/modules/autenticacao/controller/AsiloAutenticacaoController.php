@@ -10,13 +10,16 @@ require_once dirname(__DIR__) . '/services/AsiloAutenticacaoService.php';
 final class AsiloAutenticacaoController
 {
     private AsiloSession $session;
-    private AsiloAutenticacaoService $authentication;
+    private ?AsiloAutenticacaoService $authentication = null;
 
     public function __construct()
     {
         $this->session = new AsiloSession();
+    }
 
-        $this->authentication = new AsiloAutenticacaoService(
+    private function authentication(): AsiloAutenticacaoService
+    {
+        return $this->authentication ??= new AsiloAutenticacaoService(
             new AsiloUsuarioRepository(PDOMysqli::connection()),
             $this->session
         );
@@ -24,7 +27,8 @@ final class AsiloAutenticacaoController
 
     public function formulario(): void
     {
-        if ($this->authentication->usuarioAtual() !== null) {
+        if ($this->session->get('asilosoft_usuario_id') !== null
+            && $this->authentication()->usuarioAtual() !== null) {
             $this->redirect('home');
         }
 
@@ -37,11 +41,15 @@ final class AsiloAutenticacaoController
     public function entrar(): never
     {
         try {
-            $this->authentication->tentarLogin(
+            $this->authentication()->tentarLogin(
                 (string) ($_POST['email'] ?? ''),
                 (string) ($_POST['senha'] ?? '')
             );
             $this->redirect('home');
+        } catch (PDOException $error) {
+            error_log('Falha de conexão ou consulta durante o login.');
+            $this->session->flash('erro', 'Banco de dados indisponível. Tente novamente em instantes.');
+            $this->redirect('login');
         } catch (DomainException $error) {
             $this->session->flash('erro', $error->getMessage());
             $this->redirect('login');
@@ -50,7 +58,7 @@ final class AsiloAutenticacaoController
 
     public function sair(): never
     {
-        $this->authentication->encerrarSessao();
+        $this->authentication()->encerrarSessao();
         $this->session->flash('sucesso', 'Sessão encerrada com sucesso.');
         $this->redirect('login');
     }
