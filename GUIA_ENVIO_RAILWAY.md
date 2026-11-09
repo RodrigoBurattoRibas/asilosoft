@@ -29,7 +29,7 @@ Não é preciso preencher `MYSQL_URL`. Não cole senha no GitHub, no guia ou no 
 No serviço do site, abra **Settings > Deploy**. Em **Custom Start Command**, informe:
 
 ```bash
-php -S 0.0.0.0:$PORT -t .
+php -S 0.0.0.0:$PORT -t . router.php
 ```
 
 O arquivo `railway.toml` do projeto manda o Railway executar, antes de cada deploy:
@@ -51,3 +51,9 @@ Se o deploy parar no passo de migration, confira se as cinco referências de var
 ## Arquivo .env
 
 O `.env` serve apenas para desenvolvimento local e é ignorado pelo Git. O host `mysql.railway.internal` funciona somente entre serviços dentro do Railway; para conectar pelo computador, use a conexão TCP pública fornecida pelo painel do MySQL.
+
+## Homologação e primeiro acesso
+
+O comando de início deve incluir `router.php` para impedir acesso HTTP ao `.env`, `.git`, scripts e SQL. O servidor embutido PHP serve à homologação; a operação de produção deve usar servidor apropriado com as mesmas restrições de acesso.
+
+Após as migrations de uma instalação nova, executar por CLI `php scripts/criar-administrador.php` com `ASILOSOFT_ADMIN_NOME`, `ASILOSOFT_ADMIN_EMAIL` e `ASILOSOFT_ADMIN_SENHA` fornecidos no ambiente, removendo a senha após o comando. Não existe senha padrão. Seguir [o roteiro de homologação](docs/HOMOLOGACAO.md) antes de aprovar a entrega. Este guia não significa que um deploy tenha sido executado.

@@ -42,7 +42,7 @@ O módulo de almoxarifado permite cadastrar materiais, insumos e medicamentos, r
 Inicie o servidor na raiz do projeto:
 
 ```bash
-php -S localhost:8000
+php -S localhost:8000 router.php
 ```
 
 Depois acesse `http://localhost:8000`. Para encerrar, pressione `Ctrl+C` no terminal do servidor.
@@ -86,3 +86,13 @@ Aplique também as migrations `007_convergir_tipo_material` e `008_idempotencia_
 ## Validação
 
 Os testes usam PHP puro e MySQL isolado, sem novas dependências. Veja [instruções dos testes](tests/README.md) e [status das sprints](STATUS_CONCLUSAO_SPRINTS.md), incluindo limites da validação e ajustes recomendados para M2.
+
+## Entrega para homologação
+
+O ponto de entrada da entrega é o [roteiro de homologação](docs/HOMOLOGACAO.md), com instalação, contas, matriz de acesso, cenários de aceite e registro de resultados. A evidência da validação desta versão está em [prontidão da entrega](docs/PRONTIDAO_HOMOLOGACAO.md).
+
+Use `router.php` no servidor PHP: ele permite somente a aplicação e os assets públicos, bloqueando `.env`, `.git`, SQL, scripts e documentação por HTTP. Para Apache/Nginx, configure a mesma restrição de acesso no servidor. O servidor embutido PHP é destinado ao desenvolvimento e à homologação local.
+
+Em instalação nova, após as migrations, crie o primeiro administrador com `php scripts/criar-administrador.php`, fornecendo `ASILOSOFT_ADMIN_NOME`, `ASILOSOFT_ADMIN_EMAIL` e `ASILOSOFT_ADMIN_SENHA` no ambiente do processo. Não há senha padrão. O comando recusa execução pela web e recusa criar outra conta quando já existe administrador ativo.
+
+Retiradas genéricas exigem finalidade; para atendimento individual, use Consumo, que vincula o idoso, registra o autor e gera uma única baixa no estoque.

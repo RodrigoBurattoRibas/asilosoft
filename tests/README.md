@@ -27,3 +27,15 @@ A porta 33317 foi usada na instância descartável desta validação; substitua 
 `ASILOSOFT_TEST_CAPTURE=1` salva cópias HTML com dados fictícios em `/tmp/asilosoft-ui`, para inspeção visual. São snapshots: navegação e POST devem ser validados pelo runner HTTP, não pelas cópias estáticas. Para visualizar com estilo, copie `src/assets` para o mesmo caminho relativo no diretório de captura.
 
 O benchmark adiciona 1.000 residentes em transação, executa 100 buscas por critério e reverte a massa; requer base já migrada. Não mede rede externa, renderização, carga simultânea nem disponibilidade.
+
+## Executar toda a entrega
+
+Após definir explicitamente HOST, PORTA, USUARIO e SENHA de teste conforme acima:
+
+```bash
+bash tests/run.sh
+```
+
+O runner interrompe na primeira falha, gera nomes exclusivos `asilosoft_test_<data>_<pid>_<suite>`, verifica sintaxe e executa regras, migrations, familiares, clínica, estoque/compras, instalação inicial, HTTP e benchmark. Não carrega o `.env` para escolher o banco dos testes. As bases de database, clínica e estoque permanecem exclusivamente no servidor de testes para inspeção; familiares, instalação e HTTP removem suas bases no encerramento normal. Remova as bases retidas após analisar as evidências.
+
+`InstalacaoIntegrationTest.php` verifica senha inválida sem gravação, primeiro administrador com hash e recusa de uma segunda inicialização. O teste HTTP usa `router.php`, verifica bloqueio de arquivos internos, assets públicos e retirada sem finalidade sem alterar saldo/histórico.

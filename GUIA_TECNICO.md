@@ -213,7 +213,7 @@ Depois de configurar o `.env`, aplique as migrations versionadas com `php src/in
 3. Na raiz do projeto, execute:
 
 ```bash
-php -S localhost:8000
+php -S localhost:8000 router.php
 ```
 
 4. Abra `http://localhost:8000`.
@@ -254,3 +254,10 @@ Máquina de compras adotada como decisão de implementação: Pendente → Aprov
 Migrations 006 são registradas por nome completo; não colidem na chave de versão, mas a primeira aplicada determinava VARCHAR/ENUM. A 007 converge para VARCHAR(30), preservando valores existentes. A 008 acrescenta chave de consumo nullable/única, preservando usos antigos. O migrator fecha cursores de instruções condicionais, necessário quando a segunda 006 executa SELECT 1.
 
 Resultados de integração, regressão, navegador e benchmark estão em `STATUS_CONCLUSAO_SPRINTS.md`; execução reproduzível em `tests/README.md`.
+
+## Complemento da entrega de 09/11/2026
+
+- Retirada genérica exige finalidade na observação, validada no formulário e no service antes de gravar. Consumo individual associa idoso e autor; sua observação continua opcional.
+- `router.php` restringe o servidor PHP à aplicação e aos assets públicos. Usar sempre o comando de início atualizado; Apache/Nginx exigem restrição equivalente.
+- `scripts/criar-administrador.php` inicializa o primeiro administrador exclusivamente via CLI, com hash, validação e bloqueio concorrente; recusa nova inicialização se existir administrador ativo.
+- `tests/run.sh` executa a regressão completa em bases exclusivas de teste. Ver `docs/PRONTIDAO_HOMOLOGACAO.md` e `docs/HOMOLOGACAO.md` para evidências e aceite.

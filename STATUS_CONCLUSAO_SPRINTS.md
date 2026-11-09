@@ -70,3 +70,9 @@ Benchmark `tests/integration/BuscaBenchmark.php`: 1.001 idosos, 100 consultas po
 Restam homologação com usuários, compatibilidade em Chrome/Edge/Firefox e dispositivos reais, medição representativa de ponta a ponta/carga (RNF05), monitoramento de disponibilidade (RNF06) e atividades completas S8–S11. As migrations precisam ser aplicadas no ambiente de implantação pela equipe, após os procedimentos normais de backup. Não há bloqueio funcional conhecido nos cenários executados.
 
 Para M2, atualizar mapa de RF/sprints, matriz de acesso, fluxo conta→familiar→vínculo→publicação, retificação auditável, consumo/trigger/idempotência, estados de compras e resultados/limitações dos testes. Separar conclusão funcional local de homologação e qualidade operacional. Nenhum Google Docs, relatório externo, evidência acadêmica ou contribuição individual foi editado automaticamente.
+
+## Preparação final para homologação — 09/11/2026
+
+Esta atualização complementa o levantamento de 20/10. A implementação funcional RF01–RF12 foi revalidada com seis suítes executáveis no MySQL 8.0.46 descartável. Retirada genérica agora exige finalidade, a inicialização do administrador é feita por CLI sem senha padrão, e o roteador de homologação bloqueia arquivos internos por HTTP. Alterações locais preexistentes de login e layout foram preservadas e commitadas.
+
+A entrega possui runner `bash tests/run.sh`, checklist funcional versionado em `docs/CHECKLIST_ENTREGA.md`, evidências em `docs/PRONTIDAO_HOMOLOGACAO.md` e roteiro/registro de aceite em `docs/HOMOLOGACAO.md`. S8–S10 têm implementação e regressões locais concluídas para submissão; a validação operacional no destino permanece no roteiro. S11 tem pacote e documentação preparados e aguarda execução/aceite da homologação. Nenhum deploy ou aceite humano foi simulado.
