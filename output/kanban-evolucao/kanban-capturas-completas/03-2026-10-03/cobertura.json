@@ -1,0 +1,388 @@
+{
+  "marco": "03-2026-10-03",
+  "total": 30,
+  "shots": [
+    {
+      "file": "01-altura-1.png",
+      "visible": [
+        {
+          "id": "board-card-title-251830180",
+          "title": "Sprint 3 — Registro de saúde e ficha do idoso"
+        },
+        {
+          "id": "board-card-title-251826778",
+          "title": "Testar os fluxos da Sprint 1"
+        },
+        {
+          "id": "board-card-title-263115175",
+          "title": "verificar estrutura de dados"
+        },
+        {
+          "id": "board-card-title-251830185",
+          "title": "Sprint 6 — Solicitações de compra"
+        },
+        {
+          "id": "board-card-title-251830245",
+          "title": "Sprint 7 — Consulta de acompanhamento para familiares"
+        },
+        {
+          "id": "board-card-title-251826902",
+          "title": "Proteger rotas administrativas"
+        },
+        {
+          "id": "board-card-title-251826481",
+          "title": "Criar estrutura MVC e configuração PDO"
+        },
+        {
+          "id": "board-card-title-251826877",
+          "title": "Implementar login, sessão e logout"
+        },
+        {
+          "id": "board-card-title-251830178",
+          "title": "Sprint 2 — Idosos, familiares e permissões"
+        },
+        {
+          "id": "board-card-title-251830182",
+          "title": "Sprint 4 — Materiais, medicamentos e estoque"
+        },
+        {
+          "id": "board-card-title-263114908",
+          "title": "adicionar a estrutura do banco e derivados"
+        }
+      ],
+      "newCards": 11
+    },
+    {
+      "file": "02-altura-2.png",
+      "visible": [
+        {
+          "id": "board-card-title-251830245",
+          "title": "Sprint 7 — Consulta de acompanhamento para familiares"
+        },
+        {
+          "id": "board-card-title-251830251",
+          "title": "Sprint 11 — Homologação, documentação e apresentação"
+        },
+        {
+          "id": "board-card-title-251830249",
+          "title": "Sprint 9 — Responsividade e compatibilidade"
+        },
+        {
+          "id": "board-card-title-251830247",
+          "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+        },
+        {
+          "id": "board-card-title-251830182",
+          "title": "Sprint 4 — Materiais, medicamentos e estoque"
+        },
+        {
+          "id": "board-card-title-263114908",
+          "title": "adicionar a estrutura do banco e derivados"
+        },
+        {
+          "id": "board-card-title-257186094",
+          "title": "conectar o banco com a nuvem (railway)"
+        },
+        {
+          "id": "board-card-title-251826980",
+          "title": "Implementar cadastro e edição de usuários"
+        },
+        {
+          "id": "board-card-title-251826624",
+          "title": "Modelar e criar tabela de usuários"
+        }
+      ],
+      "newCards": 6
+    },
+    {
+      "file": "03-altura-3.png",
+      "visible": [
+        {
+          "id": "board-card-title-251830247",
+          "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+        },
+        {
+          "id": "board-card-title-251830250",
+          "title": "Sprint 10 — Integração e correções"
+        },
+        {
+          "id": "board-card-title-251830287",
+          "title": "Sprint 7 — Consulta de acompanhamento para familiares"
+        },
+        {
+          "id": "board-card-title-251830290",
+          "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+        },
+        {
+          "id": "board-card-title-251826980",
+          "title": "Implementar cadastro e edição de usuários"
+        },
+        {
+          "id": "board-card-title-251826624",
+          "title": "Modelar e criar tabela de usuários"
+        },
+        {
+          "id": "board-card-title-251826688",
+          "title": "Criar carga inicial do administrador"
+        },
+        {
+          "id": "board-card-title-251826740",
+          "title": "Implementar hash e verificação segura de senha"
+        },
+        {
+          "id": "board-card-title-251830183",
+          "title": "Sprint 5 — Origem dos itens e registro de uso"
+        }
+      ],
+      "newCards": 6
+    },
+    {
+      "file": "04-altura-4.png",
+      "visible": [
+        {
+          "id": "board-card-title-251830290",
+          "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+        },
+        {
+          "id": "board-card-title-251830288",
+          "title": "Sprint 9 — Responsividade e compatibilidade"
+        },
+        {
+          "id": "board-card-title-252601739",
+          "title": "Refinar tela de login e modo demonstração"
+        },
+        {
+          "id": "board-card-title-252601892",
+          "title": "Refinar listagem e formulário de usuários"
+        },
+        {
+          "id": "board-card-title-251826980",
+          "title": "Implementar cadastro e edição de usuários"
+        },
+        {
+          "id": "board-card-title-251826624",
+          "title": "Modelar e criar tabela de usuários"
+        },
+        {
+          "id": "board-card-title-251826688",
+          "title": "Criar carga inicial do administrador"
+        },
+        {
+          "id": "board-card-title-251826740",
+          "title": "Implementar hash e verificação segura de senha"
+        },
+        {
+          "id": "board-card-title-251830183",
+          "title": "Sprint 5 — Origem dos itens e registro de uso"
+        }
+      ],
+      "newCards": 3
+    },
+    {
+      "file": "05-altura-5.png",
+      "visible": [
+        {
+          "id": "board-card-title-251830290",
+          "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+        },
+        {
+          "id": "board-card-title-251830288",
+          "title": "Sprint 9 — Responsividade e compatibilidade"
+        },
+        {
+          "id": "board-card-title-252601739",
+          "title": "Refinar tela de login e modo demonstração"
+        },
+        {
+          "id": "board-card-title-252601892",
+          "title": "Refinar listagem e formulário de usuários"
+        },
+        {
+          "id": "board-card-title-252601961",
+          "title": "Refinar responsividade, contraste e consistência visual"
+        },
+        {
+          "id": "board-card-title-251826980",
+          "title": "Implementar cadastro e edição de usuários"
+        },
+        {
+          "id": "board-card-title-251826624",
+          "title": "Modelar e criar tabela de usuários"
+        },
+        {
+          "id": "board-card-title-251826688",
+          "title": "Criar carga inicial do administrador"
+        },
+        {
+          "id": "board-card-title-251826740",
+          "title": "Implementar hash e verificação segura de senha"
+        },
+        {
+          "id": "board-card-title-251830183",
+          "title": "Sprint 5 — Origem dos itens e registro de uso"
+        }
+      ],
+      "newCards": 1
+    },
+    {
+      "file": "06-coluna-pronto.png",
+      "visible": [
+        {
+          "id": "board-card-title-251826980",
+          "title": "Implementar cadastro e edição de usuários"
+        },
+        {
+          "id": "board-card-title-251826624",
+          "title": "Modelar e criar tabela de usuários"
+        },
+        {
+          "id": "board-card-title-251826688",
+          "title": "Criar carga inicial do administrador"
+        },
+        {
+          "id": "board-card-title-251826740",
+          "title": "Implementar hash e verificação segura de senha"
+        },
+        {
+          "id": "board-card-title-251830183",
+          "title": "Sprint 5 — Origem dos itens e registro de uso"
+        },
+        {
+          "id": "board-card-title-251827025",
+          "title": "Aplicar identidade visual amadeirada"
+        },
+        {
+          "id": "board-card-title-251826937",
+          "title": "Implementar listagem de usuários"
+        },
+        {
+          "id": "board-card-title-251827000",
+          "title": "Implementar ativação e desativação de usuários"
+        }
+      ],
+      "newCards": 3
+    }
+  ],
+  "cards": [
+    {
+      "id": "board-card-title-251830180",
+      "title": "Sprint 3 — Registro de saúde e ficha do idoso"
+    },
+    {
+      "id": "board-card-title-251826778",
+      "title": "Testar os fluxos da Sprint 1"
+    },
+    {
+      "id": "board-card-title-263115175",
+      "title": "verificar estrutura de dados"
+    },
+    {
+      "id": "board-card-title-251830185",
+      "title": "Sprint 6 — Solicitações de compra"
+    },
+    {
+      "id": "board-card-title-251830245",
+      "title": "Sprint 7 — Consulta de acompanhamento para familiares"
+    },
+    {
+      "id": "board-card-title-251826902",
+      "title": "Proteger rotas administrativas"
+    },
+    {
+      "id": "board-card-title-251826481",
+      "title": "Criar estrutura MVC e configuração PDO"
+    },
+    {
+      "id": "board-card-title-251826877",
+      "title": "Implementar login, sessão e logout"
+    },
+    {
+      "id": "board-card-title-251830178",
+      "title": "Sprint 2 — Idosos, familiares e permissões"
+    },
+    {
+      "id": "board-card-title-251830182",
+      "title": "Sprint 4 — Materiais, medicamentos e estoque"
+    },
+    {
+      "id": "board-card-title-263114908",
+      "title": "adicionar a estrutura do banco e derivados"
+    },
+    {
+      "id": "board-card-title-251830251",
+      "title": "Sprint 11 — Homologação, documentação e apresentação"
+    },
+    {
+      "id": "board-card-title-251830249",
+      "title": "Sprint 9 — Responsividade e compatibilidade"
+    },
+    {
+      "id": "board-card-title-251830247",
+      "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+    },
+    {
+      "id": "board-card-title-257186094",
+      "title": "conectar o banco com a nuvem (railway)"
+    },
+    {
+      "id": "board-card-title-251826980",
+      "title": "Implementar cadastro e edição de usuários"
+    },
+    {
+      "id": "board-card-title-251826624",
+      "title": "Modelar e criar tabela de usuários"
+    },
+    {
+      "id": "board-card-title-251830250",
+      "title": "Sprint 10 — Integração e correções"
+    },
+    {
+      "id": "board-card-title-251830287",
+      "title": "Sprint 7 — Consulta de acompanhamento para familiares"
+    },
+    {
+      "id": "board-card-title-251830290",
+      "title": "Sprint 8 — Revisão de usabilidade e desempenho"
+    },
+    {
+      "id": "board-card-title-251826688",
+      "title": "Criar carga inicial do administrador"
+    },
+    {
+      "id": "board-card-title-251826740",
+      "title": "Implementar hash e verificação segura de senha"
+    },
+    {
+      "id": "board-card-title-251830183",
+      "title": "Sprint 5 — Origem dos itens e registro de uso"
+    },
+    {
+      "id": "board-card-title-251830288",
+      "title": "Sprint 9 — Responsividade e compatibilidade"
+    },
+    {
+      "id": "board-card-title-252601739",
+      "title": "Refinar tela de login e modo demonstração"
+    },
+    {
+      "id": "board-card-title-252601892",
+      "title": "Refinar listagem e formulário de usuários"
+    },
+    {
+      "id": "board-card-title-252601961",
+      "title": "Refinar responsividade, contraste e consistência visual"
+    },
+    {
+      "id": "board-card-title-251827025",
+      "title": "Aplicar identidade visual amadeirada"
+    },
+    {
+      "id": "board-card-title-251826937",
+      "title": "Implementar listagem de usuários"
+    },
+    {
+      "id": "board-card-title-251827000",
+      "title": "Implementar ativação e desativação de usuários"
+    }
+  ]
+}
