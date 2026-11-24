@@ -38,12 +38,14 @@ for suite in database/Database Familiares Clinica EstoqueCompras Instalacao Http
     echo "$id: $suite; início $(date -Iseconds); banco $ASILOSOFT_TEST_DB_NOME"
     echo "Executando: tests/integration/${suite}IntegrationTest.php"
     echo "Esperado: todas as verificações da suíte concluídas sem erro."
-    if php "tests/integration/${suite}IntegrationTest.php" > "$out/$id.log" 2>&1; then
-        cat "$out/$id.log"
+    if timeout --signal=TERM --kill-after=10s 600s php "tests/integration/${suite}IntegrationTest.php" 2>&1 | tee "$out/$id.log"; then
         echo "Obtido: suíte concluída com código 0; verificações detalhadas acima."
         echo "$id Passou" | tee -a "$out/resumo.txt"
     else
-        cat "$out/$id.log"
+        codes=("${PIPESTATUS[@]}")
+        if [[ "${codes[0]}" == 124 || "${codes[0]}" == 137 ]]; then
+            echo "$id: limite de 10 minutos excedido; suíte interrompida." | tee -a "$out/$id.log"
+        fi
         echo "$id Falhou" | tee -a "$out/resumo.txt"
         exit 1
     fi

@@ -12,13 +12,18 @@ foreach (['HOST', 'PORTA', 'NOME', 'USUARIO', 'SENHA'] as $key) {
     $env[$key] = $value;
 }
 if (!preg_match('/^asilosoft_test_[a-z0-9_]+$/D', $env['NOME'])) throw new RuntimeException('Nome de base de teste inseguro.');
-$pdo = new PDO("mysql:host={$env['HOST']};port={$env['PORTA']};charset=utf8mb4", $env['USUARIO'], $env['SENHA'], [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC, PDO::ATTR_EMULATE_PREPARES=>false]);
+echo "Etapa: conectando ao MySQL (limite de conexão: 10 segundos).\n";
+$pdo = new PDO("mysql:host={$env['HOST']};port={$env['PORTA']};charset=utf8mb4", $env['USUARIO'], $env['SENHA'], [PDO::ATTR_TIMEOUT=>10, PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC, PDO::ATTR_EMULATE_PREPARES=>false]);
+echo "Etapa: conexão estabelecida; preparando a base auxiliar.\n";
+$pdo->exec('SET SESSION lock_wait_timeout=30');
+$pdo->exec('SET SESSION innodb_lock_wait_timeout=30');
 $name = $env['NOME'];
 $pdo->exec("DROP DATABASE IF EXISTS `$name`");
 $pdo->exec("CREATE DATABASE `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
 $pdo->exec("USE `$name`");
 $migrator = new DatabaseMigrator();
 $dir = __DIR__ . '/../../../src/infra/Database/migrations';
+echo "Etapa: aplicando migrations na base vazia; aguarde as operações remotas.\n";
 check(count($migrator->migrate($pdo, $dir)) >= 9, 'T12 instalação nova aplica migrations');
 $type = $pdo->query("SHOW COLUMNS FROM materiais LIKE 'tipo'")->fetch()['Type'];
 check($type === 'varchar(30)', 'Contrato convergente materiais.tipo VARCHAR(30)');

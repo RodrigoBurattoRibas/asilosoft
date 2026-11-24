@@ -81,3 +81,17 @@ agrupam verificações em mensagens resumidas, sem detalhar cada valor consultad
 O comando de integração não executa unitários, catálogo, sintaxe ou verificações
 legadas. Para executar a validação completa, use `bash tests/m3.sh` com as
 variáveis de conexão descritas no README de testes.
+
+## Progresso e limite de espera
+
+As mensagens de cada integração aparecem ao vivo e são gravadas no log da suíte.
+Cada suíte tem limite de 10 minutos, com encerramento forçado após mais 10 segundos
+se necessário (comando `timeout` do GNU coreutils, já presente no ambiente Linux).
+Ao exceder o limite, a execução falha e o lançador tenta limpar as bases anunciadas.
+Falhas de conexão ou indisponibilidade do servidor também podem impedir a limpeza;
+confira `limpeza.json` e a mensagem final.
+
+A primeira suíte informa conexão, preparação da base e início das migrations.
+Nela, a conexão tem limite de 10 segundos e esperas por locks têm limite de 30
+segundos. Esses limites não representam um limite geral para cada consulta;
+o limite do processo cobre a duração total da suíte.
