@@ -96,3 +96,9 @@ Use `router.php` no servidor PHP: ele permite somente a aplicação e os assets 
 Em instalação nova, após as migrations, crie o primeiro administrador com `php scripts/criar-administrador.php`, fornecendo `ASILOSOFT_ADMIN_NOME`, `ASILOSOFT_ADMIN_EMAIL` e `ASILOSOFT_ADMIN_SENHA` no ambiente do processo. Não há senha padrão. O comando recusa execução pela web e recusa criar outra conta quando já existe administrador ativo.
 
 Retiradas genéricas exigem finalidade; para atendimento individual, use Consumo, que vincula o idoso, registra o autor e gera uma única baixa no estoque.
+
+### Testes da entrega M3
+
+Consulte [o plano e guia de execução](docs/testes/README.md), com 71 casos unitários, seis suítes de integração reaproveitadas, evidências reais e pendências para a entrega acadêmica. A [cobertura via phpdbg](docs/testes/PHPDBG.md) atingiu 68,09% de linhas nos serviços; execute `bash tests/coverage.sh`.
+
+A documentação técnica dos testes é mantida em arquivos `.md` no repositório, junto do código. O ponto de entrada é [docs/testes/README.md](docs/testes/README.md); instalação, uso e detalhes da adição do phpdbg estão em [docs/testes/PHPDBG.md](docs/testes/PHPDBG.md). Documentos externos ficam para etapas posteriores.

@@ -39,3 +39,16 @@ bash tests/run.sh
 O runner interrompe na primeira falha, gera nomes exclusivos `asilosoft_test_<data>_<pid>_<suite>`, verifica sintaxe e executa regras, migrations, familiares, clínica, estoque/compras, instalação inicial, HTTP e benchmark. Não carrega o `.env` para escolher o banco dos testes. As bases de database, clínica e estoque permanecem exclusivamente no servidor de testes para inspeção; familiares, instalação e HTTP removem suas bases no encerramento normal. Remova as bases retidas após analisar as evidências.
 
 `InstalacaoIntegrationTest.php` verifica senha inválida sem gravação, primeiro administrador com hash e recusa de uma segunda inicialização. O teste HTTP usa `router.php`, verifica bloqueio de arquivos internos, assets públicos e retirada sem finalidade sem alterar saldo/histórico.
+
+## Entrega M3 (novembro/2026)
+
+- `php tests/unit/run.php`: 71 cenários isolados, sem MySQL; gera JSON com resultado por ID.
+- `bash tests/m3.sh`: unitários, catálogo, sintaxe e seis integrações existentes; gera logs com horário em `docs/testes/evidencias/<execução>/`.
+- `php tests/catalogo.php`: atualiza a tabela a partir do último JSON unitário.
+- `XDEBUG_MODE=coverage php tests/unit/run.php --coverage`: se Xdebug já estiver disponível no PHP CLI, mede linhas em **todos** os serviços e falha abaixo de 60%. Sem a extensão, retorna código 2 e não inventa cobertura. Não adicionamos dependências ao projeto.
+
+Plano, casos, resultados reais, limitações e roteiro de apresentação: [docs/testes/README.md](../docs/testes/README.md).
+
+### Cobertura com phpdbg
+
+`bash tests/coverage.sh` executa os unitários sob phpdbg e gera relatórios JSON/HTML e log datado. Defina `PHPDBG_BIN=phpdbg8.4` se esse for o comando instalado. `bash tests/m3.sh --coverage` inclui a medição antes das integrações. Resultado validado: 71 casos aprovados, 224/329 linhas nos dez serviços, 68,09%. Instalação, ambiente temporário usado, escopo, códigos de saída e limitações: [docs/testes/PHPDBG.md](../docs/testes/PHPDBG.md).
