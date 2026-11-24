@@ -1,0 +1,15 @@
+{
+  "inicio": "2026-11-24T18:15:00-03:00",
+  "fim": "2026-11-24T18:22:37-03:00",
+  "codigo": 0,
+  "servidor": "MySQL configurado no .env",
+  "banco_original": "railway",
+  "versao": "9.7.4",
+  "tabelas_originais": 19,
+  "bases_retidas_removidas": [
+    "asilosoft_test_20261124181503_12219_database",
+    "asilosoft_test_20261124181503_12219_clinica",
+    "asilosoft_test_20261124181503_12219_estoquecompras"
+  ],
+  "log": "execucao.log"
+}

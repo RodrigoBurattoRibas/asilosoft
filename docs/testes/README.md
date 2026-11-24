@@ -8,6 +8,7 @@ A documentação técnica desta etapa fica nos arquivos `.md` abaixo e acompanha
 
 - [phpdbg: instalação, uso, implementação, resultados e limitações](PHPDBG.md).
 - [Validação da versão preparada para commit](VALIDACAO_ANTES_COMMIT.md).
+- [Execução posterior no servidor MySQL do Railway](EXECUCAO_RAILWAY.md), com as seis integrações aprovadas e limpeza confirmada.
 - [Plano de testes e escopo](PLANO_DE_TESTES.md).
 - [71 casos unitários com os campos solicitados](CASOS_UNITARIOS.md).
 - [Seis cenários compostos de integração](CASOS_INTEGRACAO.md).
