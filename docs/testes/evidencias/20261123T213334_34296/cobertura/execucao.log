@@ -1,0 +1,74 @@
+CT-U01 Passou Quartos: limites da capacidade
+CT-U02 Passou Quartos: limites da capacidade
+CT-U03 Passou Quartos: limites da capacidade
+CT-U04 Passou Quartos: limites da capacidade
+CT-U05 Passou Quartos: limites da capacidade
+CT-U06 Passou Quarto ocupado não pode ser desativado
+CT-U07 Passou Capacidade não pode ficar abaixo da ocupação
+CT-U08 Passou Usuários: limite da senha
+CT-U09 Passou Usuários: limite da senha
+CT-U10 Passou Último administrador ativo
+CT-U11 Passou Estoque: quantidade decimal
+CT-U12 Passou Estoque: quantidade decimal
+CT-U13 Passou Estoque: quantidade decimal
+CT-U14 Passou Estoque: quantidade decimal
+CT-U15 Passou Estoque: quantidade decimal
+CT-U16 Passou Estoque: quantidade decimal
+CT-U17 Passou Estoque: quantidade decimal
+CT-U18 Passou Estoque: quantidade decimal
+CT-U19 Passou Retirada sem finalidade
+CT-U20 Passou Retirada superior ao saldo
+CT-U21 Passou Compras: transição de situação
+CT-U22 Passou Compras: transição de situação
+CT-U23 Passou Compras: transição de situação
+CT-U24 Passou Compras: transição de situação
+CT-U25 Passou Compras: transição de situação
+CT-U26 Passou Compras: transição de situação
+CT-U27 Passou Compras: transição de situação
+CT-U28 Passou Compras: transição de situação
+CT-U29 Passou Compras: transição de situação
+CT-U30 Passou Compras: transição de situação
+CT-U31 Passou Compras: transição de situação
+CT-U32 Passou Compras: transição de situação
+CT-U33 Passou Compras: transição de situação
+CT-U34 Passou Compras: transição de situação
+CT-U35 Passou Compras: transição de situação
+CT-U36 Passou Compras: transição de situação
+CT-U37 Passou Compras: transição de situação
+CT-U38 Passou Compras: transição de situação
+CT-U39 Passou Compras: transição de situação
+CT-U40 Passou Compras: transição de situação
+CT-U41 Passou Saúde: autorização e autoria
+CT-U42 Passou Saúde: autorização e autoria
+CT-U43 Passou Saúde: descrição inválida
+CT-U44 Passou Saúde: descrição inválida
+CT-U45 Passou Saúde: descrição inválida
+CT-U46 Passou Familiares: e-mail opcional
+CT-U47 Passou Familiares: e-mail opcional
+CT-U48 Passou Familiares: e-mail opcional
+CT-U49 Passou Idoso sem vaga
+CT-U50 Passou Desativar idoso libera quarto
+CT-U51 Passou Login válido normaliza e-mail e renova sessão
+CT-U52 Passou Login recusado não altera sessão
+CT-U53 Passou Login recusado não altera sessão
+CT-U54 Passou Login recusado não altera sessão
+CT-U55 Passou Sessão com identidade inválida
+CT-U56 Passou Sessão de usuário desativado é revogada
+CT-U57 Passou Sessão de usuário ativo
+CT-U58 Passou Ficha de idoso inexistente
+CT-U59 Passou Ficha reúne informações do mesmo idoso
+CT-U60 Passou Filtro separa ativos e desativados
+CT-U61 Passou Editar usuário com senha opcional
+CT-U62 Passou Editar usuário com senha opcional
+CT-U63 Passou Material aceita estoque mínimo zero
+CT-U64 Passou Entrada registra origem quantidade e autoria
+CT-U65 Passou Retirada admite exatamente o saldo disponível
+CT-U66 Passou Consumo valida chave e preserva payload
+CT-U67 Passou Vínculo familiar normaliza parentesco
+CT-U68 Passou Vínculo familiar exige parentesco
+CT-U69 Passou Cadastro de idoso normaliza CPF com vaga livre
+CT-U70 Passou Retificação de saúde inclui referência e mantém autoria
+CT-U71 Passou Quarto vazio pode ser desativado
+Cobertura (phpdbg): 68.09% — 224/329 linhas; meta 60%: atingida
+71 casos; 0 falhas de teste
+Código de saída: 0; evidências: docs/testes/evidencias/20261123T213334_34296/cobertura

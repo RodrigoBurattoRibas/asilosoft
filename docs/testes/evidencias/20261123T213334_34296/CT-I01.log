@@ -1,0 +1,64 @@
+OK: T12 instalação nova aplica migrations
+OK: Contrato convergente materiais.tipo VARCHAR(30)
+OK: T12 segundo bootstrap não reaplica migrations
+OK: T12 atualização histórica converge
+OK: Schemas novo e atualizado equivalentes
+OK: Dados preexistentes preservados
+OK: Saldo preservado
+OK: Histórico preservado
+OK: Bootstrap após atualização idempotente
+OK: T14 quarto ocupado protegido
+OK: T14 capacidade protegida no banco
+OK: T11 handler administrativo de quartos
+OK: T11 gestão de quartos removida do módulo idosos
+OK: Middleware presente: almoxarifado
+OK: Middleware presente: almoxarifado-novo
+OK: Middleware presente: almoxarifado-criar
+OK: Middleware presente: almoxarifado-editar
+OK: Middleware presente: almoxarifado-atualizar
+OK: Middleware presente: almoxarifado-entrada
+OK: Middleware presente: almoxarifado-registrar-entrada
+OK: Middleware presente: almoxarifado-retirada
+OK: Middleware presente: almoxarifado-registrar-retirada
+OK: Middleware presente: almoxarifado-uso
+OK: Middleware presente: almoxarifado-registrar-uso
+OK: Middleware presente: login
+OK: Middleware presente: entrar
+OK: Middleware presente: sair
+OK: Middleware presente: familiares
+OK: Middleware presente: familiares-novo
+OK: Middleware presente: familiares-editar
+OK: Middleware presente: familiares-criar
+OK: Middleware presente: familiares-atualizar
+OK: Middleware presente: idosos-familiares-vincular
+OK: Middleware presente: idosos-familiares-desvincular
+OK: Middleware presente: meus-idosos
+OK: Middleware presente: acompanhamento-familiar
+OK: Middleware presente: home
+OK: Middleware presente: idosos
+OK: Middleware presente: idosos-novo
+OK: Middleware presente: idosos-criar
+OK: Middleware presente: idosos-editar
+OK: Middleware presente: idosos-atualizar
+OK: Middleware presente: idosos-retirar-quarto
+OK: Middleware presente: idosos-status
+OK: Middleware presente: idosos-saude
+OK: Middleware presente: idosos-saude-registrar
+OK: Middleware presente: quartos
+OK: Middleware presente: quartos-novo
+OK: Middleware presente: quartos-criar
+OK: Middleware presente: quartos-editar
+OK: Middleware presente: quartos-atualizar
+OK: Middleware presente: quartos-status
+OK: Middleware presente: usuarios
+OK: Middleware presente: usuarios-novo
+OK: Middleware presente: usuarios-criar
+OK: Middleware presente: usuarios-editar
+OK: Middleware presente: usuarios-atualizar
+OK: Middleware presente: usuarios-status
+OK: Middleware presente: idosos-ficha
+OK: Middleware presente: compras
+OK: Middleware presente: compras-nova
+OK: Middleware presente: compras-criar
+OK: Middleware presente: compras-situacao
+Banco, migrations e contratos de rotas aprovados.

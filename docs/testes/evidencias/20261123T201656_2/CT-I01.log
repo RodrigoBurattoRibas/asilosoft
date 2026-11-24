@@ -1,0 +1,5 @@
+PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Unknown error while connecting in /home/rodrigo/Documentos/ChatGPT/Engenharia de Dados/tests/integration/database/DatabaseIntegrationTest.php:15
+Stack trace:
+#0 /home/rodrigo/Documentos/ChatGPT/Engenharia de Dados/tests/integration/database/DatabaseIntegrationTest.php(15): PDO->__construct()
+#1 {main}
+  thrown in /home/rodrigo/Documentos/ChatGPT/Engenharia de Dados/tests/integration/database/DatabaseIntegrationTest.php on line 15

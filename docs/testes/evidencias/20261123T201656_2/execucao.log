@@ -1,0 +1,67 @@
+Início: 2026-11-23T20:16:56-03:00
+PHP 8.4.25 (cli) (built: Aug 28 2026 06:55:33) (NTS)
+Copyright (c) The PHP Group
+Built by Ubuntu
+Zend Engine v4.4.25, Copyright (c) Zend Technologies
+    with Zend OPcache v8.4.25, Copyright (c), by Zend Technologies
+Linux x86_64
+CT-U01 Passou Quartos: limites da capacidade
+CT-U02 Passou Quartos: limites da capacidade
+CT-U03 Passou Quartos: limites da capacidade
+CT-U04 Passou Quartos: limites da capacidade
+CT-U05 Passou Quartos: limites da capacidade
+CT-U06 Passou Quarto ocupado não pode ser desativado
+CT-U07 Passou Capacidade não pode ficar abaixo da ocupação
+CT-U08 Passou Usuários: limite da senha
+CT-U09 Passou Usuários: limite da senha
+CT-U10 Passou Último administrador ativo
+CT-U11 Passou Estoque: quantidade decimal
+CT-U12 Passou Estoque: quantidade decimal
+CT-U13 Passou Estoque: quantidade decimal
+CT-U14 Passou Estoque: quantidade decimal
+CT-U15 Passou Estoque: quantidade decimal
+CT-U16 Passou Estoque: quantidade decimal
+CT-U17 Passou Estoque: quantidade decimal
+CT-U18 Passou Estoque: quantidade decimal
+CT-U19 Passou Retirada sem finalidade
+CT-U20 Passou Retirada superior ao saldo
+CT-U21 Passou Compras: transição de situação
+CT-U22 Passou Compras: transição de situação
+CT-U23 Passou Compras: transição de situação
+CT-U24 Passou Compras: transição de situação
+CT-U25 Passou Compras: transição de situação
+CT-U26 Passou Compras: transição de situação
+CT-U27 Passou Compras: transição de situação
+CT-U28 Passou Compras: transição de situação
+CT-U29 Passou Compras: transição de situação
+CT-U30 Passou Compras: transição de situação
+CT-U31 Passou Compras: transição de situação
+CT-U32 Passou Compras: transição de situação
+CT-U33 Passou Compras: transição de situação
+CT-U34 Passou Compras: transição de situação
+CT-U35 Passou Compras: transição de situação
+CT-U36 Passou Compras: transição de situação
+CT-U37 Passou Compras: transição de situação
+CT-U38 Passou Compras: transição de situação
+CT-U39 Passou Compras: transição de situação
+CT-U40 Passou Compras: transição de situação
+CT-U41 Passou Saúde: autorização e autoria
+CT-U42 Passou Saúde: autorização e autoria
+CT-U43 Passou Saúde: descrição inválida
+CT-U44 Passou Saúde: descrição inválida
+CT-U45 Passou Saúde: descrição inválida
+CT-U46 Passou Familiares: e-mail opcional
+CT-U47 Passou Familiares: e-mail opcional
+CT-U48 Passou Familiares: e-mail opcional
+CT-U49 Passou Idoso sem vaga
+CT-U50 Passou Desativar idoso libera quarto
+50 casos; 0 falhas
+40 checks passed
+CT-I01: database/Database; início 2026-11-23T20:16:56-03:00; banco asilosoft_test_20261123201656_2_database
+PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [2002] Unknown error while connecting in /home/rodrigo/Documentos/ChatGPT/Engenharia de Dados/tests/integration/database/DatabaseIntegrationTest.php:15
+Stack trace:
+#0 /home/rodrigo/Documentos/ChatGPT/Engenharia de Dados/tests/integration/database/DatabaseIntegrationTest.php(15): PDO->__construct()
+#1 {main}
+  thrown in /home/rodrigo/Documentos/ChatGPT/Engenharia de Dados/tests/integration/database/DatabaseIntegrationTest.php on line 15
+CT-I01 Falhou
+Fim: 2026-11-23T20:16:56-03:00; código: 1
