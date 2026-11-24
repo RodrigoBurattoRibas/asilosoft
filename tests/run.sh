@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+php tests/unit/run.php
 for key in HOST PORTA USUARIO SENHA; do
     variable="ASILOSOFT_TEST_DB_$key"
     if [[ ! -v "$variable" ]]; then

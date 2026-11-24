@@ -27,3 +27,10 @@ Thumbs.db
 # Levantamentos locais de escopo
 LACUNAS_CADASTRO_IDOSOS_E_INSUMOS.md
 CHECKLIST_IMPLEMENTACAO_ASILOSOFT.md
+
+# Evidências acadêmicas de teste devem acompanhar o código
+!docs/testes/evidencias/**/*.log
+
+# Exportações locais; a documentação técnica versionada é Markdown
+/docs/testes/*.docx
+/docs/testes/*.pdf
