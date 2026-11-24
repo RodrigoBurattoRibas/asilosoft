@@ -6,6 +6,7 @@ Atualizado em 23/11/2026. Esta entrega implementa 71 casos unitários em PHP pur
 
 A documentação técnica desta etapa fica nos arquivos `.md` abaixo e acompanha o código. Documentos externos e formatos de entrega acadêmica ficam para uma etapa posterior; os arquivos Markdown são a referência para manutenção e execução.
 
+- [Comando curto de integração com a conexão configurada](COMANDO_INTEGRACAO.md).
 - [phpdbg: instalação, uso, implementação, resultados e limitações](PHPDBG.md).
 - [Validação da versão preparada para commit](VALIDACAO_ANTES_COMMIT.md).
 - [Execução posterior no servidor MySQL do Railway](EXECUCAO_RAILWAY.md), com as seis integrações aprovadas e limpeza confirmada.
@@ -31,7 +32,15 @@ php tests/catalogo.php
 
 O primeiro comando executa CT-U01 a CT-U71 e salva `evidencias/unitarios.json`. O segundo preserva as 40 verificações anteriores de estoque/compras; elas são complementares, não são contadas como 40 novos casos na tabela. O terceiro atualiza o catálogo dos 71 casos a partir dos resultados reais. Código de saída zero significa aprovação; um significa falha. PHP CLI com mbstring é necessário.
 
-## Executar unitários e integrações com evidências
+## Comando curto com a conexão configurada
+
+```bash
+php tests/integration/run.php
+```
+
+Utiliza o servidor e as credenciais do `.env`/ambiente da aplicação, executa os unitários e as seis integrações em bases auxiliares e faz a limpeza ao terminar. [Detalhes, requisitos e tratamento de erros](COMANDO_INTEGRACAO.md).
+
+## Configuração manual alternativa para outro servidor
 
 Use **um servidor MySQL exclusivo de testes**. Os scripts criam e alguns recriam/removem bases. Não utilize credenciais ou servidor de produção. O prefixo `asilosoft_test_` protege o nome, mas não substitui separar o servidor. A conta de teste precisa de permissão para criar/remover bases, tabelas, triggers e executar migrations.
 
@@ -43,7 +52,7 @@ export ASILOSOFT_TEST_DB_SENHA='senha_do_servidor_de_testes'
 bash tests/m3.sh
 ```
 
-Substitua as quatro variáveis pelos dados do seu MySQL de testes. A senha precisa ser explicitamente definida, mesmo quando vazia. Nenhum runner usa o `.env` para escolher o banco de teste. O comando gera nomes de base únicos, executa as seis suítes e salva logs datados em `docs/testes/evidencias/<data>_<pid>/`. Interrompe na primeira falha; suítes posteriores não devem ser consideradas executadas. `resumo.txt` lista somente as tentativas realizadas. A porta HTTP padrão é 18087; se ocupada, defina `export ASILOSOFT_TEST_HTTP_PORT=18088`.
+Substitua as quatro variáveis pelos dados do seu MySQL de testes. A senha precisa ser explicitamente definida, mesmo quando vazia. Os scripts Bash e as suítes individuais não usam o `.env` para escolher o banco de teste; o comando curto PHP é o lançador explícito que reutiliza a conexão configurada. O comando gera nomes de base únicos, executa as seis suítes e salva logs datados em `docs/testes/evidencias/<data>_<pid>/`. Interrompe na primeira falha; suítes posteriores não devem ser consideradas executadas. `resumo.txt` lista somente as tentativas realizadas. A porta HTTP padrão é 18087; se ocupada, defina `export ASILOSOFT_TEST_HTTP_PORT=18088`.
 
 Requisitos já utilizados pelos testes do projeto: PHP CLI, pdo_mysql, mbstring, curl, pcntl, proc_open habilitado, Bash e MySQL 8.0.16+. Se houver erro de conexão, confira servidor/porta/credenciais; se pcntl estiver ausente, os cenários concorrentes ficarão bloqueados. Não substitua MySQL por SQLite: triggers, migrations e travas precisam do banco real.
 

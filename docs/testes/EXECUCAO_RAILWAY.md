@@ -32,3 +32,7 @@ Familiares, instalação e HTTP removeram suas bases nos próprios runners. Apó
 As credenciais foram lidas pela configuração existente e repassadas aos processos de teste por variáveis de ambiente. Senha e endereço de conexão não foram incluídos na documentação ou nos comandos versionados. O carregamento do `.env` ocorreu em um lançador temporário somente nesta execução explicitamente autorizada; os runners versionados continuam exigindo variáveis de teste explícitas.
 
 A cobertura de linhas não foi coletada novamente nesta execução. O resultado anterior de 68,09% por phpdbg permanece documentado separadamente em [PHPDBG.md](PHPDBG.md). Os testes aqui confirmam as integrações no servidor configurado, com MySQL 9.7.4; as categorias restantes do M3 seguem descritas em [DEFEITOS_E_PENDENCIAS.md](DEFEITOS_E_PENDENCIAS.md).
+
+## Comando permanente adicionado posteriormente
+
+O lançador temporário desta execução foi substituído pelo comando versionado `php tests/integration/run.php`, que reutiliza a configuração da aplicação e remove as bases auxiliares ao terminar. O comportamento e os requisitos estão em [COMANDO_INTEGRACAO.md](COMANDO_INTEGRACAO.md).

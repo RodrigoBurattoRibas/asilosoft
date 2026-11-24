@@ -2,7 +2,18 @@
 
 PHP puro, sem framework nem instalação de dependências. Integrações exigem extensões já usadas pela aplicação (`pdo_mysql`, `mbstring`); HTTP usa `curl` e `proc_open`, concorrência usa `pcntl` do PHP CLI local. MySQL 8.0.16+ deve estar disponível **exclusivamente para testes**.
 
-Não carregue `.env` de produção. Todos os runners exigem variáveis explícitas e nome iniciado por `asilosoft_test_`. O runner `database/DatabaseIntegrationTest.php` **recria** a base indicada. Familiares e HTTP criam base nova e a removem ao terminar, recusando nome já existente. Clínica mantém schema e reverte fixtures; estoque/compras preserva fixtures fictícias. Use nomes distintos como abaixo.
+Não carregue `.env` de produção. Os runners individuais e os scripts Bash exigem variáveis explícitas e nome iniciado por `asilosoft_test_`. O comando curto abaixo reutiliza a conexão de testes configurada na aplicação e cria bases auxiliares nesse servidor. O runner `database/DatabaseIntegrationTest.php` **recria** a base indicada. Familiares e HTTP criam base nova e a removem ao terminar, recusando nome já existente. Clínica mantém schema e reverte fixtures; estoque/compras preserva fixtures fictícias. Use nomes distintos como abaixo.
+
+## Comandos rápidos
+
+```bash
+php tests/unit/run.php
+php tests/integration/run.php
+```
+
+O segundo usa a conexão do `.env`/ambiente da aplicação, executa unitários e seis integrações em bases auxiliares e remove as bases ao terminar. Não precisa exportar as quatro variáveis manualmente. [Uso, pré-requisitos e limpeza](../docs/testes/COMANDO_INTEGRACAO.md).
+
+## Configuração manual alternativa
 
 ```bash
 export ASILOSOFT_TEST_DB_HOST=127.0.0.1

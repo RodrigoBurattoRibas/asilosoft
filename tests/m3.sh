@@ -7,6 +7,7 @@ out="docs/testes/evidencias/$(date +%Y%m%dT%H%M%S)_$$"
 mkdir -p "$out"
 exec > >(tee "$out/execucao.log") 2>&1
 trap 'code=$?; echo "Fim: $(date -Iseconds); código: $code"; exit "$code"' EXIT
+echo "Evidências: $out"
 echo "Início: $(date -Iseconds)"
 php -v
 uname -sm
