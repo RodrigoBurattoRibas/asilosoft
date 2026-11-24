@@ -1,0 +1,24 @@
+OK T07 idempotência
+OK T07 baixa exata uma vez
+OK T07 movimento vinculado único
+OK T07 chave reutilizada com payload diferente rejeitada
+OK T07 novo consumo de material inativo rejeitado
+OK T07 replay confirmado continua idempotente após desativação
+OK T09 compra de material inativo rejeitada
+OK T07 idoso inativo rejeitado
+OK T07 saldo insuficiente
+OK T07 nenhuma auditoria parcial
+OK T08 origem obrigatória
+OK T08 quantidade inválida 0
+OK T08 quantidade inválida 1.0001
+OK T08 quantidade inválida 1000000000
+OK T08 quantidade inválida 1e3
+OK T09 CAS obsoleto
+OK T09 terminal
+OK T09 inexistente
+OK T09 estoque inalterado
+OK T09 auditoria com autoria
+OK T07 concorrência aceita só uma retirada
+OK T07 saldo concorrente positivo
+OK T07 rollback sem consumo extra
+PASS estoque/compras. Fixtures fictícias preservadas somente na base asilosoft_test_20261124192920_91165_estoquecompras.

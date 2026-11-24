@@ -38,7 +38,7 @@ O primeiro comando executa CT-U01 a CT-U71 e salva `evidencias/unitarios.json`. 
 php tests/integration/run.php
 ```
 
-Utiliza o servidor e as credenciais do `.env`/ambiente da aplicação, executa os unitários e as seis integrações em bases auxiliares e faz a limpeza ao terminar. [Detalhes, requisitos e tratamento de erros](COMANDO_INTEGRACAO.md).
+Utiliza o servidor e as credenciais do `.env`/ambiente da aplicação, executa somente as seis integrações em bases auxiliares e faz a limpeza ao terminar. [Detalhes, requisitos e tratamento de erros](COMANDO_INTEGRACAO.md).
 
 ## Configuração manual alternativa para outro servidor
 

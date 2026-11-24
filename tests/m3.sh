@@ -9,17 +9,18 @@ exec > >(tee "$out/execucao.log") 2>&1
 trap 'code=$?; echo "Fim: $(date -Iseconds); código: $code"; exit "$code"' EXIT
 echo "Evidências: $out"
 echo "Início: $(date -Iseconds)"
-php -v
-uname -sm
-if [[ "${1:-}" == --coverage ]]; then
-    ASILOSOFT_TEST_REPORT_DIR="$out/cobertura" bash tests/coverage.sh
-    cp "$out/cobertura/cobertura.json" "$out/cobertura/cobertura.html" "$out/cobertura/unitarios.json" "$out/"
-else
-    ASILOSOFT_TEST_REPORT_DIR="$out" php tests/unit/run.php
+php -r 'echo "Ambiente: PHP ".PHP_VERSION." / ".PHP_OS_FAMILY."\n";'
+if [[ "${1:-}" != --integration-only ]]; then
+    if [[ "${1:-}" == --coverage ]]; then
+        ASILOSOFT_TEST_REPORT_DIR="$out/cobertura" bash tests/coverage.sh
+        cp "$out/cobertura/cobertura.json" "$out/cobertura/cobertura.html" "$out/cobertura/unitarios.json" "$out/"
+    else
+        ASILOSOFT_TEST_REPORT_DIR="$out" php tests/unit/run.php
+    fi
+    ASILOSOFT_TEST_REPORT_DIR="$out" php tests/catalogo.php
+    find src tests scripts -name '*.php' -print0 | xargs -0 -n1 php -l > "$out/sintaxe.log"
+    php tests/estoque_compras_rules.php
 fi
-ASILOSOFT_TEST_REPORT_DIR="$out" php tests/catalogo.php
-find src tests scripts -name '*.php' -print0 | xargs -0 -n1 php -l > "$out/sintaxe.log"
-php tests/estoque_compras_rules.php
 for key in HOST PORTA USUARIO SENHA; do
     variable="ASILOSOFT_TEST_DB_$key"
     if [[ ! -v "$variable" ]]; then
@@ -35,8 +36,11 @@ for suite in database/Database Familiares Clinica EstoqueCompras Instalacao Http
     export ASILOSOFT_TEST_DB_NOME="asilosoft_test_${run_id}_${name,,}"
     id="CT-I0$number"
     echo "$id: $suite; início $(date -Iseconds); banco $ASILOSOFT_TEST_DB_NOME"
+    echo "Executando: tests/integration/${suite}IntegrationTest.php"
+    echo "Esperado: todas as verificações da suíte concluídas sem erro."
     if php "tests/integration/${suite}IntegrationTest.php" > "$out/$id.log" 2>&1; then
         cat "$out/$id.log"
+        echo "Obtido: suíte concluída com código 0; verificações detalhadas acima."
         echo "$id Passou" | tee -a "$out/resumo.txt"
     else
         cat "$out/$id.log"

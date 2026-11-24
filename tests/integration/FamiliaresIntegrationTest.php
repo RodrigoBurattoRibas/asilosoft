@@ -19,7 +19,7 @@ if (($argv[1]??'')==='--principal') {
     for($i=0;$i<12;$i++) $repo->vincular(1,(int)$argv[2],'Filho',true);
     exit;
 }
-function check(bool $ok,string $label):void { if(!$ok) throw new RuntimeException($label); }
+function check(bool $ok,string $label):void { if(!$ok) throw new RuntimeException($label); echo "Verificação: $label; resultado: condição confirmada.\n"; }
 function rejeita(callable $f):void { try {$f();}catch(DomainException $e){return;}throw new RuntimeException('Esperada rejeição de domínio.'); }
 $server=new PDO($dsn,getenv('ASILOSOFT_TEST_DB_USUARIO'),getenv('ASILOSOFT_TEST_DB_SENHA'),$options);
 // Sem IF NOT EXISTS: jamais apaga uma base preexistente.

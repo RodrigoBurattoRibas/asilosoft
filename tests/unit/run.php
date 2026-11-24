@@ -23,11 +23,33 @@ final class DoubleRepository {
         return $this->responses[$method] ?? null;
     }
 }
+// Registra observações das asserções, inclusive quando uma comparação falha.
+$observations = [];
+function reportValue(mixed $value): mixed {
+    if (is_string($value) && strlen($value) > 180) return '[texto com '.strlen($value).' bytes]';
+    if (is_array($value)) {
+        foreach ($value as $key => &$item) {
+            $item = preg_match('/senha|password|hash/i', (string)$key) ? '[omitido]' : reportValue($item);
+        }
+        unset($item);
+    }
+    return $value;
+}
+function displayValue(mixed $value): string {
+    return json_encode(reportValue($value), JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
+}
 function same(mixed $actual, mixed $expected): void {
-    if ($actual !== $expected) throw new RuntimeException('Esperado '.var_export($expected,true).'; obtido '.var_export($actual,true));
+    global $observations;
+    $observations[] = 'Comparação: esperado '.displayValue($expected).'; obtido '.displayValue($actual);
+    if ($actual !== $expected) throw new RuntimeException('Comparação divergente: '.end($observations));
 }
 function rejects(callable $action): void {
-    try { $action(); } catch (DomainException $e) { return; }
+    global $observations;
+    try { $action(); } catch (DomainException $e) {
+        $observations[] = 'Operação recusada com DomainException: '.$e->getMessage();
+        return;
+    }
+    $observations[] = 'Operação aceita; esperava DomainException';
     throw new RuntimeException('Esperava DomainException');
 }
 $cases = [];
@@ -58,7 +80,27 @@ scenario('CT-U50','Desativar idoso libera quarto',[], 'Atualizar ativo e quarto 
 require __DIR__.'/extended.php';
 $results=[];$failed=0;
 set_error_handler(static function(int $severity,string $message,string $file,int $line):never{throw new ErrorException($message,0,$severity,$file,$line);});
-foreach($cases as $case){try{$case['run']();$status='Passou';$actual=$case['expected'];}catch(Throwable $e){$status='Falhou';$actual=$e->getMessage();$failed++;}unset($case['run']);$results[]=$case+['status'=>$status,'obtido'=>$actual];echo $case['id'].' '.$status.' '.$case['name']."\n";}
+foreach ($cases as $case) {
+    $observations = [];
+    try {
+        $case['run']();
+        if ($observations === []) throw new RuntimeException('Caso sem asserções registradas');
+        $status = 'Passou';
+        $actual = implode("\n", $observations);
+    } catch (Throwable $e) {
+        $status = 'Falhou';
+        $actual = implode("\n", $observations)."\nFalha: ".$e->getMessage();
+        $failed++;
+    }
+    unset($case['run']);
+    $results[] = $case + ['status'=>$status, 'obtido'=>$actual, 'verificacoes'=>$observations];
+    echo "\n".$case['id'].' — '.$case['name']."\n";
+    echo '  Entrada: '.displayValue($case['data'])."\n";
+    echo '  Esperado: '.$case['expected']."\n";
+    foreach ($observations as $observation) echo '  Obtido: '.$observation."\n";
+    if ($status === 'Falhou') echo '  Erro: '.$e->getMessage()."\n";
+    echo '  Resultado: '.$status."\n";
+}
 restore_error_handler();
 $out = getenv('ASILOSOFT_TEST_REPORT_DIR') ?: $root.'/docs/testes/evidencias';
 if (!is_dir($out) && !mkdir($out, 0775, true)) throw new RuntimeException('Não foi possível criar '.$out);

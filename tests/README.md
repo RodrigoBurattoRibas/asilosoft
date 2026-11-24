@@ -11,7 +11,7 @@ php tests/unit/run.php
 php tests/integration/run.php
 ```
 
-O segundo usa a conexão do `.env`/ambiente da aplicação, executa unitários e seis integrações em bases auxiliares e remove as bases ao terminar. Não precisa exportar as quatro variáveis manualmente. [Uso, pré-requisitos e limpeza](../docs/testes/COMANDO_INTEGRACAO.md).
+O segundo usa a conexão do `.env`/ambiente da aplicação, executa somente seis integrações em bases auxiliares e remove as bases ao terminar. Não precisa exportar as quatro variáveis manualmente. [Uso, pré-requisitos e limpeza](../docs/testes/COMANDO_INTEGRACAO.md).
 
 ## Configuração manual alternativa
 

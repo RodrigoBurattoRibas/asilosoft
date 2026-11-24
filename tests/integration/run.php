@@ -10,7 +10,7 @@ if (PHP_SAPI !== 'cli') {
 }
 if (($argv[1] ?? '') === '--help' && count($argv) === 2) {
     echo "Uso: php tests/integration/run.php\n";
-    echo "Usa a conexão da aplicação (.env/ambiente), executa unitários e seis integrações em bases auxiliares e remove essas bases ao terminar.\n";
+    echo "Usa a conexão da aplicação (.env/ambiente), executa somente seis integrações em bases auxiliares e remove essas bases ao terminar.\n";
     exit(0);
 }
 if (count($argv) !== 1) {
@@ -46,7 +46,7 @@ try {
     // A conexão não seleciona a base da aplicação e não aplica migrations nela.
     $connect();
     echo "Executando testes no servidor configurado, em bases auxiliares isoladas.\n";
-    $process = proc_open(['bash', 'tests/m3.sh'], [
+    $process = proc_open(['bash', 'tests/m3.sh', '--integration-only'], [
         0 => ['file', '/dev/null', 'r'],
         1 => ['pipe', 'w'],
         2 => ['redirect', 1],

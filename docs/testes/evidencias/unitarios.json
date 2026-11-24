@@ -1,5 +1,5 @@
 {
-    "executado_em": "2026-11-23T23:51:08+00:00",
+    "executado_em": "2026-11-24T22:40:15+00:00",
     "php": "8.4.28",
     "total": 71,
     "falharam": 0,
@@ -12,7 +12,11 @@
             },
             "expected": "Criar quarto ativo",
             "status": "Passou",
-            "obtido": "Criar quarto ativo"
+            "obtido": "Comparação: esperado {\"id\":1}; obtido {\"id\":1}\nComparação: esperado [\"criar\",[{\"codigo\":\"A\",\"capacidade\":1,\"ativo\":true}]]; obtido [\"criar\",[{\"codigo\":\"A\",\"capacidade\":1,\"ativo\":true}]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":1}; obtido {\"id\":1}",
+                "Comparação: esperado [\"criar\",[{\"codigo\":\"A\",\"capacidade\":1,\"ativo\":true}]]; obtido [\"criar\",[{\"codigo\":\"A\",\"capacidade\":1,\"ativo\":true}]]"
+            ]
         },
         {
             "id": "CT-U02",
@@ -22,7 +26,11 @@
             },
             "expected": "Criar quarto ativo",
             "status": "Passou",
-            "obtido": "Criar quarto ativo"
+            "obtido": "Comparação: esperado {\"id\":1}; obtido {\"id\":1}\nComparação: esperado [\"criar\",[{\"codigo\":\"A\",\"capacidade\":99,\"ativo\":true}]]; obtido [\"criar\",[{\"codigo\":\"A\",\"capacidade\":99,\"ativo\":true}]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":1}; obtido {\"id\":1}",
+                "Comparação: esperado [\"criar\",[{\"codigo\":\"A\",\"capacidade\":99,\"ativo\":true}]]; obtido [\"criar\",[{\"codigo\":\"A\",\"capacidade\":99,\"ativo\":true}]]"
+            ]
         },
         {
             "id": "CT-U03",
@@ -32,7 +40,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U04",
@@ -42,7 +54,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U05",
@@ -52,7 +68,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U06",
@@ -60,7 +80,11 @@
             "data": [],
             "expected": "Rejeitar sem atualizar",
             "status": "Passou",
-            "obtido": "Rejeitar sem atualizar"
+            "obtido": "Operação recusada com DomainException: Retire os idosos antes de desativar este quarto.\nComparação: esperado 2; obtido 2",
+            "verificacoes": [
+                "Operação recusada com DomainException: Retire os idosos antes de desativar este quarto.",
+                "Comparação: esperado 2; obtido 2"
+            ]
         },
         {
             "id": "CT-U07",
@@ -70,7 +94,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A capacidade não pode ser menor que a ocupação atual (2).",
+            "verificacoes": [
+                "Operação recusada com DomainException: A capacidade não pode ser menor que a ocupação atual (2)."
+            ]
         },
         {
             "id": "CT-U08",
@@ -80,7 +107,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: A senha deve ter pelo menos 8 caracteres.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: A senha deve ter pelo menos 8 caracteres.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U09",
@@ -90,7 +121,11 @@
             },
             "expected": "Hash válido e e-mail normalizado",
             "status": "Passou",
-            "obtido": "Hash válido e e-mail normalizado"
+            "obtido": "Comparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"\nComparação: esperado true; obtido true",
+            "verificacoes": [
+                "Comparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"",
+                "Comparação: esperado true; obtido true"
+            ]
         },
         {
             "id": "CT-U10",
@@ -98,7 +133,11 @@
             "data": [],
             "expected": "Rejeitar desativação",
             "status": "Passou",
-            "obtido": "Rejeitar desativação"
+            "obtido": "Operação recusada com DomainException: Mantenha ao menos um administrador ativo.\nComparação: esperado 2; obtido 2",
+            "verificacoes": [
+                "Operação recusada com DomainException: Mantenha ao menos um administrador ativo.",
+                "Comparação: esperado 2; obtido 2"
+            ]
         },
         {
             "id": "CT-U11",
@@ -108,7 +147,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A quantidade deve ser um número maior que zero.",
+            "verificacoes": [
+                "Operação recusada com DomainException: A quantidade deve ser um número maior que zero."
+            ]
         },
         {
             "id": "CT-U12",
@@ -118,7 +160,10 @@
             },
             "expected": "Aceitar decimal exato",
             "status": "Passou",
-            "obtido": "Aceitar decimal exato"
+            "obtido": "Comparação: esperado \"0.001\"; obtido \"0.001\"",
+            "verificacoes": [
+                "Comparação: esperado \"0.001\"; obtido \"0.001\""
+            ]
         },
         {
             "id": "CT-U13",
@@ -128,7 +173,10 @@
             },
             "expected": "Aceitar decimal exato",
             "status": "Passou",
-            "obtido": "Aceitar decimal exato"
+            "obtido": "Comparação: esperado \"999999999.999\"; obtido \"999999999.999\"",
+            "verificacoes": [
+                "Comparação: esperado \"999999999.999\"; obtido \"999999999.999\""
+            ]
         },
         {
             "id": "CT-U14",
@@ -138,7 +186,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A quantidade deve ser um número maior que zero.",
+            "verificacoes": [
+                "Operação recusada com DomainException: A quantidade deve ser um número maior que zero."
+            ]
         },
         {
             "id": "CT-U15",
@@ -148,7 +199,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A quantidade deve ser um número maior que zero.",
+            "verificacoes": [
+                "Operação recusada com DomainException: A quantidade deve ser um número maior que zero."
+            ]
         },
         {
             "id": "CT-U16",
@@ -158,7 +212,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A quantidade deve ser um número maior que zero.",
+            "verificacoes": [
+                "Operação recusada com DomainException: A quantidade deve ser um número maior que zero."
+            ]
         },
         {
             "id": "CT-U17",
@@ -168,7 +225,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A quantidade deve ser um número maior que zero.",
+            "verificacoes": [
+                "Operação recusada com DomainException: A quantidade deve ser um número maior que zero."
+            ]
         },
         {
             "id": "CT-U18",
@@ -178,7 +238,10 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: A quantidade deve ser um número maior que zero.",
+            "verificacoes": [
+                "Operação recusada com DomainException: A quantidade deve ser um número maior que zero."
+            ]
         },
         {
             "id": "CT-U19",
@@ -188,7 +251,11 @@
             },
             "expected": "Rejeitar sem retirar",
             "status": "Passou",
-            "obtido": "Rejeitar sem retirar"
+            "obtido": "Operação recusada com DomainException: Informe a finalidade da retirada na observação.\nComparação: esperado 1; obtido 1",
+            "verificacoes": [
+                "Operação recusada com DomainException: Informe a finalidade da retirada na observação.",
+                "Comparação: esperado 1; obtido 1"
+            ]
         },
         {
             "id": "CT-U20",
@@ -199,7 +266,11 @@
             },
             "expected": "Rejeitar sem retirar",
             "status": "Passou",
-            "obtido": "Rejeitar sem retirar"
+            "obtido": "Operação recusada com DomainException: A retirada não pode deixar o estoque negativo.\nComparação: esperado 1; obtido 1",
+            "verificacoes": [
+                "Operação recusada com DomainException: A retirada não pode deixar o estoque negativo.",
+                "Comparação: esperado 1; obtido 1"
+            ]
         },
         {
             "id": "CT-U21",
@@ -210,7 +281,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U22",
@@ -221,7 +296,10 @@
             },
             "expected": "Delegar uma alteração",
             "status": "Passou",
-            "obtido": "Delegar uma alteração"
+            "obtido": "Comparação: esperado [[\"alterarSituacao\",[1,\"Pendente\",\"Aprovada\"]]]; obtido [[\"alterarSituacao\",[1,\"Pendente\",\"Aprovada\"]]]",
+            "verificacoes": [
+                "Comparação: esperado [[\"alterarSituacao\",[1,\"Pendente\",\"Aprovada\"]]]; obtido [[\"alterarSituacao\",[1,\"Pendente\",\"Aprovada\"]]]"
+            ]
         },
         {
             "id": "CT-U23",
@@ -232,7 +310,10 @@
             },
             "expected": "Delegar uma alteração",
             "status": "Passou",
-            "obtido": "Delegar uma alteração"
+            "obtido": "Comparação: esperado [[\"alterarSituacao\",[1,\"Pendente\",\"Recusada\"]]]; obtido [[\"alterarSituacao\",[1,\"Pendente\",\"Recusada\"]]]",
+            "verificacoes": [
+                "Comparação: esperado [[\"alterarSituacao\",[1,\"Pendente\",\"Recusada\"]]]; obtido [[\"alterarSituacao\",[1,\"Pendente\",\"Recusada\"]]]"
+            ]
         },
         {
             "id": "CT-U24",
@@ -243,7 +324,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U25",
@@ -254,7 +339,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U26",
@@ -265,7 +354,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U27",
@@ -276,7 +369,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U28",
@@ -287,7 +384,10 @@
             },
             "expected": "Delegar uma alteração",
             "status": "Passou",
-            "obtido": "Delegar uma alteração"
+            "obtido": "Comparação: esperado [[\"alterarSituacao\",[1,\"Aprovada\",\"Atendida\"]]]; obtido [[\"alterarSituacao\",[1,\"Aprovada\",\"Atendida\"]]]",
+            "verificacoes": [
+                "Comparação: esperado [[\"alterarSituacao\",[1,\"Aprovada\",\"Atendida\"]]]; obtido [[\"alterarSituacao\",[1,\"Aprovada\",\"Atendida\"]]]"
+            ]
         },
         {
             "id": "CT-U29",
@@ -298,7 +398,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U30",
@@ -309,7 +413,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U31",
@@ -320,7 +428,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U32",
@@ -331,7 +443,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U33",
@@ -342,7 +458,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U34",
@@ -353,7 +473,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U35",
@@ -364,7 +488,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U36",
@@ -375,7 +503,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U37",
@@ -386,7 +518,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U38",
@@ -397,7 +533,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U39",
@@ -408,7 +548,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U40",
@@ -419,7 +563,11 @@
             },
             "expected": "Rejeitar sem alterar",
             "status": "Passou",
-            "obtido": "Rejeitar sem alterar"
+            "obtido": "Operação recusada com DomainException: Transição de situação inválida.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Transição de situação inválida.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U41",
@@ -429,7 +577,11 @@
             },
             "expected": "Somente profissional ativo grava com autor real",
             "status": "Passou",
-            "obtido": "Somente profissional ativo grava com autor real"
+            "obtido": "Operação recusada com DomainException: Somente profissionais de saúde podem registrar acompanhamento.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Somente profissionais de saúde podem registrar acompanhamento.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U42",
@@ -439,7 +591,10 @@
             },
             "expected": "Somente profissional ativo grava com autor real",
             "status": "Passou",
-            "obtido": "Somente profissional ativo grava com autor real"
+            "obtido": "Comparação: esperado [[\"registrar\",[1,2,\"Nota\",false]]]; obtido [[\"registrar\",[1,2,\"Nota\",false]]]",
+            "verificacoes": [
+                "Comparação: esperado [[\"registrar\",[1,2,\"Nota\",false]]]; obtido [[\"registrar\",[1,2,\"Nota\",false]]]"
+            ]
         },
         {
             "id": "CT-U43",
@@ -449,7 +604,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: Informe uma descrição com até 65000 bytes.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Informe uma descrição com até 65000 bytes.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U44",
@@ -459,7 +618,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: Informe uma descrição com até 65000 bytes.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Informe uma descrição com até 65000 bytes.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U45",
@@ -471,7 +634,11 @@
             },
             "expected": "Rejeitar sem gravar",
             "status": "Passou",
-            "obtido": "Rejeitar sem gravar"
+            "obtido": "Operação recusada com DomainException: Dados de acompanhamento inválidos.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Dados de acompanhamento inválidos.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U46",
@@ -481,7 +648,11 @@
             },
             "expected": "Salvar com campos opcionais normalizados",
             "status": "Passou",
-            "obtido": "Salvar com campos opcionais normalizados"
+            "obtido": "Comparação: esperado {\"id\":1}; obtido {\"id\":1}\nComparação: esperado null; obtido null",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":1}; obtido {\"id\":1}",
+                "Comparação: esperado null; obtido null"
+            ]
         },
         {
             "id": "CT-U47",
@@ -491,7 +662,11 @@
             },
             "expected": "Rejeitar",
             "status": "Passou",
-            "obtido": "Rejeitar"
+            "obtido": "Operação recusada com DomainException: Informe um e-mail válido.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Informe um e-mail válido.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U48",
@@ -501,7 +676,11 @@
             },
             "expected": "Salvar com campos opcionais normalizados",
             "status": "Passou",
-            "obtido": "Salvar com campos opcionais normalizados"
+            "obtido": "Comparação: esperado {\"id\":1}; obtido {\"id\":1}\nComparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":1}; obtido {\"id\":1}",
+                "Comparação: esperado \"ana@example.com\"; obtido \"ana@example.com\""
+            ]
         },
         {
             "id": "CT-U49",
@@ -512,7 +691,11 @@
             },
             "expected": "Rejeitar sem criar",
             "status": "Passou",
-            "obtido": "Rejeitar sem criar"
+            "obtido": "Operação recusada com DomainException: Este quarto não possui vaga disponível.\nComparação: esperado 2; obtido 2",
+            "verificacoes": [
+                "Operação recusada com DomainException: Este quarto não possui vaga disponível.",
+                "Comparação: esperado 2; obtido 2"
+            ]
         },
         {
             "id": "CT-U50",
@@ -520,7 +703,10 @@
             "data": [],
             "expected": "Atualizar ativo e quarto juntos",
             "status": "Passou",
-            "obtido": "Atualizar ativo e quarto juntos"
+            "obtido": "Comparação: esperado [\"atualizar\",[1,{\"ativo\":false,\"quarto_id\":null}]]; obtido [\"atualizar\",[1,{\"ativo\":false,\"quarto_id\":null}]]",
+            "verificacoes": [
+                "Comparação: esperado [\"atualizar\",[1,{\"ativo\":false,\"quarto_id\":null}]]; obtido [\"atualizar\",[1,{\"ativo\":false,\"quarto_id\":null}]]"
+            ]
         },
         {
             "id": "CT-U51",
@@ -531,7 +717,12 @@
             },
             "expected": "Autenticar usuário 7, renovar sessão antes de armazenar sua identidade",
             "status": "Passou",
-            "obtido": "Autenticar usuário 7, renovar sessão antes de armazenar sua identidade"
+            "obtido": "Comparação: esperado true; obtido true\nComparação: esperado [[\"buscarPorEmail\",[\"ana@example.com\"]]]; obtido [[\"buscarPorEmail\",[\"ana@example.com\"]]]\nComparação: esperado [[\"regenerateId\",[]],[\"set\",[\"asilosoft_usuario_id\",7]]]; obtido [[\"regenerateId\",[]],[\"set\",[\"asilosoft_usuario_id\",7]]]",
+            "verificacoes": [
+                "Comparação: esperado true; obtido true",
+                "Comparação: esperado [[\"buscarPorEmail\",[\"ana@example.com\"]]]; obtido [[\"buscarPorEmail\",[\"ana@example.com\"]]]",
+                "Comparação: esperado [[\"regenerateId\",[]],[\"set\",[\"asilosoft_usuario_id\",7]]]; obtido [[\"regenerateId\",[]],[\"set\",[\"asilosoft_usuario_id\",7]]]"
+            ]
         },
         {
             "id": "CT-U52",
@@ -541,7 +732,11 @@
             },
             "expected": "DomainException e nenhuma alteração de sessão",
             "status": "Passou",
-            "obtido": "DomainException e nenhuma alteração de sessão"
+            "obtido": "Operação recusada com DomainException: E-mail ou senha inválidos.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: E-mail ou senha inválidos.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U53",
@@ -551,7 +746,11 @@
             },
             "expected": "DomainException e nenhuma alteração de sessão",
             "status": "Passou",
-            "obtido": "DomainException e nenhuma alteração de sessão"
+            "obtido": "Operação recusada com DomainException: E-mail ou senha inválidos.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: E-mail ou senha inválidos.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U54",
@@ -561,7 +760,11 @@
             },
             "expected": "DomainException e nenhuma alteração de sessão",
             "status": "Passou",
-            "obtido": "DomainException e nenhuma alteração de sessão"
+            "obtido": "Operação recusada com DomainException: E-mail ou senha inválidos.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: E-mail ou senha inválidos.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U55",
@@ -571,7 +774,11 @@
             },
             "expected": "Não consultar usuário e retornar null",
             "status": "Passou",
-            "obtido": "Não consultar usuário e retornar null"
+            "obtido": "Comparação: esperado null; obtido null\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Comparação: esperado null; obtido null",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U56",
@@ -582,7 +789,11 @@
             },
             "expected": "Remover identidade da sessão e renovar seu ID",
             "status": "Passou",
-            "obtido": "Remover identidade da sessão e renovar seu ID"
+            "obtido": "Comparação: esperado null; obtido null\nComparação: esperado [[\"get\",[\"asilosoft_usuario_id\"]],[\"remove\",[\"asilosoft_usuario_id\"]],[\"regenerateId\",[]]]; obtido [[\"get\",[\"asilosoft_usuario_id\"]],[\"remove\",[\"asilosoft_usuario_id\"]],[\"regenerateId\",[]]]",
+            "verificacoes": [
+                "Comparação: esperado null; obtido null",
+                "Comparação: esperado [[\"get\",[\"asilosoft_usuario_id\"]],[\"remove\",[\"asilosoft_usuario_id\"]],[\"regenerateId\",[]]]; obtido [[\"get\",[\"asilosoft_usuario_id\"]],[\"remove\",[\"asilosoft_usuario_id\"]],[\"regenerateId\",[]]]"
+            ]
         },
         {
             "id": "CT-U57",
@@ -593,7 +804,11 @@
             },
             "expected": "Retornar usuário e preservar sessão",
             "status": "Passou",
-            "obtido": "Retornar usuário e preservar sessão"
+            "obtido": "Comparação: esperado {\"id\":7,\"ativo\":true}; obtido {\"id\":7,\"ativo\":true}\nComparação: esperado 1; obtido 1",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":7,\"ativo\":true}; obtido {\"id\":7,\"ativo\":true}",
+                "Comparação: esperado 1; obtido 1"
+            ]
         },
         {
             "id": "CT-U58",
@@ -603,7 +818,11 @@
             },
             "expected": "Retornar null sem consultar repositórios",
             "status": "Passou",
-            "obtido": "Retornar null sem consultar repositórios"
+            "obtido": "Comparação: esperado null; obtido null\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Comparação: esperado null; obtido null",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U59",
@@ -613,7 +832,11 @@
             },
             "expected": "Consolidar residente, familiares, registros e usos consultando o mesmo ID",
             "status": "Passou",
-            "obtido": "Consolidar residente, familiares, registros e usos consultando o mesmo ID"
+            "obtido": "Comparação: esperado {\"idoso\":{\"id\":3},\"familiares\":[{\"nome\":\"Familiar\"}],\"registros\":[{\"descricao\":\"Nota\"}],\"usos\":[{\"quantidade\":\"1.000\"}]}; obtido {\"idoso\":{\"id\":3},\"familiares\":[{\"nome\":\"Familiar\"}],\"registros\":[{\"descricao\":\"Nota\"}],\"usos\":[{\"quantidade\":\"1.000\"}]}\nComparação: esperado [[\"buscarPorId\",[3]],[\"porIdoso\",[3]],[\"listarPorIdoso\",[3]],[\"usos\",[3]]]; obtido [[\"buscarPorId\",[3]],[\"porIdoso\",[3]],[\"listarPorIdoso\",[3]],[\"usos\",[3]]]",
+            "verificacoes": [
+                "Comparação: esperado {\"idoso\":{\"id\":3},\"familiares\":[{\"nome\":\"Familiar\"}],\"registros\":[{\"descricao\":\"Nota\"}],\"usos\":[{\"quantidade\":\"1.000\"}]}; obtido {\"idoso\":{\"id\":3},\"familiares\":[{\"nome\":\"Familiar\"}],\"registros\":[{\"descricao\":\"Nota\"}],\"usos\":[{\"quantidade\":\"1.000\"}]}",
+                "Comparação: esperado [[\"buscarPorId\",[3]],[\"porIdoso\",[3]],[\"listarPorIdoso\",[3]],[\"usos\",[3]]]; obtido [[\"buscarPorId\",[3]],[\"porIdoso\",[3]],[\"listarPorIdoso\",[3]],[\"usos\",[3]]]"
+            ]
         },
         {
             "id": "CT-U60",
@@ -623,7 +846,11 @@
             },
             "expected": "Status desconhecido assume ativos; resultados reindexados por situação",
             "status": "Passou",
-            "obtido": "Status desconhecido assume ativos; resultados reindexados por situação"
+            "obtido": "Comparação: esperado [{\"id\":1,\"ativo\":1}]; obtido [{\"id\":1,\"ativo\":1}]\nComparação: esperado [{\"id\":2,\"ativo\":0}]; obtido [{\"id\":2,\"ativo\":0}]",
+            "verificacoes": [
+                "Comparação: esperado [{\"id\":1,\"ativo\":1}]; obtido [{\"id\":1,\"ativo\":1}]",
+                "Comparação: esperado [{\"id\":2,\"ativo\":0}]; obtido [{\"id\":2,\"ativo\":0}]"
+            ]
         },
         {
             "id": "CT-U61",
@@ -634,7 +861,12 @@
             },
             "expected": "Não sobrescrever hash quando senha estiver vazia",
             "status": "Passou",
-            "obtido": "Não sobrescrever hash quando senha estiver vazia"
+            "obtido": "Comparação: esperado \"Ana\"; obtido \"Ana\"\nComparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"\nComparação: esperado false; obtido false",
+            "verificacoes": [
+                "Comparação: esperado \"Ana\"; obtido \"Ana\"",
+                "Comparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"",
+                "Comparação: esperado false; obtido false"
+            ]
         },
         {
             "id": "CT-U62",
@@ -645,7 +877,12 @@
             },
             "expected": "Salvar novo hash verificável",
             "status": "Passou",
-            "obtido": "Salvar novo hash verificável"
+            "obtido": "Comparação: esperado \"Ana\"; obtido \"Ana\"\nComparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"\nComparação: esperado true; obtido true",
+            "verificacoes": [
+                "Comparação: esperado \"Ana\"; obtido \"Ana\"",
+                "Comparação: esperado \"ana@example.com\"; obtido \"ana@example.com\"",
+                "Comparação: esperado true; obtido true"
+            ]
         },
         {
             "id": "CT-U63",
@@ -658,7 +895,11 @@
             },
             "expected": "Criar material normalizado com mínimo 0.000 e descrição null",
             "status": "Passou",
-            "obtido": "Criar material normalizado com mínimo 0.000 e descrição null"
+            "obtido": "Comparação: esperado {\"id\":1}; obtido {\"id\":1}\nComparação: esperado [\"criarItem\",[{\"nome\":\"Gaze\",\"tipo\":\"Material\",\"descricao\":null,\"unidade_medida\":\"un\",\"estoque_minimo\":\"0.000\"}]]; obtido [\"criarItem\",[{\"nome\":\"Gaze\",\"tipo\":\"Material\",\"descricao\":null,\"unidade_medida\":\"un\",\"estoque_minimo\":\"0.000\"}]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":1}; obtido {\"id\":1}",
+                "Comparação: esperado [\"criarItem\",[{\"nome\":\"Gaze\",\"tipo\":\"Material\",\"descricao\":null,\"unidade_medida\":\"un\",\"estoque_minimo\":\"0.000\"}]]; obtido [\"criarItem\",[{\"nome\":\"Gaze\",\"tipo\":\"Material\",\"descricao\":null,\"unidade_medida\":\"un\",\"estoque_minimo\":\"0.000\"}]]"
+            ]
         },
         {
             "id": "CT-U64",
@@ -671,7 +912,11 @@
             },
             "expected": "Delegar entrada com quantidade 1.200 e autoria 7",
             "status": "Passou",
-            "obtido": "Delegar entrada com quantidade 1.200 e autoria 7"
+            "obtido": "Comparação: esperado {\"id\":2}; obtido {\"id\":2}\nComparação: esperado [\"registrarEntrada\",[1,\"1.200\",\"SUS\",7,\"Doação\"]]; obtido [\"registrarEntrada\",[1,\"1.200\",\"SUS\",7,\"Doação\"]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":2}; obtido {\"id\":2}",
+                "Comparação: esperado [\"registrarEntrada\",[1,\"1.200\",\"SUS\",7,\"Doação\"]]; obtido [\"registrarEntrada\",[1,\"1.200\",\"SUS\",7,\"Doação\"]]"
+            ]
         },
         {
             "id": "CT-U65",
@@ -683,7 +928,11 @@
             },
             "expected": "Aceitar retirada integral e preservar finalidade e autor",
             "status": "Passou",
-            "obtido": "Aceitar retirada integral e preservar finalidade e autor"
+            "obtido": "Comparação: esperado {\"id\":2}; obtido {\"id\":2}\nComparação: esperado [\"registrarRetirada\",[1,\"10.000\",7,\"Uso coletivo\"]]; obtido [\"registrarRetirada\",[1,\"10.000\",7,\"Uso coletivo\"]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":2}; obtido {\"id\":2}",
+                "Comparação: esperado [\"registrarRetirada\",[1,\"10.000\",7,\"Uso coletivo\"]]; obtido [\"registrarRetirada\",[1,\"10.000\",7,\"Uso coletivo\"]]"
+            ]
         },
         {
             "id": "CT-U66",
@@ -696,7 +945,11 @@
             },
             "expected": "Delegar consumo de 0.001 com chave original e autor 7",
             "status": "Passou",
-            "obtido": "Delegar consumo de 0.001 com chave original e autor 7"
+            "obtido": "Comparação: esperado {\"id\":9}; obtido {\"id\":9}\nComparação: esperado [[\"registrarUso\",[3,1,\"0.001\",7,null,\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]]]; obtido [[\"registrarUso\",[3,1,\"0.001\",7,null,\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":9}; obtido {\"id\":9}",
+                "Comparação: esperado [[\"registrarUso\",[3,1,\"0.001\",7,null,\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]]]; obtido [[\"registrarUso\",[3,1,\"0.001\",7,null,\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]]]"
+            ]
         },
         {
             "id": "CT-U67",
@@ -709,7 +962,10 @@
             },
             "expected": "Delegar vínculo com parentesco sem espaços e responsável principal true",
             "status": "Passou",
-            "obtido": "Delegar vínculo com parentesco sem espaços e responsável principal true"
+            "obtido": "Comparação: esperado [[\"vincular\",[3,4,\"Filha\",true]]]; obtido [[\"vincular\",[3,4,\"Filha\",true]]]",
+            "verificacoes": [
+                "Comparação: esperado [[\"vincular\",[3,4,\"Filha\",true]]]; obtido [[\"vincular\",[3,4,\"Filha\",true]]]"
+            ]
         },
         {
             "id": "CT-U68",
@@ -721,7 +977,11 @@
             },
             "expected": "Rejeitar vínculo sem parentesco e não gravar",
             "status": "Passou",
-            "obtido": "Rejeitar vínculo sem parentesco e não gravar"
+            "obtido": "Operação recusada com DomainException: Informe parentesco com até 60 caracteres.\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: Informe parentesco com até 60 caracteres.",
+                "Comparação: esperado []; obtido []"
+            ]
         },
         {
             "id": "CT-U69",
@@ -736,7 +996,11 @@
             },
             "expected": "Salvar CPF sem máscara e nome e identificador sem espaços",
             "status": "Passou",
-            "obtido": "Salvar CPF sem máscara e nome e identificador sem espaços"
+            "obtido": "Comparação: esperado {\"id\":3}; obtido {\"id\":3}\nComparação: esperado [\"criar\",[{\"nome\":\"Ana\",\"cpf\":\"12345678901\",\"identificador\":\"A\",\"quarto_id\":1}]]; obtido [\"criar\",[{\"nome\":\"Ana\",\"cpf\":\"12345678901\",\"identificador\":\"A\",\"quarto_id\":1}]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":3}; obtido {\"id\":3}",
+                "Comparação: esperado [\"criar\",[{\"nome\":\"Ana\",\"cpf\":\"12345678901\",\"identificador\":\"A\",\"quarto_id\":1}]]; obtido [\"criar\",[{\"nome\":\"Ana\",\"cpf\":\"12345678901\",\"identificador\":\"A\",\"quarto_id\":1}]]"
+            ]
         },
         {
             "id": "CT-U70",
@@ -750,7 +1014,10 @@
             },
             "expected": "Gravar nota aditiva referente ao registro 8, autor 7 e visibilidade true",
             "status": "Passou",
-            "obtido": "Gravar nota aditiva referente ao registro 8, autor 7 e visibilidade true"
+            "obtido": "Comparação: esperado [\"registrar\",[3,7,\"Retificação do registro #8: Correção\",true]]; obtido [\"registrar\",[3,7,\"Retificação do registro #8: Correção\",true]]",
+            "verificacoes": [
+                "Comparação: esperado [\"registrar\",[3,7,\"Retificação do registro #8: Correção\",true]]; obtido [\"registrar\",[3,7,\"Retificação do registro #8: Correção\",true]]"
+            ]
         },
         {
             "id": "CT-U71",
@@ -762,7 +1029,11 @@
             },
             "expected": "Atualizar quarto existente para ativo false",
             "status": "Passou",
-            "obtido": "Atualizar quarto existente para ativo false"
+            "obtido": "Comparação: esperado {\"id\":1,\"ativo\":false}; obtido {\"id\":1,\"ativo\":false}\nComparação: esperado [\"atualizar\",[1,{\"ativo\":false}]]; obtido [\"atualizar\",[1,{\"ativo\":false}]]",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":1,\"ativo\":false}; obtido {\"id\":1,\"ativo\":false}",
+                "Comparação: esperado [\"atualizar\",[1,{\"ativo\":false}]]; obtido [\"atualizar\",[1,{\"ativo\":false}]]"
+            ]
         }
     ]
 }

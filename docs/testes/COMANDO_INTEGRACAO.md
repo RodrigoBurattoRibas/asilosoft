@@ -11,7 +11,7 @@ Esse comando substitui o bloco PHP longo que configurava variáveis manualmente.
 ## O que o comando faz
 
 1. Confere a conexão ao servidor configurado, sem selecionar ou migrar a base da aplicação.
-2. Inicia `tests/m3.sh`, que executa os 71 unitários, a verificação de sintaxe, as 40 verificações legadas e as seis suítes de integração.
+2. Inicia `tests/m3.sh --integration-only`, que executa somente as seis suítes de integração.
 3. Cada suíte recebe uma base auxiliar exclusiva com prefixo `asilosoft_test_`, no mesmo servidor.
 4. Exibe os resultados no terminal e salva os logs na pasta anunciada por `Evidências:`.
 5. Ao terminar, inclusive após uma suíte falhar normalmente, remove as bases auxiliares retidas pelos testes. A limpeza considera somente os nomes anunciados pela execução atual.
@@ -41,7 +41,7 @@ Para reutilizar a resolução existente sem duplicar o parser nem alterar códig
 
 ## Resultados e erros
 
-- Código 0: unitários e seis integrações aprovados, com limpeza concluída.
+- Código 0: seis integrações aprovadas, com limpeza concluída.
 - Código 1: algum teste, inicialização do processo, gravação do comprovante ou verificação de completude falhou.
 - Código 2: argumento inválido, conexão indisponível ou problema de permissão/acesso ao banco.
 
@@ -57,10 +57,27 @@ Esse comando não mede cobertura de linhas e não faz deploy. Para cobertura via
 
 ## Validação realizada
 
-O próprio comando `php tests/integration/run.php` foi validado no Railway em 24/11/2026. A suíte executou das 18:43:05 às 18:51:07, no horário de São Paulo, com 71 unitários, seis integrações e 40 verificações legadas aprovados. Às 18:51:13, o lançador confirmou seis bases auxiliares verificadas e nenhuma restante. Não houve alteração em arquivos de produção sob src.
+A versão anterior do comando (que também incluía unitários) foi validada no Railway em 24/11/2026. A suíte executou das 18:43:05 às 18:51:07, no horário de São Paulo, com 71 unitários, seis integrações e 40 verificações legadas aprovados. Às 18:51:13, o lançador confirmou seis bases auxiliares verificadas e nenhuma restante. Não houve alteração em arquivos de produção sob src.
 
 - [Log da execução](evidencias/20261124T184305_23972/execucao.log).
 - [Resumo das integrações](evidencias/20261124T184305_23972/resumo.txt).
 - [Comprovante da limpeza automática](evidencias/20261124T184305_23972/limpeza.json).
 
 Também foram verificados: ajuda sem conexão, argumento inválido com código 2, conexão indisponível com código 2 e ausência da senha fictícia na mensagem de erro. A verificação de sintaxe PHP/Bash e git diff --check passou.
+
+## Como interpretar a saída
+
+Os unitários exibem ID, cenário, entrada, resultado esperado, observações das
+asserções e status. As observações registram os valores efetivamente comparados
+e as exceções de domínio capturadas. O campo `obtido` do JSON contém essas
+observações; não é uma cópia da descrição do esperado. Strings extensas são
+resumidas pelo tamanho e campos identificados como senha ou hash são omitidos.
+
+Cada integração informa o arquivo executado, o critério de sucesso, as verificações
+emitidas pela suíte e seu resultado. Código zero indica que o processo terminou
+sem falhas; os logs individuais continuam disponíveis. Algumas suítes ainda
+agrupam verificações em mensagens resumidas, sem detalhar cada valor consultado.
+
+O comando de integração não executa unitários, catálogo, sintaxe ou verificações
+legadas. Para executar a validação completa, use `bash tests/m3.sh` com as
+variáveis de conexão descritas no README de testes.

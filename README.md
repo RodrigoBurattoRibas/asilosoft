@@ -110,4 +110,4 @@ php tests/unit/run.php
 php tests/integration/run.php
 ```
 
-O segundo usa a conexão de testes configurada no `.env`/ambiente, executa unitários e as seis integrações em bases auxiliares, com limpeza automática ao terminar. Consulte [o guia do comando de integração](docs/testes/COMANDO_INTEGRACAO.md).
+O segundo usa a conexão de testes configurada no `.env`/ambiente, executa somente as seis integrações em bases auxiliares, com limpeza automática ao terminar. Consulte [o guia do comando de integração](docs/testes/COMANDO_INTEGRACAO.md).

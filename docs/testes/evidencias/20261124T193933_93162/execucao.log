@@ -1,0 +1,493 @@
+Evidências: docs/testes/evidencias/20261124T193933_93162
+Início: 2026-11-24T19:39:33-03:00
+Ambiente: PHP 8.4.28 / Linux
+
+CT-U01 — Quartos: limites da capacidade
+  Entrada: {"capacidade":1}
+  Esperado: Criar quarto ativo
+  Obtido: Comparação: esperado {"id":1}; obtido {"id":1}
+  Obtido: Comparação: esperado ["criar",[{"codigo":"A","capacidade":1,"ativo":true}]]; obtido ["criar",[{"codigo":"A","capacidade":1,"ativo":true}]]
+  Resultado: Passou
+
+CT-U02 — Quartos: limites da capacidade
+  Entrada: {"capacidade":99}
+  Esperado: Criar quarto ativo
+  Obtido: Comparação: esperado {"id":1}; obtido {"id":1}
+  Obtido: Comparação: esperado ["criar",[{"codigo":"A","capacidade":99,"ativo":true}]]; obtido ["criar",[{"codigo":"A","capacidade":99,"ativo":true}]]
+  Resultado: Passou
+
+CT-U03 — Quartos: limites da capacidade
+  Entrada: {"capacidade":0}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U04 — Quartos: limites da capacidade
+  Entrada: {"capacidade":100}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U05 — Quartos: limites da capacidade
+  Entrada: {"capacidade":"1.5"}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: A capacidade deve ser um número inteiro entre 1 e 99.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U06 — Quarto ocupado não pode ser desativado
+  Entrada: []
+  Esperado: Rejeitar sem atualizar
+  Obtido: Operação recusada com DomainException: Retire os idosos antes de desativar este quarto.
+  Obtido: Comparação: esperado 2; obtido 2
+  Resultado: Passou
+
+CT-U07 — Capacidade não pode ficar abaixo da ocupação
+  Entrada: {"capacidade":1}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A capacidade não pode ser menor que a ocupação atual (2).
+  Resultado: Passou
+
+CT-U08 — Usuários: limite da senha
+  Entrada: {"senha":"[omitido]"}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: A senha deve ter pelo menos 8 caracteres.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U09 — Usuários: limite da senha
+  Entrada: {"senha":"[omitido]"}
+  Esperado: Hash válido e e-mail normalizado
+  Obtido: Comparação: esperado "ana@example.com"; obtido "ana@example.com"
+  Obtido: Comparação: esperado true; obtido true
+  Resultado: Passou
+
+CT-U10 — Último administrador ativo
+  Entrada: []
+  Esperado: Rejeitar desativação
+  Obtido: Operação recusada com DomainException: Mantenha ao menos um administrador ativo.
+  Obtido: Comparação: esperado 2; obtido 2
+  Resultado: Passou
+
+CT-U11 — Estoque: quantidade decimal
+  Entrada: {"quantidade":"0"}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A quantidade deve ser um número maior que zero.
+  Resultado: Passou
+
+CT-U12 — Estoque: quantidade decimal
+  Entrada: {"quantidade":"0.001"}
+  Esperado: Aceitar decimal exato
+  Obtido: Comparação: esperado "0.001"; obtido "0.001"
+  Resultado: Passou
+
+CT-U13 — Estoque: quantidade decimal
+  Entrada: {"quantidade":"999999999.999"}
+  Esperado: Aceitar decimal exato
+  Obtido: Comparação: esperado "999999999.999"; obtido "999999999.999"
+  Resultado: Passou
+
+CT-U14 — Estoque: quantidade decimal
+  Entrada: {"quantidade":"1000000000"}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A quantidade deve ser um número maior que zero.
+  Resultado: Passou
+
+CT-U15 — Estoque: quantidade decimal
+  Entrada: {"quantidade":"1e3"}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A quantidade deve ser um número maior que zero.
+  Resultado: Passou
+
+CT-U16 — Estoque: quantidade decimal
+  Entrada: {"quantidade":"1.0001"}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A quantidade deve ser um número maior que zero.
+  Resultado: Passou
+
+CT-U17 — Estoque: quantidade decimal
+  Entrada: {"quantidade":[]}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A quantidade deve ser um número maior que zero.
+  Resultado: Passou
+
+CT-U18 — Estoque: quantidade decimal
+  Entrada: {"quantidade":null}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: A quantidade deve ser um número maior que zero.
+  Resultado: Passou
+
+CT-U19 — Retirada sem finalidade
+  Entrada: {"quantidade":"1"}
+  Esperado: Rejeitar sem retirar
+  Obtido: Operação recusada com DomainException: Informe a finalidade da retirada na observação.
+  Obtido: Comparação: esperado 1; obtido 1
+  Resultado: Passou
+
+CT-U20 — Retirada superior ao saldo
+  Entrada: {"quantidade":"11","saldo":10}
+  Esperado: Rejeitar sem retirar
+  Obtido: Operação recusada com DomainException: A retirada não pode deixar o estoque negativo.
+  Obtido: Comparação: esperado 1; obtido 1
+  Resultado: Passou
+
+CT-U21 — Compras: transição de situação
+  Entrada: {"origem":"Pendente","destino":"Pendente"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U22 — Compras: transição de situação
+  Entrada: {"origem":"Pendente","destino":"Aprovada"}
+  Esperado: Delegar uma alteração
+  Obtido: Comparação: esperado [["alterarSituacao",[1,"Pendente","Aprovada"]]]; obtido [["alterarSituacao",[1,"Pendente","Aprovada"]]]
+  Resultado: Passou
+
+CT-U23 — Compras: transição de situação
+  Entrada: {"origem":"Pendente","destino":"Recusada"}
+  Esperado: Delegar uma alteração
+  Obtido: Comparação: esperado [["alterarSituacao",[1,"Pendente","Recusada"]]]; obtido [["alterarSituacao",[1,"Pendente","Recusada"]]]
+  Resultado: Passou
+
+CT-U24 — Compras: transição de situação
+  Entrada: {"origem":"Pendente","destino":"Atendida"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U25 — Compras: transição de situação
+  Entrada: {"origem":"Aprovada","destino":"Pendente"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U26 — Compras: transição de situação
+  Entrada: {"origem":"Aprovada","destino":"Aprovada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U27 — Compras: transição de situação
+  Entrada: {"origem":"Aprovada","destino":"Recusada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U28 — Compras: transição de situação
+  Entrada: {"origem":"Aprovada","destino":"Atendida"}
+  Esperado: Delegar uma alteração
+  Obtido: Comparação: esperado [["alterarSituacao",[1,"Aprovada","Atendida"]]]; obtido [["alterarSituacao",[1,"Aprovada","Atendida"]]]
+  Resultado: Passou
+
+CT-U29 — Compras: transição de situação
+  Entrada: {"origem":"Recusada","destino":"Pendente"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U30 — Compras: transição de situação
+  Entrada: {"origem":"Recusada","destino":"Aprovada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U31 — Compras: transição de situação
+  Entrada: {"origem":"Recusada","destino":"Recusada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U32 — Compras: transição de situação
+  Entrada: {"origem":"Recusada","destino":"Atendida"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U33 — Compras: transição de situação
+  Entrada: {"origem":"Atendida","destino":"Pendente"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U34 — Compras: transição de situação
+  Entrada: {"origem":"Atendida","destino":"Aprovada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U35 — Compras: transição de situação
+  Entrada: {"origem":"Atendida","destino":"Recusada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U36 — Compras: transição de situação
+  Entrada: {"origem":"Atendida","destino":"Atendida"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U37 — Compras: transição de situação
+  Entrada: {"origem":"Inválida","destino":"Pendente"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U38 — Compras: transição de situação
+  Entrada: {"origem":"Inválida","destino":"Aprovada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U39 — Compras: transição de situação
+  Entrada: {"origem":"Inválida","destino":"Recusada"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U40 — Compras: transição de situação
+  Entrada: {"origem":"Inválida","destino":"Atendida"}
+  Esperado: Rejeitar sem alterar
+  Obtido: Operação recusada com DomainException: Transição de situação inválida.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U41 — Saúde: autorização e autoria
+  Entrada: {"perfil":"Administrador"}
+  Esperado: Somente profissional ativo grava com autor real
+  Obtido: Operação recusada com DomainException: Somente profissionais de saúde podem registrar acompanhamento.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U42 — Saúde: autorização e autoria
+  Entrada: {"perfil":"Profissional de Saúde"}
+  Esperado: Somente profissional ativo grava com autor real
+  Obtido: Comparação: esperado [["registrar",[1,2,"Nota",false]]]; obtido [["registrar",[1,2,"Nota",false]]]
+  Resultado: Passou
+
+CT-U43 — Saúde: descrição inválida
+  Entrada: {"descricao":""}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: Informe uma descrição com até 65000 bytes.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U44 — Saúde: descrição inválida
+  Entrada: {"descricao":"[texto com 65001 bytes]"}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: Informe uma descrição com até 65000 bytes.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U45 — Saúde: descrição inválida
+  Entrada: {"descricao":["x"]}
+  Esperado: Rejeitar sem gravar
+  Obtido: Operação recusada com DomainException: Dados de acompanhamento inválidos.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U46 — Familiares: e-mail opcional
+  Entrada: {"email":""}
+  Esperado: Salvar com campos opcionais normalizados
+  Obtido: Comparação: esperado {"id":1}; obtido {"id":1}
+  Obtido: Comparação: esperado null; obtido null
+  Resultado: Passou
+
+CT-U47 — Familiares: e-mail opcional
+  Entrada: {"email":"inválido"}
+  Esperado: Rejeitar
+  Obtido: Operação recusada com DomainException: Informe um e-mail válido.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U48 — Familiares: e-mail opcional
+  Entrada: {"email":"ana@example.com"}
+  Esperado: Salvar com campos opcionais normalizados
+  Obtido: Comparação: esperado {"id":1}; obtido {"id":1}
+  Obtido: Comparação: esperado "ana@example.com"; obtido "ana@example.com"
+  Resultado: Passou
+
+CT-U49 — Idoso sem vaga
+  Entrada: {"capacidade":1,"ocupacao":1}
+  Esperado: Rejeitar sem criar
+  Obtido: Operação recusada com DomainException: Este quarto não possui vaga disponível.
+  Obtido: Comparação: esperado 2; obtido 2
+  Resultado: Passou
+
+CT-U50 — Desativar idoso libera quarto
+  Entrada: []
+  Esperado: Atualizar ativo e quarto juntos
+  Obtido: Comparação: esperado ["atualizar",[1,{"ativo":false,"quarto_id":null}]]; obtido ["atualizar",[1,{"ativo":false,"quarto_id":null}]]
+  Resultado: Passou
+
+CT-U51 — Login válido normaliza e-mail e renova sessão
+  Entrada: {"email":" ANA@EXAMPLE.COM ","senha":"[omitido]"}
+  Esperado: Autenticar usuário 7, renovar sessão antes de armazenar sua identidade
+  Obtido: Comparação: esperado true; obtido true
+  Obtido: Comparação: esperado [["buscarPorEmail",["ana@example.com"]]]; obtido [["buscarPorEmail",["ana@example.com"]]]
+  Obtido: Comparação: esperado [["regenerateId",[]],["set",["asilosoft_usuario_id",7]]]; obtido [["regenerateId",[]],["set",["asilosoft_usuario_id",7]]]
+  Resultado: Passou
+
+CT-U52 — Login recusado não altera sessão
+  Entrada: {"condicao":"inexistente"}
+  Esperado: DomainException e nenhuma alteração de sessão
+  Obtido: Operação recusada com DomainException: E-mail ou senha inválidos.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U53 — Login recusado não altera sessão
+  Entrada: {"condicao":"inativo"}
+  Esperado: DomainException e nenhuma alteração de sessão
+  Obtido: Operação recusada com DomainException: E-mail ou senha inválidos.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U54 — Login recusado não altera sessão
+  Entrada: {"condicao":"senha_errada"}
+  Esperado: DomainException e nenhuma alteração de sessão
+  Obtido: Operação recusada com DomainException: E-mail ou senha inválidos.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U55 — Sessão com identidade inválida
+  Entrada: {"identidade":"abc"}
+  Esperado: Não consultar usuário e retornar null
+  Obtido: Comparação: esperado null; obtido null
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U56 — Sessão de usuário desativado é revogada
+  Entrada: {"identidade":"7","ativo":false}
+  Esperado: Remover identidade da sessão e renovar seu ID
+  Obtido: Comparação: esperado null; obtido null
+  Obtido: Comparação: esperado [["get",["asilosoft_usuario_id"]],["remove",["asilosoft_usuario_id"]],["regenerateId",[]]]; obtido [["get",["asilosoft_usuario_id"]],["remove",["asilosoft_usuario_id"]],["regenerateId",[]]]
+  Resultado: Passou
+
+CT-U57 — Sessão de usuário ativo
+  Entrada: {"identidade":7,"ativo":true}
+  Esperado: Retornar usuário e preservar sessão
+  Obtido: Comparação: esperado {"id":7,"ativo":true}; obtido {"id":7,"ativo":true}
+  Obtido: Comparação: esperado 1; obtido 1
+  Resultado: Passou
+
+CT-U58 — Ficha de idoso inexistente
+  Entrada: {"idoso_id":0}
+  Esperado: Retornar null sem consultar repositórios
+  Obtido: Comparação: esperado null; obtido null
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U59 — Ficha reúne informações do mesmo idoso
+  Entrada: {"idoso_id":3}
+  Esperado: Consolidar residente, familiares, registros e usos consultando o mesmo ID
+  Obtido: Comparação: esperado {"idoso":{"id":3},"familiares":[{"nome":"Familiar"}],"registros":[{"descricao":"Nota"}],"usos":[{"quantidade":"1.000"}]}; obtido {"idoso":{"id":3},"familiares":[{"nome":"Familiar"}],"registros":[{"descricao":"Nota"}],"usos":[{"quantidade":"1.000"}]}
+  Obtido: Comparação: esperado [["buscarPorId",[3]],["porIdoso",[3]],["listarPorIdoso",[3]],["usos",[3]]]; obtido [["buscarPorId",[3]],["porIdoso",[3]],["listarPorIdoso",[3]],["usos",[3]]]
+  Resultado: Passou
+
+CT-U60 — Filtro separa ativos e desativados
+  Entrada: {"status":"inválido\/desativados"}
+  Esperado: Status desconhecido assume ativos; resultados reindexados por situação
+  Obtido: Comparação: esperado [{"id":1,"ativo":1}]; obtido [{"id":1,"ativo":1}]
+  Obtido: Comparação: esperado [{"id":2,"ativo":0}]; obtido [{"id":2,"ativo":0}]
+  Resultado: Passou
+
+CT-U61 — Editar usuário com senha opcional
+  Entrada: {"id":7,"senha":"[omitido]"}
+  Esperado: Não sobrescrever hash quando senha estiver vazia
+  Obtido: Comparação: esperado "Ana"; obtido "Ana"
+  Obtido: Comparação: esperado "ana@example.com"; obtido "ana@example.com"
+  Obtido: Comparação: esperado false; obtido false
+  Resultado: Passou
+
+CT-U62 — Editar usuário com senha opcional
+  Entrada: {"id":7,"senha":"[omitido]"}
+  Esperado: Salvar novo hash verificável
+  Obtido: Comparação: esperado "Ana"; obtido "Ana"
+  Obtido: Comparação: esperado "ana@example.com"; obtido "ana@example.com"
+  Obtido: Comparação: esperado true; obtido true
+  Resultado: Passou
+
+CT-U63 — Material aceita estoque mínimo zero
+  Entrada: {"nome":" Gaze ","tipo":"Material","unidade_medida":"un","estoque_minimo":"0"}
+  Esperado: Criar material normalizado com mínimo 0.000 e descrição null
+  Obtido: Comparação: esperado {"id":1}; obtido {"id":1}
+  Obtido: Comparação: esperado ["criarItem",[{"nome":"Gaze","tipo":"Material","descricao":null,"unidade_medida":"un","estoque_minimo":"0.000"}]]; obtido ["criarItem",[{"nome":"Gaze","tipo":"Material","descricao":null,"unidade_medida":"un","estoque_minimo":"0.000"}]]
+  Resultado: Passou
+
+CT-U64 — Entrada registra origem quantidade e autoria
+  Entrada: {"item_id":1,"quantidade":"1,2","origem":"SUS","usuario_id":7}
+  Esperado: Delegar entrada com quantidade 1.200 e autoria 7
+  Obtido: Comparação: esperado {"id":2}; obtido {"id":2}
+  Obtido: Comparação: esperado ["registrarEntrada",[1,"1.200","SUS",7,"Doação"]]; obtido ["registrarEntrada",[1,"1.200","SUS",7,"Doação"]]
+  Resultado: Passou
+
+CT-U65 — Retirada admite exatamente o saldo disponível
+  Entrada: {"quantidade":"10","saldo":10,"observacao":"Uso coletivo"}
+  Esperado: Aceitar retirada integral e preservar finalidade e autor
+  Obtido: Comparação: esperado {"id":2}; obtido {"id":2}
+  Obtido: Comparação: esperado ["registrarRetirada",[1,"10.000",7,"Uso coletivo"]]; obtido ["registrarRetirada",[1,"10.000",7,"Uso coletivo"]]
+  Resultado: Passou
+
+CT-U66 — Consumo valida chave e preserva payload
+  Entrada: {"idoso_id":3,"material_id":1,"quantidade":"0,001","chave":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+  Esperado: Delegar consumo de 0.001 com chave original e autor 7
+  Obtido: Comparação: esperado {"id":9}; obtido {"id":9}
+  Obtido: Comparação: esperado [["registrarUso",[3,1,"0.001",7,null,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]]]; obtido [["registrarUso",[3,1,"0.001",7,null,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]]]
+  Resultado: Passou
+
+CT-U67 — Vínculo familiar normaliza parentesco
+  Entrada: {"idoso_id":3,"familiar_id":4,"parentesco":" Filha ","responsavel_principal":1}
+  Esperado: Delegar vínculo com parentesco sem espaços e responsável principal true
+  Obtido: Comparação: esperado [["vincular",[3,4,"Filha",true]]]; obtido [["vincular",[3,4,"Filha",true]]]
+  Resultado: Passou
+
+CT-U68 — Vínculo familiar exige parentesco
+  Entrada: {"idoso_id":3,"familiar_id":4,"parentesco":""}
+  Esperado: Rejeitar vínculo sem parentesco e não gravar
+  Obtido: Operação recusada com DomainException: Informe parentesco com até 60 caracteres.
+  Obtido: Comparação: esperado []; obtido []
+  Resultado: Passou
+
+CT-U69 — Cadastro de idoso normaliza CPF com vaga livre
+  Entrada: {"nome":" Ana ","cpf":"123.456.789-01","identificador":" A ","quarto_id":1,"capacidade":1,"ocupacao":0}
+  Esperado: Salvar CPF sem máscara e nome e identificador sem espaços
+  Obtido: Comparação: esperado {"id":3}; obtido {"id":3}
+  Obtido: Comparação: esperado ["criar",[{"nome":"Ana","cpf":"12345678901","identificador":"A","quarto_id":1}]]; obtido ["criar",[{"nome":"Ana","cpf":"12345678901","identificador":"A","quarto_id":1}]]
+  Resultado: Passou
+
+CT-U70 — Retificação de saúde inclui referência e mantém autoria
+  Entrada: {"idoso_id":3,"autor_id":7,"corrige_id":8,"descricao":" Correção ","visivel_para_familiar":"1"}
+  Esperado: Gravar nota aditiva referente ao registro 8, autor 7 e visibilidade true
+  Obtido: Comparação: esperado ["registrar",[3,7,"Retificação do registro #8: Correção",true]]; obtido ["registrar",[3,7,"Retificação do registro #8: Correção",true]]
+  Resultado: Passou
+
+CT-U71 — Quarto vazio pode ser desativado
+  Entrada: {"quarto_id":1,"ocupacao":0,"ativo":false}
+  Esperado: Atualizar quarto existente para ativo false
+  Obtido: Comparação: esperado {"id":1,"ativo":false}; obtido {"id":1,"ativo":false}
+  Obtido: Comparação: esperado ["atualizar",[1,{"ativo":false}]]; obtido ["atualizar",[1,{"ativo":false}]]
+  Resultado: Passou
+71 casos; 0 falhas de teste
+Catálogo atualizado: 71 casos reais.
+40 checks passed
+CT-I01: database/Database; início 2026-11-24T19:39:36-03:00; banco asilosoft_test_20261124193936_93162_database
+Executando: tests/integration/database/DatabaseIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
