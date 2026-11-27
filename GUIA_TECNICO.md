@@ -185,6 +185,10 @@ Depois de configurar o `.env`, aplique as migrations versionadas com `php src/in
 - **Saída HTML:** views usam `AsiloView::escape()` com `htmlspecialchars(..., ENT_QUOTES, 'UTF-8')`.
 - **Erros de domínio:** services lançam `DomainException`; controllers exibem a mensagem via flash e fazem redirect HTTP 303.
 - **Erros de rota/registro:** ID inválido ou registro ausente devolve 404; perfil sem permissão devolve 403.
+- **Login:** no máximo 5 falhas por e-mail em 15 minutos (tabela `tentativas_login`, com o e-mail guardado como hash SHA-256, migration 009). O limite vale também para e-mails inexistentes e a senha é sempre conferida com `password_verify` (contra um hash fictício quando a conta não existe), para não revelar quais e-mails têm conta.
+- **Sessão:** `index.php` ativa `session.use_strict_mode` e define o cookie com `HttpOnly`, `SameSite=Lax` e `Secure` quando a requisição chega por HTTPS (inclusive via `X-Forwarded-Proto` do Railway).
+- **Cabeçalhos:** `index.php` remove `X-Powered-By` e envia `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: same-origin` e uma `Content-Security-Policy` que só permite recursos do próprio site. Não use `<script>` ou `style=` inline nas views, porque a política os bloqueia.
+- **Testes:** `php tests/seguranca/SegurancaTest.php` cobre essas regras e as categorias do OWASP Top 10 ([docs/testes/SEGURANCA.md](docs/testes/SEGURANCA.md)).
 
 ## 8. Convenções de escrita observadas
 

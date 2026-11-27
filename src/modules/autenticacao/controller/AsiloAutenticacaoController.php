@@ -5,6 +5,7 @@ require_once dirname(__DIR__, 3) . '/core/Security/CsrfToken.php';
 require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
 require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
 require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
+require_once dirname(__DIR__) . '/repository/AsiloTentativaLoginRepository.php';
 require_once dirname(__DIR__) . '/services/AsiloAutenticacaoService.php';
 
 final class AsiloAutenticacaoController
@@ -21,7 +22,8 @@ final class AsiloAutenticacaoController
     {
         return $this->authentication ??= new AsiloAutenticacaoService(
             new AsiloUsuarioRepository(PDOMysqli::connection()),
-            $this->session
+            $this->session,
+            new AsiloTentativaLoginRepository(PDOMysqli::connection())
         );
     }
 

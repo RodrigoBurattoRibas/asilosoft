@@ -1,0 +1,5025 @@
+{
+    "gerado_em": "2026-11-27T20:30:47-03:00",
+    "ambiente": {
+        "php": "8.5.4",
+        "so": "Linux 7.0.0-43-generic x86_64",
+        "cpu": "AMD Ryzen 5 3400G with Radeon Vega Graphics",
+        "cpus_logicas": 8,
+        "memoria_gib": 13.1,
+        "mysql": "10.4.32-MariaDB (local, mesma máquina)",
+        "servidor_http": "PHP embutido (php -S) com router.php, mesmo comando do Railway",
+        "gerador_carga": "Processos PHP (pcntl) na mesma máquina do servidor"
+    },
+    "parametros": {
+        "duracao_etapa_s": 20,
+        "etapas": [
+            10,
+            25,
+            50,
+            100,
+            150,
+            200,
+            300
+        ],
+        "workers": [
+            1,
+            4
+        ],
+        "limite_p95_ms": 2000,
+        "limite_erro": 0.01,
+        "limite_carga_vus": 50,
+        "timeout_cliente_s": 15,
+        "tempo_leitura_s": [
+            0.5,
+            2
+        ],
+        "massa": {
+            "usuarios_por_perfil": 20,
+            "idosos": 300,
+            "materiais": 20,
+            "registros_saude": 600
+        },
+        "mistura_perfis": {
+            "Profissional de Saúde": "40%",
+            "Administrador": "30%",
+            "Almoxarife": "30%"
+        }
+    },
+    "execucoes": [
+        {
+            "workers": 1,
+            "etapas": [
+                {
+                    "tipo": "carga",
+                    "vus": 10,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 201,
+                    "sucesso": 201,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 8.04,
+                    "vazao_ok_rps": 8.04,
+                    "latencia_ms": {
+                        "media": 17,
+                        "p50": 4.5,
+                        "p90": 8.7,
+                        "p95": 110.5,
+                        "p99": 228.5,
+                        "max": 234.1
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "media": 5.8,
+                            "p50": 5.7,
+                            "p90": 6.3,
+                            "p95": 6.5,
+                            "p99": 6.5,
+                            "max": 6.5
+                        },
+                        "compras": {
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "media": 4.4,
+                            "p50": 4,
+                            "p90": 6.5,
+                            "p95": 7.5,
+                            "p99": 7.5,
+                            "max": 7.5
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 13,
+                            "erros": 0,
+                            "media": 6.4,
+                            "p50": 6.1,
+                            "p90": 6.6,
+                            "p95": 12.5,
+                            "p99": 12.5,
+                            "max": 12.5
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "media": 3.8,
+                            "p50": 3.6,
+                            "p90": 4.2,
+                            "p95": 6.2,
+                            "p99": 6.2,
+                            "max": 6.2
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "media": 5.8,
+                            "p50": 5.8,
+                            "p90": 6.3,
+                            "p95": 6.4,
+                            "p99": 6.4,
+                            "max": 6.4
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 7,
+                            "p50": 6.3,
+                            "p90": 9.8,
+                            "p95": 9.8,
+                            "p99": 9.8,
+                            "max": 9.8
+                        },
+                        "home": {
+                            "requisicoes": 37,
+                            "erros": 0,
+                            "media": 3.2,
+                            "p50": 2.8,
+                            "p90": 4.3,
+                            "p95": 6.8,
+                            "p99": 14.1,
+                            "max": 14.1
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 12.6,
+                            "p50": 5.2,
+                            "p90": 9.3,
+                            "p95": 78.4,
+                            "p99": 110.5,
+                            "max": 110.5
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 23.4,
+                            "p50": 5.2,
+                            "p90": 95.1,
+                            "p95": 95.1,
+                            "p99": 95.1,
+                            "max": 95.1
+                        },
+                        "login (envio)": {
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "media": 216.8,
+                            "p50": 218.9,
+                            "p90": 232.4,
+                            "p95": 234.1,
+                            "p99": 234.1,
+                            "max": 234.1
+                        },
+                        "login (página)": {
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "media": 3.2,
+                            "p50": 1.8,
+                            "p90": 2.2,
+                            "p95": 15.3,
+                            "p99": 15.3,
+                            "max": 15.3
+                        },
+                        "prontuário": {
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "media": 4.3,
+                            "p50": 4.3,
+                            "p90": 4.5,
+                            "p95": 5.6,
+                            "p99": 5.6,
+                            "max": 5.6
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "media": 4.7,
+                            "p50": 4.4,
+                            "p90": 5.4,
+                            "p95": 8.4,
+                            "p99": 8.4,
+                            "max": 8.4
+                        },
+                        "usuários": {
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "media": 5.5,
+                            "p50": 5.3,
+                            "p90": 7.7,
+                            "p95": 7.7,
+                            "p99": 7.7,
+                            "max": 7.7
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 10.4,
+                        "cpu_max_pct": 44.5,
+                        "rss_max_mb": 25.2,
+                        "load1_max": 0.96
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 201.7
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 232.4
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 225.3
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 234.1
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 12,
+                            "erros": 0,
+                            "p95": 223.3
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "p95": 12.5
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 9.8
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 6.2
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 7.7
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 5.4
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 5.6
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.3
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 14.1
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 6.5
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 6.3
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 8.4
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 4.9
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 6.4
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 5.8
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 4.5
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.6
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 6.3
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "p95": 9.3
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.9
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "carga",
+                    "vus": 25,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 505,
+                    "sucesso": 505,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 20.2,
+                    "vazao_ok_rps": 20.2,
+                    "latencia_ms": {
+                        "media": 17.1,
+                        "p50": 4.6,
+                        "p90": 10.6,
+                        "p95": 119.2,
+                        "p99": 214.3,
+                        "max": 225.8
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 14.1,
+                            "p50": 7,
+                            "p90": 44.2,
+                            "p95": 60.7,
+                            "p99": 96.7,
+                            "max": 96.7
+                        },
+                        "compras": {
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "media": 6.2,
+                            "p50": 3.9,
+                            "p90": 5.2,
+                            "p95": 8.7,
+                            "p99": 88,
+                            "max": 88
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "media": 18.2,
+                            "p50": 6.4,
+                            "p90": 78.2,
+                            "p95": 117.4,
+                            "p99": 132,
+                            "max": 132
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "media": 8.5,
+                            "p50": 3.4,
+                            "p90": 4,
+                            "p95": 43.6,
+                            "p99": 81.4,
+                            "max": 81.4
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "media": 6.5,
+                            "p50": 6,
+                            "p90": 8.6,
+                            "p95": 8.9,
+                            "p99": 10.1,
+                            "max": 10.1
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "media": 15.5,
+                            "p50": 7,
+                            "p90": 8.2,
+                            "p95": 56.3,
+                            "p99": 129.5,
+                            "max": 129.5
+                        },
+                        "home": {
+                            "requisicoes": 101,
+                            "erros": 0,
+                            "media": 5.8,
+                            "p50": 2.8,
+                            "p90": 7.3,
+                            "p95": 8.9,
+                            "p99": 85.6,
+                            "max": 159.4
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 67,
+                            "erros": 0,
+                            "media": 12.5,
+                            "p50": 4.7,
+                            "p90": 9.2,
+                            "p95": 95.8,
+                            "p99": 197.7,
+                            "max": 197.7
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "media": 29.5,
+                            "p50": 5.1,
+                            "p90": 146.8,
+                            "p95": 178.7,
+                            "p99": 191.1,
+                            "max": 191.1
+                        },
+                        "login (envio)": {
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "media": 210.4,
+                            "p50": 212.4,
+                            "p90": 223.6,
+                            "p95": 225.8,
+                            "p99": 225.8,
+                            "max": 225.8
+                        },
+                        "login (página)": {
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "media": 1.8,
+                            "p50": 1.9,
+                            "p90": 2,
+                            "p95": 2,
+                            "p99": 2,
+                            "max": 2
+                        },
+                        "prontuário": {
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "media": 14.8,
+                            "p50": 4.6,
+                            "p90": 56.4,
+                            "p95": 65.9,
+                            "p99": 187.9,
+                            "max": 187.9
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 43,
+                            "erros": 0,
+                            "media": 12,
+                            "p50": 4.5,
+                            "p90": 5.7,
+                            "p95": 8.8,
+                            "p99": 173.4,
+                            "max": 173.4
+                        },
+                        "usuários": {
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "media": 5.2,
+                            "p50": 5.3,
+                            "p90": 6,
+                            "p95": 6.2,
+                            "p99": 6.6,
+                            "max": 6.6
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 17,
+                        "cpu_max_pct": 65.5,
+                        "rss_max_mb": 25.2,
+                        "load1_max": 1.3
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 17,
+                            "erros": 0,
+                            "p95": 216.2
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "p95": 223.6
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "p95": 223
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 24,
+                            "erros": 0,
+                            "p95": 212.4
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 24,
+                            "erros": 0,
+                            "p95": 202.7
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "p95": 117.4
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "p95": 8.1
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 18,
+                            "erros": 0,
+                            "p95": 6.7
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 18,
+                            "erros": 0,
+                            "p95": 8.9
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "p95": 7.4
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "p95": 7.8
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "p95": 7.3
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 17,
+                            "erros": 0,
+                            "p95": 10.6
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 27,
+                            "erros": 0,
+                            "p95": 6.7
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "p95": 8.1
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "p95": 8.7
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 17,
+                            "erros": 0,
+                            "p95": 8.6
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 7.6
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 18,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 7.3
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "p95": 6.9
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "p95": 6.6
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "p95": 10.2
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "p95": 6.5
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "p95": 6.9
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "carga",
+                    "vus": 50,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 981,
+                    "sucesso": 981,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 39.24,
+                    "vazao_ok_rps": 39.24,
+                    "latencia_ms": {
+                        "media": 22.1,
+                        "p50": 5.2,
+                        "p90": 86,
+                        "p95": 153.9,
+                        "p99": 193.3,
+                        "max": 210.4
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 57,
+                            "erros": 0,
+                            "media": 23.6,
+                            "p50": 7.5,
+                            "p90": 93.3,
+                            "p95": 147.3,
+                            "p99": 182.5,
+                            "max": 182.5
+                        },
+                        "compras": {
+                            "requisicoes": 93,
+                            "erros": 0,
+                            "media": 15,
+                            "p50": 3.9,
+                            "p90": 26.6,
+                            "p95": 128.9,
+                            "p99": 181.5,
+                            "max": 181.5
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 72,
+                            "erros": 0,
+                            "media": 21.8,
+                            "p50": 6.4,
+                            "p90": 102.2,
+                            "p95": 139.1,
+                            "p99": 194.1,
+                            "max": 194.1
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 53,
+                            "erros": 0,
+                            "media": 15.6,
+                            "p50": 3.5,
+                            "p90": 28.5,
+                            "p95": 112.2,
+                            "p99": 191.4,
+                            "max": 191.4
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 51,
+                            "erros": 0,
+                            "media": 21.9,
+                            "p50": 5.9,
+                            "p90": 99.4,
+                            "p95": 145.8,
+                            "p99": 169.2,
+                            "max": 169.2
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 46,
+                            "erros": 0,
+                            "media": 23.6,
+                            "p50": 6.3,
+                            "p90": 117.4,
+                            "p95": 153.9,
+                            "p99": 195.9,
+                            "max": 195.9
+                        },
+                        "home": {
+                            "requisicoes": 185,
+                            "erros": 0,
+                            "media": 9.3,
+                            "p50": 2.8,
+                            "p90": 13.7,
+                            "p95": 57.7,
+                            "p99": 144.6,
+                            "max": 168.9
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 128,
+                            "erros": 0,
+                            "media": 22.2,
+                            "p50": 5.3,
+                            "p90": 86,
+                            "p95": 138.3,
+                            "p99": 186.2,
+                            "max": 188.7
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 51,
+                            "erros": 0,
+                            "media": 30.3,
+                            "p50": 5.3,
+                            "p90": 142.2,
+                            "p95": 170,
+                            "p99": 177.9,
+                            "max": 177.9
+                        },
+                        "login (envio)": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 193.7,
+                            "p50": 192.6,
+                            "p90": 195.4,
+                            "p95": 196.1,
+                            "p99": 210.4,
+                            "max": 210.4
+                        },
+                        "login (página)": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 5.1,
+                            "p50": 1.2,
+                            "p90": 11.9,
+                            "p95": 17.8,
+                            "p99": 26.2,
+                            "max": 26.2
+                        },
+                        "prontuário": {
+                            "requisicoes": 76,
+                            "erros": 0,
+                            "media": 21.6,
+                            "p50": 4.3,
+                            "p90": 81.7,
+                            "p95": 144.5,
+                            "p99": 173.5,
+                            "max": 173.5
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 74,
+                            "erros": 0,
+                            "media": 15.1,
+                            "p50": 4.6,
+                            "p90": 30.8,
+                            "p95": 97,
+                            "p99": 180.7,
+                            "max": 180.7
+                        },
+                        "usuários": {
+                            "requisicoes": 45,
+                            "erros": 0,
+                            "media": 12.2,
+                            "p50": 5.2,
+                            "p90": 9,
+                            "p95": 89.2,
+                            "p99": 141.2,
+                            "max": 141.2
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 27.4,
+                        "cpu_max_pct": 97,
+                        "rss_max_mb": 25.2,
+                        "load1_max": 1.24
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 35,
+                            "erros": 0,
+                            "p95": 194.2
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 193.8
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 191.8
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 192.6
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 48,
+                            "erros": 0,
+                            "p95": 194.8
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 181.5
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 36,
+                            "erros": 0,
+                            "p95": 7.1
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 37,
+                            "erros": 0,
+                            "p95": 9.1
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 41,
+                            "erros": 0,
+                            "p95": 9.1
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 35,
+                            "erros": 0,
+                            "p95": 9
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "p95": 8
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 7
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "p95": 7.8
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "p95": 8.7
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "p95": 7.3
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 38,
+                            "erros": 0,
+                            "p95": 10.6
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 36,
+                            "erros": 0,
+                            "p95": 7.3
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "p95": 7.8
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 41,
+                            "erros": 0,
+                            "p95": 10.5
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "p95": 8.3
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 35,
+                            "erros": 0,
+                            "p95": 9.4
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 47,
+                            "erros": 0,
+                            "p95": 9.5
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 100,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 1479,
+                    "sucesso": 1479,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 59.16,
+                    "vazao_ok_rps": 59.16,
+                    "latencia_ms": {
+                        "media": 452.2,
+                        "p50": 6.1,
+                        "p90": 2221.7,
+                        "p95": 2710.6,
+                        "p99": 3436.2,
+                        "max": 3835.8
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 82,
+                            "erros": 0,
+                            "media": 534.5,
+                            "p50": 10.1,
+                            "p90": 2428.6,
+                            "p95": 2793.9,
+                            "p99": 3493.9,
+                            "max": 3493.9
+                        },
+                        "compras": {
+                            "requisicoes": 141,
+                            "erros": 0,
+                            "media": 290,
+                            "p50": 4.3,
+                            "p90": 1232.4,
+                            "p95": 2369.9,
+                            "p99": 3196.1,
+                            "max": 3207
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 105,
+                            "erros": 0,
+                            "media": 277.4,
+                            "p50": 6.6,
+                            "p90": 1594.9,
+                            "p95": 2228.7,
+                            "p99": 2513.9,
+                            "max": 3029.1
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 81,
+                            "erros": 0,
+                            "media": 269.1,
+                            "p50": 4.1,
+                            "p90": 700.9,
+                            "p95": 2534.3,
+                            "p99": 3245,
+                            "max": 3245
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 78,
+                            "erros": 0,
+                            "media": 221.7,
+                            "p50": 5.9,
+                            "p90": 826.1,
+                            "p95": 2102.6,
+                            "p99": 3159.2,
+                            "max": 3159.2
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 71,
+                            "erros": 0,
+                            "media": 405.5,
+                            "p50": 7.1,
+                            "p90": 2498.9,
+                            "p95": 3334.4,
+                            "p99": 3409.6,
+                            "max": 3409.6
+                        },
+                        "home": {
+                            "requisicoes": 285,
+                            "erros": 0,
+                            "media": 525.3,
+                            "p50": 3.6,
+                            "p90": 2367.6,
+                            "p95": 2869.8,
+                            "p99": 3552.3,
+                            "max": 3602.6
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 183,
+                            "erros": 0,
+                            "media": 417.5,
+                            "p50": 5.6,
+                            "p90": 2198.3,
+                            "p95": 2662.9,
+                            "p99": 3553.6,
+                            "max": 3566.2
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 67,
+                            "erros": 0,
+                            "media": 418.5,
+                            "p50": 5.8,
+                            "p90": 2427.6,
+                            "p95": 2618.5,
+                            "p99": 3179.2,
+                            "max": 3179.2
+                        },
+                        "login (envio)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1614.5,
+                            "p50": 1416.4,
+                            "p90": 3009.1,
+                            "p95": 3417,
+                            "p99": 3835.8,
+                            "max": 3835.8
+                        },
+                        "login (página)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1277,
+                            "p50": 1019.8,
+                            "p90": 2706.1,
+                            "p95": 2994.3,
+                            "p99": 3183.6,
+                            "max": 3183.6
+                        },
+                        "prontuário": {
+                            "requisicoes": 112,
+                            "erros": 0,
+                            "media": 374.2,
+                            "p50": 5,
+                            "p90": 2093,
+                            "p95": 2794.1,
+                            "p99": 3206,
+                            "max": 3547.9
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 106,
+                            "erros": 0,
+                            "media": 285.3,
+                            "p50": 4.6,
+                            "p90": 1426.3,
+                            "p95": 2346,
+                            "p99": 3259.6,
+                            "max": 3349.7
+                        },
+                        "usuários": {
+                            "requisicoes": 68,
+                            "erros": 0,
+                            "media": 238.3,
+                            "p50": 5.3,
+                            "p90": 939.6,
+                            "p95": 2217.7,
+                            "p99": 3567,
+                            "max": 3567
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 51.8,
+                        "cpu_max_pct": 99.9,
+                        "rss_max_mb": 25.4,
+                        "load1_max": 1.37
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 60,
+                            "erros": 0,
+                            "p95": 729.4
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 55,
+                            "erros": 0,
+                            "p95": 1568.1
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 51,
+                            "erros": 0,
+                            "p95": 1097.9
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 57,
+                            "erros": 0,
+                            "p95": 3196.1
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 48,
+                            "erros": 0,
+                            "p95": 2437.2
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "p95": 1815.2
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "p95": 3632.9
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "p95": 3567
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 47,
+                            "erros": 0,
+                            "p95": 2710.6
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "p95": 1795.9
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "p95": 718.5
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "p95": 14.3
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 87,
+                            "erros": 0,
+                            "p95": 11.7
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 84,
+                            "erros": 0,
+                            "p95": 13.7
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 80,
+                            "erros": 0,
+                            "p95": 9.3
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 82,
+                            "erros": 0,
+                            "p95": 9.8
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 72,
+                            "erros": 0,
+                            "p95": 12.2
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 77,
+                            "erros": 0,
+                            "p95": 10
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 83,
+                            "erros": 0,
+                            "p95": 11.7
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 74,
+                            "erros": 0,
+                            "p95": 9.4
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 82,
+                            "erros": 0,
+                            "p95": 9.2
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 70,
+                            "erros": 0,
+                            "p95": 9.4
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 78,
+                            "erros": 0,
+                            "p95": 16.7
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 83,
+                            "erros": 0,
+                            "p95": 10.7
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 74,
+                            "erros": 0,
+                            "p95": 13.4
+                        }
+                    ],
+                    "aprovada": false
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 150,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 2293,
+                    "sucesso": 2293,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 91.72,
+                    "vazao_ok_rps": 91.72,
+                    "latencia_ms": {
+                        "media": 417.1,
+                        "p50": 7.2,
+                        "p90": 2008.4,
+                        "p95": 2466.7,
+                        "p99": 2776.6,
+                        "max": 3128.5
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 139,
+                            "erros": 0,
+                            "media": 427.9,
+                            "p50": 15.2,
+                            "p90": 2125.5,
+                            "p95": 2391.7,
+                            "p99": 2654.6,
+                            "max": 2737.4
+                        },
+                        "compras": {
+                            "requisicoes": 218,
+                            "erros": 0,
+                            "media": 271.4,
+                            "p50": 5.3,
+                            "p90": 1283.1,
+                            "p95": 2311.2,
+                            "p99": 2594,
+                            "max": 2714.1
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 166,
+                            "erros": 0,
+                            "media": 388.5,
+                            "p50": 7.9,
+                            "p90": 2069.3,
+                            "p95": 2359.5,
+                            "p99": 2727.3,
+                            "max": 2867.5
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 138,
+                            "erros": 0,
+                            "media": 288.6,
+                            "p50": 4.7,
+                            "p90": 1479.6,
+                            "p95": 2402.7,
+                            "p99": 2694.5,
+                            "max": 2715
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 128,
+                            "erros": 0,
+                            "media": 277.3,
+                            "p50": 6.5,
+                            "p90": 1361.6,
+                            "p95": 2112,
+                            "p99": 2466.7,
+                            "max": 2468.4
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 105,
+                            "erros": 0,
+                            "media": 414.5,
+                            "p50": 7.1,
+                            "p90": 2138.5,
+                            "p95": 2335.9,
+                            "p99": 2541.9,
+                            "max": 2557.3
+                        },
+                        "home": {
+                            "requisicoes": 430,
+                            "erros": 0,
+                            "media": 422,
+                            "p50": 4,
+                            "p90": 1992,
+                            "p95": 2460.2,
+                            "p99": 2700.9,
+                            "max": 2935.3
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 299,
+                            "erros": 0,
+                            "media": 438.2,
+                            "p50": 7.8,
+                            "p90": 2213.7,
+                            "p95": 2644.9,
+                            "p99": 2782,
+                            "max": 2823.1
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 121,
+                            "erros": 0,
+                            "media": 379.4,
+                            "p50": 8,
+                            "p90": 1542.5,
+                            "p95": 1974.8,
+                            "p99": 2742.7,
+                            "max": 2768.7
+                        },
+                        "login (envio)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1610.9,
+                            "p50": 1469.4,
+                            "p90": 2776.6,
+                            "p95": 2940.2,
+                            "p99": 3128.5,
+                            "max": 3128.5
+                        },
+                        "login (página)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1323.6,
+                            "p50": 1067.7,
+                            "p90": 2767.5,
+                            "p95": 2931,
+                            "p99": 3029.5,
+                            "max": 3029.5
+                        },
+                        "prontuário": {
+                            "requisicoes": 174,
+                            "erros": 0,
+                            "media": 329.3,
+                            "p50": 5.6,
+                            "p90": 1487.3,
+                            "p95": 2480.6,
+                            "p99": 2679.6,
+                            "max": 3030.7
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 173,
+                            "erros": 0,
+                            "media": 342,
+                            "p50": 5.8,
+                            "p90": 2030.8,
+                            "p95": 2532.7,
+                            "p99": 2732.4,
+                            "max": 3004.8
+                        },
+                        "usuários": {
+                            "requisicoes": 102,
+                            "erros": 0,
+                            "media": 323.4,
+                            "p50": 6.1,
+                            "p90": 1924.8,
+                            "p95": 2272.9,
+                            "p99": 3029,
+                            "max": 3030.5
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 56,
+                        "cpu_max_pct": 100,
+                        "rss_max_mb": 25.8,
+                        "load1_max": 1.37
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 110,
+                            "erros": 0,
+                            "p95": 775
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 81,
+                            "erros": 0,
+                            "p95": 1542.5
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 69,
+                            "erros": 0,
+                            "p95": 1382
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 64,
+                            "erros": 0,
+                            "p95": 2940.2
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 78,
+                            "erros": 0,
+                            "p95": 2776.6
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 51,
+                            "erros": 0,
+                            "p95": 2418.2
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 2345.7
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 36,
+                            "erros": 0,
+                            "p95": 3030.7
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 80,
+                            "erros": 0,
+                            "p95": 2480.6
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 37,
+                            "erros": 0,
+                            "p95": 1612.7
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 731.2
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 96,
+                            "erros": 0,
+                            "p95": 18.9
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 120,
+                            "erros": 0,
+                            "p95": 12.1
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 125,
+                            "erros": 0,
+                            "p95": 26.3
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 126,
+                            "erros": 0,
+                            "p95": 20.2
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 113,
+                            "erros": 0,
+                            "p95": 21.5
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 133,
+                            "erros": 0,
+                            "p95": 275
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 115,
+                            "erros": 0,
+                            "p95": 197.2
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 107,
+                            "erros": 0,
+                            "p95": 18.3
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 120,
+                            "erros": 0,
+                            "p95": 16
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 116,
+                            "erros": 0,
+                            "p95": 13.4
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 127,
+                            "erros": 0,
+                            "p95": 17.3
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 115,
+                            "erros": 0,
+                            "p95": 25.6
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 118,
+                            "erros": 0,
+                            "p95": 12.1
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 130,
+                            "erros": 0,
+                            "p95": 19.8
+                        }
+                    ],
+                    "aprovada": false
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 200,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 2891,
+                    "sucesso": 2891,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 115.64,
+                    "vazao_ok_rps": 115.64,
+                    "latencia_ms": {
+                        "media": 496,
+                        "p50": 9.9,
+                        "p90": 1755.4,
+                        "p95": 3565.1,
+                        "p99": 4010.5,
+                        "max": 4153.1
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 169,
+                            "erros": 0,
+                            "media": 705.3,
+                            "p50": 19.9,
+                            "p90": 3690.6,
+                            "p95": 3891.4,
+                            "p99": 4031,
+                            "max": 4066.6
+                        },
+                        "compras": {
+                            "requisicoes": 301,
+                            "erros": 0,
+                            "media": 401.3,
+                            "p50": 8.1,
+                            "p90": 1517.4,
+                            "p95": 3196.8,
+                            "p99": 3955.4,
+                            "max": 4153.1
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 216,
+                            "erros": 0,
+                            "media": 351.6,
+                            "p50": 11.3,
+                            "p90": 1686.7,
+                            "p95": 1811.6,
+                            "p99": 3918,
+                            "max": 4140.5
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 154,
+                            "erros": 0,
+                            "media": 341.2,
+                            "p50": 6.1,
+                            "p90": 1060.5,
+                            "p95": 3037.1,
+                            "p99": 4060.6,
+                            "max": 4131.3
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 160,
+                            "erros": 0,
+                            "media": 166.3,
+                            "p50": 6.7,
+                            "p90": 427.2,
+                            "p95": 808.8,
+                            "p99": 3756.8,
+                            "max": 3759.5
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 140,
+                            "erros": 0,
+                            "media": 352.3,
+                            "p50": 9.7,
+                            "p90": 1469.8,
+                            "p95": 1734.5,
+                            "p99": 3622.4,
+                            "max": 3933.8
+                        },
+                        "home": {
+                            "requisicoes": 559,
+                            "erros": 0,
+                            "media": 631.1,
+                            "p50": 8.5,
+                            "p90": 3122.5,
+                            "p95": 3809.7,
+                            "p99": 4010.5,
+                            "max": 4081.4
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 374,
+                            "erros": 0,
+                            "media": 423.5,
+                            "p50": 7.8,
+                            "p90": 1678,
+                            "p95": 3279.3,
+                            "p99": 4032.4,
+                            "max": 4085.1
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 139,
+                            "erros": 0,
+                            "media": 399.6,
+                            "p50": 7.4,
+                            "p90": 1445,
+                            "p95": 3307.7,
+                            "p99": 3897.7,
+                            "max": 4038
+                        },
+                        "login (envio)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 2133.3,
+                            "p50": 1867.1,
+                            "p90": 3767.5,
+                            "p95": 4062.1,
+                            "p99": 4152.2,
+                            "max": 4152.2
+                        },
+                        "login (página)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1261.7,
+                            "p50": 1332.2,
+                            "p90": 1888.5,
+                            "p95": 2923.6,
+                            "p99": 3227.5,
+                            "max": 3227.5
+                        },
+                        "prontuário": {
+                            "requisicoes": 222,
+                            "erros": 0,
+                            "media": 472.6,
+                            "p50": 7.9,
+                            "p90": 1677,
+                            "p95": 3875.3,
+                            "p99": 4043.7,
+                            "max": 4083.6
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 220,
+                            "erros": 0,
+                            "media": 435.6,
+                            "p50": 6.5,
+                            "p90": 1299.3,
+                            "p95": 3602.6,
+                            "p99": 4006.9,
+                            "max": 4063.4
+                        },
+                        "usuários": {
+                            "requisicoes": 137,
+                            "erros": 0,
+                            "media": 382.1,
+                            "p50": 7.3,
+                            "p90": 1611.6,
+                            "p95": 1921.8,
+                            "p99": 3770.5,
+                            "max": 3952.3
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 61.4,
+                        "cpu_max_pct": 99.4,
+                        "rss_max_mb": 26.3,
+                        "load1_max": 1.58
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 143,
+                            "erros": 0,
+                            "p95": 852.3
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 112,
+                            "erros": 0,
+                            "p95": 927.5
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 90,
+                            "erros": 0,
+                            "p95": 1934.8
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 100,
+                            "erros": 0,
+                            "p95": 1687.5
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 49,
+                            "erros": 0,
+                            "p95": 3233.9
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 89,
+                            "erros": 0,
+                            "p95": 4075
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 81,
+                            "erros": 0,
+                            "p95": 4081.4
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "p95": 3795.6
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 12,
+                            "erros": 0,
+                            "p95": 3318.5
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "p95": 2132.4
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 63,
+                            "erros": 0,
+                            "p95": 1525.6
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 65,
+                            "erros": 0,
+                            "p95": 679.3
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 152,
+                            "erros": 0,
+                            "p95": 22
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 149,
+                            "erros": 0,
+                            "p95": 16.6
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 149,
+                            "erros": 0,
+                            "p95": 14
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 179,
+                            "erros": 0,
+                            "p95": 32
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 149,
+                            "erros": 0,
+                            "p95": 31.1
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 154,
+                            "erros": 0,
+                            "p95": 20
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 157,
+                            "erros": 0,
+                            "p95": 32
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 157,
+                            "erros": 0,
+                            "p95": 22.9
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 163,
+                            "erros": 0,
+                            "p95": 29.6
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 159,
+                            "erros": 0,
+                            "p95": 19.3
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 158,
+                            "erros": 0,
+                            "p95": 21.8
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 152,
+                            "erros": 0,
+                            "p95": 25.1
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 166,
+                            "erros": 0,
+                            "p95": 43
+                        }
+                    ],
+                    "aprovada": false
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 300,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 1687,
+                    "sucesso": 1687,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 67.48,
+                    "vazao_ok_rps": 67.48,
+                    "latencia_ms": {
+                        "media": 3260.8,
+                        "p50": 1377.1,
+                        "p90": 10855.5,
+                        "p95": 11924.9,
+                        "p99": 13016.7,
+                        "max": 13261
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 97,
+                            "erros": 0,
+                            "media": 2637.4,
+                            "p50": 67.9,
+                            "p90": 9175.5,
+                            "p95": 11738.6,
+                            "p99": 13140.8,
+                            "max": 13140.8
+                        },
+                        "compras": {
+                            "requisicoes": 127,
+                            "erros": 0,
+                            "media": 3793.2,
+                            "p50": 1955.8,
+                            "p90": 11861.6,
+                            "p95": 12297.5,
+                            "p99": 13191.1,
+                            "max": 13217.3
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 98,
+                            "erros": 0,
+                            "media": 3966.7,
+                            "p50": 3254.2,
+                            "p90": 11913.7,
+                            "p95": 12074.6,
+                            "p99": 13016,
+                            "max": 13016
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 91,
+                            "erros": 0,
+                            "media": 2210.5,
+                            "p50": 753.4,
+                            "p90": 8247.1,
+                            "p95": 11796.1,
+                            "p99": 13093.7,
+                            "max": 13093.7
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 75,
+                            "erros": 0,
+                            "media": 2823.2,
+                            "p50": 2950.6,
+                            "p90": 6436.2,
+                            "p95": 11384.2,
+                            "p99": 12796.5,
+                            "max": 12796.5
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 75,
+                            "erros": 0,
+                            "media": 2574.3,
+                            "p50": 131.5,
+                            "p90": 9627,
+                            "p95": 11940.3,
+                            "p99": 13075,
+                            "max": 13075
+                        },
+                        "home": {
+                            "requisicoes": 317,
+                            "erros": 0,
+                            "media": 4263.8,
+                            "p50": 3398.7,
+                            "p90": 11573.6,
+                            "p95": 12093.6,
+                            "p99": 13016.7,
+                            "max": 13208.3
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 209,
+                            "erros": 0,
+                            "media": 2772.7,
+                            "p50": 620.9,
+                            "p90": 11610.8,
+                            "p95": 12611.3,
+                            "p99": 13134.3,
+                            "max": 13208
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 93,
+                            "erros": 0,
+                            "media": 2920.8,
+                            "p50": 781.6,
+                            "p90": 11402.5,
+                            "p95": 11809.7,
+                            "p99": 12212.1,
+                            "max": 12212.1
+                        },
+                        "login (envio)": {
+                            "requisicoes": 100,
+                            "erros": 0,
+                            "media": 6061.3,
+                            "p50": 5333.2,
+                            "p90": 11885.8,
+                            "p95": 12296.5,
+                            "p99": 13069.2,
+                            "max": 13261
+                        },
+                        "login (página)": {
+                            "requisicoes": 100,
+                            "erros": 0,
+                            "media": 2687,
+                            "p50": 3426.2,
+                            "p90": 3848.2,
+                            "p95": 3954.1,
+                            "p99": 4124.5,
+                            "max": 4167.8
+                        },
+                        "prontuário": {
+                            "requisicoes": 132,
+                            "erros": 0,
+                            "media": 1725.7,
+                            "p50": 123.8,
+                            "p90": 5614.4,
+                            "p95": 9170.6,
+                            "p99": 11610,
+                            "max": 12514.3
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 112,
+                            "erros": 0,
+                            "media": 2863.2,
+                            "p50": 1221.3,
+                            "p90": 8782.8,
+                            "p95": 11826.9,
+                            "p99": 12797.6,
+                            "max": 12813.3
+                        },
+                        "usuários": {
+                            "requisicoes": 61,
+                            "erros": 0,
+                            "media": 2337,
+                            "p50": 784.2,
+                            "p90": 5744.1,
+                            "p95": 8700.4,
+                            "p99": 11837.6,
+                            "max": 11837.6
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 88.7,
+                        "cpu_max_pct": 100.1,
+                        "rss_max_mb": 26.5,
+                        "load1_max": 2.03
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 191,
+                            "erros": 0,
+                            "p95": 854.6
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 140,
+                            "erros": 0,
+                            "p95": 3552.3
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 133,
+                            "erros": 0,
+                            "p95": 4174.7
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 79,
+                            "erros": 0,
+                            "p95": 3946.1
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 41,
+                            "erros": 0,
+                            "p95": 3854.1
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 41,
+                            "erros": 0,
+                            "p95": 5277.7
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 61,
+                            "erros": 0,
+                            "p95": 6525.4
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 107,
+                            "erros": 0,
+                            "p95": 12073.7
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 76,
+                            "erros": 0,
+                            "p95": 13208
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 28,
+                            "erros": 0,
+                            "p95": 12797.6
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 11867.7
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 10911.4
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 9957.4
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 36,
+                            "erros": 0,
+                            "p95": 8915.5
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 8051.3
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "p95": 6857.9
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 6117.2
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "p95": 5074.1
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 4163.6
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 14,
+                            "erros": 0,
+                            "p95": 3204.5
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 36,
+                            "erros": 0,
+                            "p95": 2209.4
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 1157.9
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 74,
+                            "erros": 0,
+                            "p95": 169.3
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 239,
+                            "erros": 0,
+                            "p95": 65.5
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 233,
+                            "erros": 0,
+                            "p95": 38.1
+                        }
+                    ],
+                    "aprovada": false
+                },
+                {
+                    "tipo": "recuperacao",
+                    "vus": 10,
+                    "duracao_s": 10,
+                    "rampa_s": 0,
+                    "requisicoes": 78,
+                    "sucesso": 78,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 7.8,
+                    "vazao_ok_rps": 7.8,
+                    "latencia_ms": {
+                        "media": 5.6,
+                        "p50": 4.8,
+                        "p90": 7.3,
+                        "p95": 17.1,
+                        "p99": 23.2,
+                        "max": 23.2
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 4,
+                            "erros": 0,
+                            "media": 19.4,
+                            "p50": 17.3,
+                            "p90": 23.2,
+                            "p95": 23.2,
+                            "p99": 23.2,
+                            "max": 23.2
+                        },
+                        "compras": {
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "media": 4.3,
+                            "p50": 4.3,
+                            "p90": 4.8,
+                            "p95": 5.4,
+                            "p99": 5.4,
+                            "max": 5.4
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "media": 6.9,
+                            "p50": 6.8,
+                            "p90": 8.2,
+                            "p95": 8.2,
+                            "p99": 8.2,
+                            "max": 8.2
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "media": 3.9,
+                            "p50": 3.8,
+                            "p90": 4.3,
+                            "p95": 4.3,
+                            "p99": 4.3,
+                            "max": 4.3
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "media": 5.8,
+                            "p50": 6.1,
+                            "p90": 6.7,
+                            "p95": 6.7,
+                            "p99": 6.7,
+                            "max": 6.7
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 4,
+                            "erros": 0,
+                            "media": 7,
+                            "p50": 6.8,
+                            "p90": 8,
+                            "p95": 8,
+                            "p99": 8,
+                            "max": 8
+                        },
+                        "home": {
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "media": 3.2,
+                            "p50": 3.2,
+                            "p90": 3.5,
+                            "p95": 3.6,
+                            "p99": 3.6,
+                            "max": 3.6
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 5.6,
+                            "p50": 5.1,
+                            "p90": 8,
+                            "p95": 8,
+                            "p99": 8,
+                            "max": 8
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "media": 5.6,
+                            "p50": 5.4,
+                            "p90": 6.9,
+                            "p95": 6.9,
+                            "p99": 6.9,
+                            "max": 6.9
+                        },
+                        "prontuário": {
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "media": 5.1,
+                            "p50": 5,
+                            "p90": 5.8,
+                            "p95": 5.8,
+                            "p99": 5.8,
+                            "max": 5.8
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "media": 4.7,
+                            "p50": 4.7,
+                            "p90": 5.1,
+                            "p95": 5.1,
+                            "p99": 5.1,
+                            "max": 5.1
+                        },
+                        "usuários": {
+                            "requisicoes": 4,
+                            "erros": 0,
+                            "media": 5.4,
+                            "p50": 5.1,
+                            "p90": 6.2,
+                            "p95": 6.2,
+                            "p99": 6.2,
+                            "max": 6.2
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 2.5,
+                        "cpu_max_pct": 4.9,
+                        "rss_max_mb": 26.5,
+                        "load1_max": 1.87
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 12,
+                            "erros": 0,
+                            "p95": 6.4
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 23.2
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 6.3
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 17.3
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 7
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 5.6
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "p95": 6.1
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "p95": 6.8
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 20.2
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 4,
+                            "erros": 0,
+                            "p95": 6.9
+                        }
+                    ],
+                    "aprovada": true
+                }
+            ],
+            "integridade": {
+                "resultado": "Passou",
+                "posts_saude_confirmados": 763,
+                "registros_saude_gravados": 763,
+                "posts_entrada_confirmados": 539,
+                "entradas_gravadas": 539,
+                "saldos_divergentes": 0,
+                "detalhe": "763 registros de saúde para 763 confirmados; 539 entradas para 539 confirmadas; 0 saldos divergentes"
+            },
+            "analise": {
+                "ponto_degradacao_vus": 100,
+                "ponto_ruptura_vus": null,
+                "vazao_maxima_ok_rps": 115.64,
+                "vus_na_vazao_maxima": 200,
+                "recuperou": true
+            }
+        },
+        {
+            "workers": 4,
+            "etapas": [
+                {
+                    "tipo": "carga",
+                    "vus": 10,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 203,
+                    "sucesso": 203,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 8.12,
+                    "vazao_ok_rps": 8.12,
+                    "latencia_ms": {
+                        "media": 15.6,
+                        "p50": 4.7,
+                        "p90": 15.4,
+                        "p95": 23,
+                        "p99": 220.5,
+                        "max": 232.3
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "media": 19.9,
+                            "p50": 19.9,
+                            "p90": 22.4,
+                            "p95": 23,
+                            "p99": 23,
+                            "max": 23
+                        },
+                        "compras": {
+                            "requisicoes": 18,
+                            "erros": 0,
+                            "media": 4,
+                            "p50": 4.1,
+                            "p90": 4.6,
+                            "p95": 6.6,
+                            "p99": 6.6,
+                            "max": 6.6
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 13,
+                            "erros": 0,
+                            "media": 6.6,
+                            "p50": 6.6,
+                            "p90": 8.1,
+                            "p95": 8.6,
+                            "p99": 8.6,
+                            "max": 8.6
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "media": 4.1,
+                            "p50": 4.1,
+                            "p90": 4.4,
+                            "p95": 4.5,
+                            "p99": 4.5,
+                            "max": 4.5
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 6.3,
+                            "p50": 6.2,
+                            "p90": 8.8,
+                            "p95": 8.8,
+                            "p99": 8.8,
+                            "max": 8.8
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 7,
+                            "p50": 7.2,
+                            "p90": 10.1,
+                            "p95": 10.1,
+                            "p99": 10.1,
+                            "max": 10.1
+                        },
+                        "home": {
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "media": 2.9,
+                            "p50": 2.8,
+                            "p90": 3.5,
+                            "p95": 3.6,
+                            "p99": 9.9,
+                            "max": 9.9
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 26,
+                            "erros": 0,
+                            "media": 5.2,
+                            "p50": 4.8,
+                            "p90": 6.3,
+                            "p95": 6.8,
+                            "p99": 11.3,
+                            "max": 11.3
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 5.2,
+                            "p50": 5.2,
+                            "p90": 5.8,
+                            "p95": 5.8,
+                            "p99": 5.8,
+                            "max": 5.8
+                        },
+                        "login (envio)": {
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "media": 212.5,
+                            "p50": 214.1,
+                            "p90": 220.6,
+                            "p95": 232.3,
+                            "p99": 232.3,
+                            "max": 232.3
+                        },
+                        "login (página)": {
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "media": 2.8,
+                            "p50": 2.1,
+                            "p90": 2.6,
+                            "p95": 8.6,
+                            "p99": 8.6,
+                            "max": 8.6
+                        },
+                        "prontuário": {
+                            "requisicoes": 14,
+                            "erros": 0,
+                            "media": 4.5,
+                            "p50": 4.7,
+                            "p90": 5.1,
+                            "p95": 5.1,
+                            "p99": 5.1,
+                            "max": 5.1
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 14,
+                            "erros": 0,
+                            "media": 4.7,
+                            "p50": 4.8,
+                            "p90": 5.4,
+                            "p95": 5.8,
+                            "p99": 5.8,
+                            "max": 5.8
+                        },
+                        "usuários": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 6.1,
+                            "p50": 5.7,
+                            "p90": 9.3,
+                            "p95": 9.3,
+                            "p99": 9.3,
+                            "max": 9.3
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 10.8,
+                        "cpu_max_pct": 42.4,
+                        "rss_max_mb": 96.6,
+                        "load1_max": 1.53
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 232.3
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 206.3
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 218.1
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 220.6
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 12,
+                            "erros": 0,
+                            "p95": 216.7
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 23
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 19.9
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 7.2
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 6.6
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 6.2
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 11,
+                            "erros": 0,
+                            "p95": 17.9
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 21.5
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 22
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 10,
+                            "erros": 0,
+                            "p95": 9.9
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 7.2
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 5.5
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 17.9
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.3
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 18.8
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.9
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 6.9
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 7.6
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 20.6
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 4.9
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "carga",
+                    "vus": 25,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 507,
+                    "sucesso": 507,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 20.28,
+                    "vazao_ok_rps": 20.28,
+                    "latencia_ms": {
+                        "media": 11.4,
+                        "p50": 4.5,
+                        "p90": 7.4,
+                        "p95": 20.1,
+                        "p99": 224.4,
+                        "max": 228.8
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 24,
+                            "erros": 0,
+                            "media": 18.4,
+                            "p50": 19.8,
+                            "p90": 22.8,
+                            "p95": 22.9,
+                            "p99": 24.5,
+                            "max": 24.5
+                        },
+                        "compras": {
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "media": 3.9,
+                            "p50": 4,
+                            "p90": 4.4,
+                            "p95": 4.5,
+                            "p99": 5.4,
+                            "max": 5.4
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 43,
+                            "erros": 0,
+                            "media": 6.5,
+                            "p50": 6.6,
+                            "p90": 7.4,
+                            "p95": 8.2,
+                            "p99": 12.1,
+                            "max": 12.1
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "media": 3.5,
+                            "p50": 3.4,
+                            "p90": 3.9,
+                            "p95": 4.1,
+                            "p99": 8.1,
+                            "max": 8.1
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "media": 5.6,
+                            "p50": 5.7,
+                            "p90": 6.3,
+                            "p95": 6.3,
+                            "p99": 6.4,
+                            "max": 6.4
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "media": 6.2,
+                            "p50": 6.3,
+                            "p90": 7.1,
+                            "p95": 7.4,
+                            "p99": 8.3,
+                            "max": 8.3
+                        },
+                        "home": {
+                            "requisicoes": 97,
+                            "erros": 0,
+                            "media": 2.8,
+                            "p50": 2.7,
+                            "p90": 3.3,
+                            "p95": 3.4,
+                            "p99": 15.3,
+                            "max": 15.3
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 71,
+                            "erros": 0,
+                            "media": 4.9,
+                            "p50": 4.8,
+                            "p90": 5.9,
+                            "p95": 6,
+                            "p99": 10,
+                            "max": 10
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 5,
+                            "p50": 5.1,
+                            "p90": 5.7,
+                            "p95": 6.3,
+                            "p99": 6.9,
+                            "max": 6.9
+                        },
+                        "login (envio)": {
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "media": 218.4,
+                            "p50": 224,
+                            "p90": 228.4,
+                            "p95": 228.8,
+                            "p99": 228.8,
+                            "max": 228.8
+                        },
+                        "login (página)": {
+                            "requisicoes": 15,
+                            "erros": 0,
+                            "media": 2.1,
+                            "p50": 2.2,
+                            "p90": 2.3,
+                            "p95": 3.2,
+                            "p99": 3.2,
+                            "max": 3.2
+                        },
+                        "prontuário": {
+                            "requisicoes": 47,
+                            "erros": 0,
+                            "media": 4.2,
+                            "p50": 4.2,
+                            "p90": 5.1,
+                            "p95": 5.2,
+                            "p99": 5.6,
+                            "max": 5.6
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "media": 4.4,
+                            "p50": 4.6,
+                            "p90": 5,
+                            "p95": 5.1,
+                            "p99": 5.3,
+                            "max": 5.3
+                        },
+                        "usuários": {
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "media": 5,
+                            "p50": 5.2,
+                            "p90": 6,
+                            "p95": 6.2,
+                            "p99": 6.3,
+                            "max": 6.3
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 18.9,
+                        "cpu_max_pct": 70.4,
+                        "rss_max_mb": 97.6,
+                        "load1_max": 1.2
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "p95": 228.8
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 18,
+                            "erros": 0,
+                            "p95": 226.2
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 224
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "p95": 221.5
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "p95": 215.2
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "p95": 8.3
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 5.6
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "p95": 9.8
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 19.8
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 7.2
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "p95": 21.7
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 21.2
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "p95": 6.4
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 20,
+                            "erros": 0,
+                            "p95": 5.9
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 18,
+                            "erros": 0,
+                            "p95": 12.1
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 8.2
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 17,
+                            "erros": 0,
+                            "p95": 21.7
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "p95": 7
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 5.9
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 23,
+                            "erros": 0,
+                            "p95": 6.9
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 16,
+                            "erros": 0,
+                            "p95": 15.3
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 21,
+                            "erros": 0,
+                            "p95": 6.8
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 18.8
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 22,
+                            "erros": 0,
+                            "p95": 8.4
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 19,
+                            "erros": 0,
+                            "p95": 19
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "carga",
+                    "vus": 50,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 998,
+                    "sucesso": 998,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 39.92,
+                    "vazao_ok_rps": 39.92,
+                    "latencia_ms": {
+                        "media": 10.5,
+                        "p50": 4.3,
+                        "p90": 7.4,
+                        "p95": 21.9,
+                        "p99": 217.9,
+                        "max": 227.9
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 56,
+                            "erros": 0,
+                            "media": 21,
+                            "p50": 21.2,
+                            "p90": 23.9,
+                            "p95": 27.1,
+                            "p99": 67.4,
+                            "max": 67.4
+                        },
+                        "compras": {
+                            "requisicoes": 99,
+                            "erros": 0,
+                            "media": 3.6,
+                            "p50": 3.8,
+                            "p90": 4.3,
+                            "p95": 4.4,
+                            "p99": 4.6,
+                            "max": 4.6
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 75,
+                            "erros": 0,
+                            "media": 6.4,
+                            "p50": 6.6,
+                            "p90": 7.6,
+                            "p95": 8.2,
+                            "p99": 9.4,
+                            "max": 9.4
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 55,
+                            "erros": 0,
+                            "media": 3.4,
+                            "p50": 3.5,
+                            "p90": 3.9,
+                            "p95": 4.5,
+                            "p99": 5,
+                            "max": 5
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 55,
+                            "erros": 0,
+                            "media": 5.5,
+                            "p50": 5.7,
+                            "p90": 6.6,
+                            "p95": 7.1,
+                            "p99": 7.7,
+                            "max": 7.7
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 48,
+                            "erros": 0,
+                            "media": 6.1,
+                            "p50": 6.4,
+                            "p90": 7.4,
+                            "p95": 7.4,
+                            "p99": 7.8,
+                            "max": 7.8
+                        },
+                        "home": {
+                            "requisicoes": 187,
+                            "erros": 0,
+                            "media": 2.6,
+                            "p50": 2.7,
+                            "p90": 3.2,
+                            "p95": 3.3,
+                            "p99": 3.9,
+                            "max": 15.4
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 127,
+                            "erros": 0,
+                            "media": 4.6,
+                            "p50": 4.5,
+                            "p90": 5.7,
+                            "p95": 5.9,
+                            "p99": 8.3,
+                            "max": 8.6
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 48,
+                            "erros": 0,
+                            "media": 4.8,
+                            "p50": 5,
+                            "p90": 5.6,
+                            "p95": 5.9,
+                            "p99": 7.1,
+                            "max": 7.1
+                        },
+                        "login (envio)": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 211.2,
+                            "p50": 212.8,
+                            "p90": 227.3,
+                            "p95": 227.8,
+                            "p99": 227.9,
+                            "max": 227.9
+                        },
+                        "login (página)": {
+                            "requisicoes": 25,
+                            "erros": 0,
+                            "media": 1.4,
+                            "p50": 1.3,
+                            "p90": 1.8,
+                            "p95": 1.8,
+                            "p99": 1.9,
+                            "max": 1.9
+                        },
+                        "prontuário": {
+                            "requisicoes": 77,
+                            "erros": 0,
+                            "media": 4.2,
+                            "p50": 4.5,
+                            "p90": 5,
+                            "p95": 5.2,
+                            "p99": 6.4,
+                            "max": 6.4
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 76,
+                            "erros": 0,
+                            "media": 6.3,
+                            "p50": 4.5,
+                            "p90": 5.5,
+                            "p95": 6,
+                            "p99": 151.5,
+                            "max": 151.5
+                        },
+                        "usuários": {
+                            "requisicoes": 45,
+                            "erros": 0,
+                            "media": 5.1,
+                            "p50": 5.3,
+                            "p90": 6,
+                            "p95": 6.1,
+                            "p99": 6.8,
+                            "max": 6.8
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 32.9,
+                        "cpu_max_pct": 118.6,
+                        "rss_max_mb": 98.3,
+                        "load1_max": 1.12
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 203.8
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 212.8
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 41,
+                            "erros": 0,
+                            "p95": 211.5
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 46,
+                            "erros": 0,
+                            "p95": 196.1
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 57,
+                            "erros": 0,
+                            "p95": 224.1
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 46,
+                            "erros": 0,
+                            "p95": 16.7
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 8.2
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "p95": 21.8
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "p95": 20.3
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 36,
+                            "erros": 0,
+                            "p95": 17.4
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 44,
+                            "erros": 0,
+                            "p95": 21
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 37,
+                            "erros": 0,
+                            "p95": 19.9
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 39,
+                            "erros": 0,
+                            "p95": 23.1
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 40,
+                            "erros": 0,
+                            "p95": 6.6
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 23.3
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "p95": 7.3
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 42,
+                            "erros": 0,
+                            "p95": 19.4
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 35,
+                            "erros": 0,
+                            "p95": 22
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 41,
+                            "erros": 0,
+                            "p95": 22.8
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 45,
+                            "erros": 0,
+                            "p95": 17.3
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 35,
+                            "erros": 0,
+                            "p95": 7.4
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 37,
+                            "erros": 0,
+                            "p95": 8.3
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 49,
+                            "erros": 0,
+                            "p95": 21.3
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 33,
+                            "erros": 0,
+                            "p95": 21.2
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 100,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 1952,
+                    "sucesso": 1952,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 78.08,
+                    "vazao_ok_rps": 78.08,
+                    "latencia_ms": {
+                        "media": 21,
+                        "p50": 4.5,
+                        "p90": 23.9,
+                        "p95": 194.4,
+                        "p99": 371.8,
+                        "max": 673.2
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 114,
+                            "erros": 0,
+                            "media": 33.8,
+                            "p50": 24.4,
+                            "p90": 29.3,
+                            "p95": 31.6,
+                            "p99": 349.1,
+                            "max": 372.1
+                        },
+                        "compras": {
+                            "requisicoes": 185,
+                            "erros": 0,
+                            "media": 14.8,
+                            "p50": 4,
+                            "p90": 4.8,
+                            "p95": 12.1,
+                            "p99": 374.4,
+                            "max": 440.2
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 135,
+                            "erros": 0,
+                            "media": 18,
+                            "p50": 6.6,
+                            "p90": 7.6,
+                            "p95": 49.9,
+                            "p99": 290.4,
+                            "max": 536.4
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 114,
+                            "erros": 0,
+                            "media": 11.4,
+                            "p50": 3.5,
+                            "p90": 4.1,
+                            "p95": 4.4,
+                            "p99": 196.6,
+                            "max": 392.1
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 108,
+                            "erros": 0,
+                            "media": 19.4,
+                            "p50": 5.9,
+                            "p90": 6.8,
+                            "p95": 9.2,
+                            "p99": 377.8,
+                            "max": 490.3
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 88,
+                            "erros": 0,
+                            "media": 19.2,
+                            "p50": 6.5,
+                            "p90": 7.9,
+                            "p95": 8.2,
+                            "p99": 400.7,
+                            "max": 400.7
+                        },
+                        "home": {
+                            "requisicoes": 375,
+                            "erros": 0,
+                            "media": 7.9,
+                            "p50": 2.8,
+                            "p90": 3.2,
+                            "p95": 3.4,
+                            "p99": 244.2,
+                            "max": 310.1
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 248,
+                            "erros": 0,
+                            "media": 17.7,
+                            "p50": 4.7,
+                            "p90": 6.1,
+                            "p95": 48,
+                            "p99": 379.2,
+                            "max": 578.5
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 95,
+                            "erros": 0,
+                            "media": 13.9,
+                            "p50": 5.2,
+                            "p90": 5.9,
+                            "p95": 6.4,
+                            "p99": 480.9,
+                            "max": 480.9
+                        },
+                        "login (envio)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 204,
+                            "p50": 198.7,
+                            "p90": 223.3,
+                            "p95": 224.1,
+                            "p99": 225.3,
+                            "max": 225.3
+                        },
+                        "login (página)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1.1,
+                            "p50": 1,
+                            "p90": 1.6,
+                            "p95": 1.7,
+                            "p99": 2.5,
+                            "max": 2.5
+                        },
+                        "prontuário": {
+                            "requisicoes": 156,
+                            "erros": 0,
+                            "media": 14.2,
+                            "p50": 4.5,
+                            "p90": 5.4,
+                            "p95": 45.8,
+                            "p99": 265,
+                            "max": 293.8
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 145,
+                            "erros": 0,
+                            "media": 21.6,
+                            "p50": 4.5,
+                            "p90": 5.3,
+                            "p95": 35,
+                            "p99": 398.8,
+                            "max": 673.2
+                        },
+                        "usuários": {
+                            "requisicoes": 89,
+                            "erros": 0,
+                            "media": 29,
+                            "p50": 5.4,
+                            "p90": 6.8,
+                            "p95": 296.7,
+                            "p99": 558.5,
+                            "max": 558.5
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 65.1,
+                        "cpu_max_pct": 218.6,
+                        "rss_max_mb": 99.2,
+                        "load1_max": 1.24
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 64,
+                            "erros": 0,
+                            "p95": 205.2
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 83,
+                            "erros": 0,
+                            "p95": 221.5
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 78,
+                            "erros": 0,
+                            "p95": 200.5
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 94,
+                            "erros": 0,
+                            "p95": 196.7
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 104,
+                            "erros": 0,
+                            "p95": 198.4
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 70,
+                            "erros": 0,
+                            "p95": 254.1
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 81,
+                            "erros": 0,
+                            "p95": 490.3
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 55,
+                            "erros": 0,
+                            "p95": 43.2
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 97,
+                            "erros": 0,
+                            "p95": 20.6
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 67,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 68,
+                            "erros": 0,
+                            "p95": 6.3
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 86,
+                            "erros": 0,
+                            "p95": 19
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 69,
+                            "erros": 0,
+                            "p95": 25.3
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 82,
+                            "erros": 0,
+                            "p95": 7.6
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 84,
+                            "erros": 0,
+                            "p95": 23.5
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 69,
+                            "erros": 0,
+                            "p95": 15.9
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 81,
+                            "erros": 0,
+                            "p95": 23.3
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 75,
+                            "erros": 0,
+                            "p95": 25.8
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 81,
+                            "erros": 0,
+                            "p95": 7.1
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 84,
+                            "erros": 0,
+                            "p95": 26.6
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 79,
+                            "erros": 0,
+                            "p95": 7.9
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 82,
+                            "erros": 0,
+                            "p95": 26.8
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 73,
+                            "erros": 0,
+                            "p95": 26.9
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 74,
+                            "erros": 0,
+                            "p95": 25
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 72,
+                            "erros": 0,
+                            "p95": 25.2
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 150,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 2949,
+                    "sucesso": 2949,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 117.96,
+                    "vazao_ok_rps": 117.96,
+                    "latencia_ms": {
+                        "media": 13.5,
+                        "p50": 4.1,
+                        "p90": 8.3,
+                        "p95": 30.3,
+                        "p99": 286,
+                        "max": 516.2
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 171,
+                            "erros": 0,
+                            "media": 31.9,
+                            "p50": 27.2,
+                            "p90": 33.2,
+                            "p95": 35.3,
+                            "p99": 409.8,
+                            "max": 421.8
+                        },
+                        "compras": {
+                            "requisicoes": 308,
+                            "erros": 0,
+                            "media": 6.1,
+                            "p50": 3.8,
+                            "p90": 4.5,
+                            "p95": 4.8,
+                            "p99": 23.9,
+                            "max": 443.2
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 225,
+                            "erros": 0,
+                            "media": 13.6,
+                            "p50": 6.4,
+                            "p90": 7.6,
+                            "p95": 8.3,
+                            "p99": 390.9,
+                            "max": 461.5
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 163,
+                            "erros": 0,
+                            "media": 8.6,
+                            "p50": 3.4,
+                            "p90": 4.1,
+                            "p95": 4.6,
+                            "p99": 325.9,
+                            "max": 377.8
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 166,
+                            "erros": 0,
+                            "media": 11.4,
+                            "p50": 5.8,
+                            "p90": 7.2,
+                            "p95": 8.5,
+                            "p99": 356.1,
+                            "max": 452.5
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 142,
+                            "erros": 0,
+                            "media": 8.7,
+                            "p50": 6.3,
+                            "p90": 7.7,
+                            "p95": 8.3,
+                            "p99": 65.3,
+                            "max": 348.8
+                        },
+                        "home": {
+                            "requisicoes": 564,
+                            "erros": 0,
+                            "media": 6,
+                            "p50": 2.8,
+                            "p90": 3.2,
+                            "p95": 3.5,
+                            "p99": 192.6,
+                            "max": 388.4
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 374,
+                            "erros": 0,
+                            "media": 7.6,
+                            "p50": 4.5,
+                            "p90": 6,
+                            "p95": 6.4,
+                            "p99": 163.1,
+                            "max": 386.5
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 149,
+                            "erros": 0,
+                            "media": 7.5,
+                            "p50": 5,
+                            "p90": 6,
+                            "p95": 6.5,
+                            "p99": 117.2,
+                            "max": 286
+                        },
+                        "login (envio)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 207.2,
+                            "p50": 201.1,
+                            "p90": 224.6,
+                            "p95": 228,
+                            "p99": 230,
+                            "max": 230
+                        },
+                        "login (página)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 1.5,
+                            "p50": 1.1,
+                            "p90": 1.7,
+                            "p95": 1.9,
+                            "p99": 16.3,
+                            "max": 16.3
+                        },
+                        "prontuário": {
+                            "requisicoes": 226,
+                            "erros": 0,
+                            "media": 9.1,
+                            "p50": 4.4,
+                            "p90": 5.3,
+                            "p95": 6.3,
+                            "p99": 128.3,
+                            "max": 423.4
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 220,
+                            "erros": 0,
+                            "media": 16.3,
+                            "p50": 4.4,
+                            "p90": 5.4,
+                            "p95": 6.6,
+                            "p99": 388.8,
+                            "max": 516.2
+                        },
+                        "usuários": {
+                            "requisicoes": 141,
+                            "erros": 0,
+                            "media": 9.7,
+                            "p50": 5.3,
+                            "p90": 6.3,
+                            "p95": 6.7,
+                            "p99": 287.2,
+                            "max": 299.6
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 77.8,
+                        "cpu_max_pct": 237.9,
+                        "rss_max_mb": 99.7,
+                        "load1_max": 1.38
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 99,
+                            "erros": 0,
+                            "p95": 198.9
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 116,
+                            "erros": 0,
+                            "p95": 195.7
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 119,
+                            "erros": 0,
+                            "p95": 205.7
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 127,
+                            "erros": 0,
+                            "p95": 201.7
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 140,
+                            "erros": 0,
+                            "p95": 197.4
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 126,
+                            "erros": 0,
+                            "p95": 17.5
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 113,
+                            "erros": 0,
+                            "p95": 9.4
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 118,
+                            "erros": 0,
+                            "p95": 7.8
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 121,
+                            "erros": 0,
+                            "p95": 7.5
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 138,
+                            "erros": 0,
+                            "p95": 23.7
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 107,
+                            "erros": 0,
+                            "p95": 26.9
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 122,
+                            "erros": 0,
+                            "p95": 28.8
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 119,
+                            "erros": 0,
+                            "p95": 8
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 106,
+                            "erros": 0,
+                            "p95": 24.6
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 116,
+                            "erros": 0,
+                            "p95": 7.4
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 122,
+                            "erros": 0,
+                            "p95": 25.2
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 108,
+                            "erros": 0,
+                            "p95": 9.2
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 132,
+                            "erros": 0,
+                            "p95": 13.6
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 119,
+                            "erros": 0,
+                            "p95": 423.4
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 111,
+                            "erros": 0,
+                            "p95": 27.9
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 117,
+                            "erros": 0,
+                            "p95": 23.9
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 119,
+                            "erros": 0,
+                            "p95": 27.2
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 109,
+                            "erros": 0,
+                            "p95": 8.8
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 115,
+                            "erros": 0,
+                            "p95": 17.3
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 110,
+                            "erros": 0,
+                            "p95": 31.5
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 200,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 3991,
+                    "sucesso": 3991,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 159.64,
+                    "vazao_ok_rps": 159.64,
+                    "latencia_ms": {
+                        "media": 8.9,
+                        "p50": 4,
+                        "p90": 7.8,
+                        "p95": 31.5,
+                        "p99": 198.2,
+                        "max": 256.3
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 235,
+                            "erros": 0,
+                            "media": 29.6,
+                            "p50": 30.6,
+                            "p90": 40.2,
+                            "p95": 41.7,
+                            "p99": 43.5,
+                            "max": 47.6
+                        },
+                        "compras": {
+                            "requisicoes": 419,
+                            "erros": 0,
+                            "media": 4.9,
+                            "p50": 3.9,
+                            "p90": 4.8,
+                            "p95": 5.3,
+                            "p99": 56.9,
+                            "max": 148.8
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 304,
+                            "erros": 0,
+                            "media": 6.7,
+                            "p50": 6.4,
+                            "p90": 7.6,
+                            "p95": 8.1,
+                            "p99": 13.2,
+                            "max": 116.5
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 235,
+                            "erros": 0,
+                            "media": 3.5,
+                            "p50": 3.4,
+                            "p90": 4,
+                            "p95": 4.3,
+                            "p99": 12.3,
+                            "max": 78.6
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 227,
+                            "erros": 0,
+                            "media": 5.9,
+                            "p50": 5.8,
+                            "p90": 7.1,
+                            "p95": 7.5,
+                            "p99": 11.6,
+                            "max": 70.7
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 202,
+                            "erros": 0,
+                            "media": 5.9,
+                            "p50": 6.3,
+                            "p90": 8,
+                            "p95": 8.5,
+                            "p99": 9.2,
+                            "max": 11.2
+                        },
+                        "home": {
+                            "requisicoes": 757,
+                            "erros": 0,
+                            "media": 3,
+                            "p50": 2.8,
+                            "p90": 3.3,
+                            "p95": 3.6,
+                            "p99": 11.7,
+                            "max": 113.9
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 511,
+                            "erros": 0,
+                            "media": 5.7,
+                            "p50": 4.5,
+                            "p90": 6.2,
+                            "p95": 6.8,
+                            "p99": 73.7,
+                            "max": 150.5
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 200,
+                            "erros": 0,
+                            "media": 4.9,
+                            "p50": 4.9,
+                            "p90": 5.9,
+                            "p95": 6.4,
+                            "p99": 6.8,
+                            "max": 79
+                        },
+                        "login (envio)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 207.9,
+                            "p50": 201.6,
+                            "p90": 227.5,
+                            "p95": 238.9,
+                            "p99": 256.3,
+                            "max": 256.3
+                        },
+                        "login (página)": {
+                            "requisicoes": 50,
+                            "erros": 0,
+                            "media": 5.7,
+                            "p50": 1.2,
+                            "p90": 1.7,
+                            "p95": 6.1,
+                            "p99": 156.2,
+                            "max": 156.2
+                        },
+                        "prontuário": {
+                            "requisicoes": 306,
+                            "erros": 0,
+                            "media": 4.7,
+                            "p50": 4.5,
+                            "p90": 5.5,
+                            "p95": 5.7,
+                            "p99": 9.3,
+                            "max": 92.8
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 303,
+                            "erros": 0,
+                            "media": 5.5,
+                            "p50": 4.4,
+                            "p90": 5.4,
+                            "p95": 6,
+                            "p99": 63.3,
+                            "max": 129.6
+                        },
+                        "usuários": {
+                            "requisicoes": 192,
+                            "erros": 0,
+                            "media": 6.2,
+                            "p50": 5.2,
+                            "p90": 6.3,
+                            "p95": 6.7,
+                            "p99": 114.1,
+                            "max": 147.3
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 93,
+                        "cpu_max_pct": 237.4,
+                        "rss_max_mb": 100.3,
+                        "load1_max": 1.84
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 137,
+                            "erros": 0,
+                            "p95": 204.1
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 164,
+                            "erros": 0,
+                            "p95": 198
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 166,
+                            "erros": 0,
+                            "p95": 197.8
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 157,
+                            "erros": 0,
+                            "p95": 198.2
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 181,
+                            "erros": 0,
+                            "p95": 196.8
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 171,
+                            "erros": 0,
+                            "p95": 20.3
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 161,
+                            "erros": 0,
+                            "p95": 26.3
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 151,
+                            "erros": 0,
+                            "p95": 8.5
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 167,
+                            "erros": 0,
+                            "p95": 25
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 153,
+                            "erros": 0,
+                            "p95": 7.1
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 159,
+                            "erros": 0,
+                            "p95": 32.2
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 158,
+                            "erros": 0,
+                            "p95": 34.6
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 173,
+                            "erros": 0,
+                            "p95": 29.5
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 151,
+                            "erros": 0,
+                            "p95": 7.6
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 171,
+                            "erros": 0,
+                            "p95": 8.1
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 163,
+                            "erros": 0,
+                            "p95": 22.4
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 160,
+                            "erros": 0,
+                            "p95": 23.6
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 160,
+                            "erros": 0,
+                            "p95": 8.4
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 162,
+                            "erros": 0,
+                            "p95": 20.4
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 151,
+                            "erros": 0,
+                            "p95": 31.9
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 155,
+                            "erros": 0,
+                            "p95": 8.1
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 167,
+                            "erros": 0,
+                            "p95": 23.6
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 155,
+                            "erros": 0,
+                            "p95": 27.9
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 151,
+                            "erros": 0,
+                            "p95": 8.8
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 147,
+                            "erros": 0,
+                            "p95": 37.7
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "estresse",
+                    "vus": 300,
+                    "duracao_s": 20,
+                    "rampa_s": 5,
+                    "requisicoes": 5891,
+                    "sucesso": 5891,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 235.64,
+                    "vazao_ok_rps": 235.64,
+                    "latencia_ms": {
+                        "media": 26.5,
+                        "p50": 3.8,
+                        "p90": 37.4,
+                        "p95": 198.9,
+                        "p99": 506.5,
+                        "max": 915.4
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 348,
+                            "erros": 0,
+                            "media": 44.5,
+                            "p50": 31.6,
+                            "p90": 52.6,
+                            "p95": 92.6,
+                            "p99": 385.8,
+                            "max": 720.6
+                        },
+                        "compras": {
+                            "requisicoes": 604,
+                            "erros": 0,
+                            "media": 16.4,
+                            "p50": 3.1,
+                            "p90": 6.1,
+                            "p95": 30.7,
+                            "p99": 337.3,
+                            "max": 699.6
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 435,
+                            "erros": 0,
+                            "media": 28.6,
+                            "p50": 5.3,
+                            "p90": 11.1,
+                            "p95": 170.3,
+                            "p99": 625.8,
+                            "max": 733.2
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 344,
+                            "erros": 0,
+                            "media": 25.8,
+                            "p50": 2.9,
+                            "p90": 24.1,
+                            "p95": 173.9,
+                            "p99": 534.4,
+                            "max": 591.7
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 334,
+                            "erros": 0,
+                            "media": 25.9,
+                            "p50": 5.1,
+                            "p90": 11,
+                            "p95": 125.6,
+                            "p99": 553.6,
+                            "max": 674.1
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 275,
+                            "erros": 0,
+                            "media": 29.2,
+                            "p50": 5.8,
+                            "p90": 19.9,
+                            "p95": 90.5,
+                            "p99": 535.1,
+                            "max": 902.8
+                        },
+                        "home": {
+                            "requisicoes": 1131,
+                            "erros": 0,
+                            "media": 17.2,
+                            "p50": 2.4,
+                            "p90": 17.7,
+                            "p95": 58.9,
+                            "p99": 422.2,
+                            "max": 693.9
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 744,
+                            "erros": 0,
+                            "media": 18.8,
+                            "p50": 4.2,
+                            "p90": 19,
+                            "p95": 71.1,
+                            "p99": 360.6,
+                            "max": 672.3
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 287,
+                            "erros": 0,
+                            "media": 16.6,
+                            "p50": 4.1,
+                            "p90": 16.2,
+                            "p95": 56.6,
+                            "p99": 444.7,
+                            "max": 500
+                        },
+                        "login (envio)": {
+                            "requisicoes": 100,
+                            "erros": 0,
+                            "media": 247.7,
+                            "p50": 206.4,
+                            "p90": 294.6,
+                            "p95": 478.5,
+                            "p99": 835.5,
+                            "max": 915.4
+                        },
+                        "login (página)": {
+                            "requisicoes": 100,
+                            "erros": 0,
+                            "media": 61.3,
+                            "p50": 4.3,
+                            "p90": 82.1,
+                            "p95": 485.4,
+                            "p99": 657.5,
+                            "max": 697.7
+                        },
+                        "prontuário": {
+                            "requisicoes": 456,
+                            "erros": 0,
+                            "media": 21.4,
+                            "p50": 4,
+                            "p90": 24.3,
+                            "p95": 70.4,
+                            "p99": 492.1,
+                            "max": 603.4
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 455,
+                            "erros": 0,
+                            "media": 22.1,
+                            "p50": 3.6,
+                            "p90": 17.4,
+                            "p95": 73.2,
+                            "p99": 603.4,
+                            "max": 710
+                        },
+                        "usuários": {
+                            "requisicoes": 278,
+                            "erros": 0,
+                            "media": 14.4,
+                            "p50": 4.3,
+                            "p90": 9.4,
+                            "p95": 36.4,
+                            "p99": 292.1,
+                            "max": 689.8
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 145.9,
+                        "cpu_max_pct": 449.5,
+                        "rss_max_mb": 101.3,
+                        "load1_max": 2.51
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 217,
+                            "erros": 0,
+                            "p95": 205.1
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 226,
+                            "erros": 0,
+                            "p95": 203.4
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 263,
+                            "erros": 0,
+                            "p95": 207.5
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 263,
+                            "erros": 0,
+                            "p95": 207.2
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 243,
+                            "erros": 0,
+                            "p95": 693.9
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 210,
+                            "erros": 0,
+                            "p95": 371.3
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 216,
+                            "erros": 0,
+                            "p95": 19.2
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 234,
+                            "erros": 0,
+                            "p95": 27.3
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 230,
+                            "erros": 0,
+                            "p95": 8.2
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 243,
+                            "erros": 0,
+                            "p95": 29.3
+                        },
+                        {
+                            "s": 10,
+                            "requisicoes": 238,
+                            "erros": 0,
+                            "p95": 27.7
+                        },
+                        {
+                            "s": 11,
+                            "requisicoes": 247,
+                            "erros": 0,
+                            "p95": 16.7
+                        },
+                        {
+                            "s": 12,
+                            "requisicoes": 222,
+                            "erros": 0,
+                            "p95": 18.3
+                        },
+                        {
+                            "s": 13,
+                            "requisicoes": 254,
+                            "erros": 0,
+                            "p95": 19
+                        },
+                        {
+                            "s": 14,
+                            "requisicoes": 231,
+                            "erros": 0,
+                            "p95": 9.4
+                        },
+                        {
+                            "s": 15,
+                            "requisicoes": 234,
+                            "erros": 0,
+                            "p95": 23.9
+                        },
+                        {
+                            "s": 16,
+                            "requisicoes": 228,
+                            "erros": 0,
+                            "p95": 27.7
+                        },
+                        {
+                            "s": 17,
+                            "requisicoes": 231,
+                            "erros": 0,
+                            "p95": 30.4
+                        },
+                        {
+                            "s": 18,
+                            "requisicoes": 240,
+                            "erros": 0,
+                            "p95": 8.3
+                        },
+                        {
+                            "s": 19,
+                            "requisicoes": 239,
+                            "erros": 0,
+                            "p95": 26
+                        },
+                        {
+                            "s": 20,
+                            "requisicoes": 233,
+                            "erros": 0,
+                            "p95": 8.2
+                        },
+                        {
+                            "s": 21,
+                            "requisicoes": 242,
+                            "erros": 0,
+                            "p95": 29.2
+                        },
+                        {
+                            "s": 22,
+                            "requisicoes": 235,
+                            "erros": 0,
+                            "p95": 24.1
+                        },
+                        {
+                            "s": 23,
+                            "requisicoes": 243,
+                            "erros": 0,
+                            "p95": 22.3
+                        },
+                        {
+                            "s": 24,
+                            "requisicoes": 229,
+                            "erros": 0,
+                            "p95": 19.8
+                        }
+                    ],
+                    "aprovada": true
+                },
+                {
+                    "tipo": "recuperacao",
+                    "vus": 10,
+                    "duracao_s": 10,
+                    "rampa_s": 0,
+                    "requisicoes": 77,
+                    "sucesso": 77,
+                    "erros": 0,
+                    "taxa_erro": 0,
+                    "vazao_rps": 7.7,
+                    "vazao_ok_rps": 7.7,
+                    "latencia_ms": {
+                        "media": 6.3,
+                        "p50": 4.7,
+                        "p90": 6.9,
+                        "p95": 8.3,
+                        "p99": 51.2,
+                        "max": 51.2
+                    },
+                    "tipos_erro": [],
+                    "acoes": {
+                        "almoxarifado": {
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "media": 47,
+                            "p50": 45.6,
+                            "p90": 51.2,
+                            "p95": 51.2,
+                            "p99": 51.2,
+                            "max": 51.2
+                        },
+                        "compras": {
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "media": 4.3,
+                            "p50": 4.3,
+                            "p90": 5.3,
+                            "p95": 5.3,
+                            "p99": 5.3,
+                            "max": 5.3
+                        },
+                        "consumo (form)": {
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "media": 6.6,
+                            "p50": 6.8,
+                            "p90": 7.4,
+                            "p95": 7.4,
+                            "p99": 7.4,
+                            "max": 7.4
+                        },
+                        "entrada (form)": {
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "media": 3.4,
+                            "p50": 3.1,
+                            "p90": 4.5,
+                            "p95": 4.5,
+                            "p99": 4.5,
+                            "max": 4.5
+                        },
+                        "entrada estoque (POST)": {
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "media": 5.8,
+                            "p50": 6.4,
+                            "p90": 6.5,
+                            "p95": 6.5,
+                            "p99": 6.5,
+                            "max": 6.5
+                        },
+                        "ficha do idoso": {
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "media": 7.1,
+                            "p50": 6.8,
+                            "p90": 8.3,
+                            "p95": 8.3,
+                            "p99": 8.3,
+                            "max": 8.3
+                        },
+                        "home": {
+                            "requisicoes": 14,
+                            "erros": 0,
+                            "media": 3.2,
+                            "p50": 3.2,
+                            "p90": 4,
+                            "p95": 4.5,
+                            "p99": 4.5,
+                            "max": 4.5
+                        },
+                        "idosos (busca)": {
+                            "requisicoes": 12,
+                            "erros": 0,
+                            "media": 4.5,
+                            "p50": 4.2,
+                            "p90": 5.9,
+                            "p95": 5.9,
+                            "p99": 5.9,
+                            "max": 5.9
+                        },
+                        "idosos (lista)": {
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "media": 4.3,
+                            "p50": 4.5,
+                            "p90": 4.7,
+                            "p95": 4.7,
+                            "p99": 4.7,
+                            "max": 4.7
+                        },
+                        "prontuário": {
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "media": 4.6,
+                            "p50": 4.8,
+                            "p90": 5.9,
+                            "p95": 5.9,
+                            "p99": 5.9,
+                            "max": 5.9
+                        },
+                        "registrar saúde (POST)": {
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "media": 4.3,
+                            "p50": 4.8,
+                            "p90": 5,
+                            "p95": 5,
+                            "p99": 5,
+                            "max": 5
+                        },
+                        "usuários": {
+                            "requisicoes": 3,
+                            "erros": 0,
+                            "media": 5.8,
+                            "p50": 5.7,
+                            "p90": 6,
+                            "p95": 6,
+                            "p99": 6,
+                            "max": 6
+                        }
+                    },
+                    "servidor": {
+                        "cpu_media_pct": 3,
+                        "cpu_max_pct": 9.9,
+                        "rss_max_mb": 100,
+                        "load1_max": 2.31
+                    },
+                    "linha_tempo": [
+                        {
+                            "s": 0,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.7
+                        },
+                        {
+                            "s": 1,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 6.8
+                        },
+                        {
+                            "s": 2,
+                            "requisicoes": 7,
+                            "erros": 0,
+                            "p95": 6.9
+                        },
+                        {
+                            "s": 3,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 44.1
+                        },
+                        {
+                            "s": 4,
+                            "requisicoes": 13,
+                            "erros": 0,
+                            "p95": 51.2
+                        },
+                        {
+                            "s": 5,
+                            "requisicoes": 9,
+                            "erros": 0,
+                            "p95": 6.4
+                        },
+                        {
+                            "s": 6,
+                            "requisicoes": 5,
+                            "erros": 0,
+                            "p95": 5.8
+                        },
+                        {
+                            "s": 7,
+                            "requisicoes": 6,
+                            "erros": 0,
+                            "p95": 5.9
+                        },
+                        {
+                            "s": 8,
+                            "requisicoes": 8,
+                            "erros": 0,
+                            "p95": 8.3
+                        },
+                        {
+                            "s": 9,
+                            "requisicoes": 4,
+                            "erros": 0,
+                            "p95": 7.4
+                        }
+                    ],
+                    "aprovada": true
+                }
+            ],
+            "integridade": {
+                "resultado": "Passou",
+                "posts_saude_confirmados": 1282,
+                "registros_saude_gravados": 1282,
+                "posts_entrada_confirmados": 940,
+                "entradas_gravadas": 940,
+                "saldos_divergentes": 0,
+                "detalhe": "1282 registros de saúde para 1282 confirmados; 940 entradas para 940 confirmadas; 0 saldos divergentes"
+            },
+            "analise": {
+                "ponto_degradacao_vus": null,
+                "ponto_ruptura_vus": null,
+                "vazao_maxima_ok_rps": 235.64,
+                "vus_na_vazao_maxima": 300,
+                "recuperou": true
+            }
+        }
+    ],
+    "interrompido": false
+}

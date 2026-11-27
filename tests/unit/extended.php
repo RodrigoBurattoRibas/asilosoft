@@ -89,3 +89,20 @@ extra('Quarto vazio pode ser desativado', ['quarto_id'=>1,'ocupacao'=>0,'ativo'=
     $r=new DoubleRepository;$r->responses=['buscarPorId'=>['id'=>1],'contarOcupacao'=>0,'atualizar'=>['id'=>1,'ativo'=>false]];
     same((new AsiloQuartoService($r))->alterarStatus(1,false),['id'=>1,'ativo'=>false]);same(end($r->calls),['atualizar',[1,['ativo'=>false]]]);
 });
+// Limite de tentativas de login (DEF-S01, docs/testes/SEGURANCA.md).
+extra('Login bloqueado após 5 falhas recentes', ['falhas_recentes'=>5,'senha'=>'correta'], 'DomainException sem consultar usuário nem alterar sessão',function(){
+    $r=new DoubleRepository;$s=new DoubleRepository;$t=new DoubleRepository;$t->responses['falhasRecentes']=5;
+    rejects(fn()=>(new AsiloAutenticacaoService($r,$s,$t))->tentarLogin('Ana@Example.com','senha123'));
+    same($r->calls,[]);same($s->calls,[]);same($t->calls,[['falhasRecentes',[hash('sha256','ana@example.com'),15]]]);
+});
+extra('Falha de login registra tentativa, inclusive de e-mail inexistente', ['email'=>'ninguem@example.com','falhas_recentes'=>4], 'DomainException e uma falha registrada para o hash do e-mail',function(){
+    $r=new DoubleRepository;$s=new DoubleRepository;$t=new DoubleRepository;$t->responses['falhasRecentes']=4;
+    rejects(fn()=>(new AsiloAutenticacaoService($r,$s,$t))->tentarLogin('ninguem@example.com','qualquer'));
+    same(end($t->calls),['registrarFalha',[hash('sha256','ninguem@example.com')]]);same($s->calls,[]);
+});
+extra('Login válido limpa as falhas anteriores', ['falhas_recentes'=>3], 'Autenticar e apagar as falhas do e-mail',function(){
+    $r=new DoubleRepository;$s=new DoubleRepository;$t=new DoubleRepository;$t->responses['falhasRecentes']=3;
+    $r->responses['buscarPorEmail']=['id'=>7,'ativo'=>true,'senha_hash'=>password_hash('senha123',PASSWORD_DEFAULT)];
+    same((new AsiloAutenticacaoService($r,$s,$t))->tentarLogin('ana@example.com','senha123'),true);
+    same(end($t->calls),['limpar',[hash('sha256','ana@example.com')]]);
+});

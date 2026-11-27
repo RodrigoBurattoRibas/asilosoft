@@ -15,10 +15,12 @@ A documentação técnica desta etapa fica nos arquivos `.md` abaixo e acompanha
 - [Seis cenários compostos de integração](CASOS_INTEGRACAO.md).
 - [Tabelas individuais da execução inicial](CASOS_POR_TESTE.md), com os 50 unitários originais e seis integrações; os 21 casos posteriores constam no catálogo atualizado.
 - [Relatório final desta etapa](RELATORIO_FINAL.md).
+- [Carga e estresse](CARGA_ESTRESSE.md): 10 a 300 usuários simultâneos, gráficos, ponto de degradação, recuperação e integridade (27/11/2026).
+- [Segurança](SEGURANCA.md): 36 casos OWASP Top 10; 7 vulnerabilidades encontradas, corrigidas e retestadas (27/11/2026).
 - [Defeitos, limitações e pendências](DEFEITOS_E_PENDENCIAS.md).
 - [Log da revalidação antes dos commits](evidencias/20261123T213334_34296/execucao.log), [resumo das integrações](evidencias/20261123T213334_34296/resumo.txt) e [relatório HTML de cobertura](evidencias/20261123T213334_34296/cobertura.html).
 
-**A entrega acadêmica completa ainda não está concluída:** E2E no navegador, performance/carga com gráficos, segurança completa, avaliação com três usuários e vídeo permanecem pendentes. A cobertura de 68,09% refere-se à camada de serviços, não à aplicação inteira.
+**A entrega acadêmica completa ainda não está concluída:** E2E no navegador, avaliação com três usuários e vídeo permanecem pendentes. Carga/estresse e segurança foram executados em 27/11/2026; as 7 vulnerabilidades encontradas foram corrigidas e retestadas (36 de 36). A cobertura de 68,09% refere-se à camada de serviços, não à aplicação inteira.
 
 ## Executar unitários (sem banco)
 

@@ -1,7 +1,7 @@
 {
-    "executado_em": "2026-11-24T22:40:15+00:00",
-    "php": "8.4.28",
-    "total": 71,
+    "executado_em": "2026-11-27T23:43:00+00:00",
+    "php": "8.5.4",
+    "total": 74,
     "falharam": 0,
     "casos": [
         {
@@ -1033,6 +1033,53 @@
             "verificacoes": [
                 "Comparação: esperado {\"id\":1,\"ativo\":false}; obtido {\"id\":1,\"ativo\":false}",
                 "Comparação: esperado [\"atualizar\",[1,{\"ativo\":false}]]; obtido [\"atualizar\",[1,{\"ativo\":false}]]"
+            ]
+        },
+        {
+            "id": "CT-U72",
+            "name": "Login bloqueado após 5 falhas recentes",
+            "data": {
+                "falhas_recentes": 5,
+                "senha": "correta"
+            },
+            "expected": "DomainException sem consultar usuário nem alterar sessão",
+            "status": "Passou",
+            "obtido": "Operação recusada com DomainException: Muitas tentativas sem sucesso. Aguarde 15 minutos e tente novamente.\nComparação: esperado []; obtido []\nComparação: esperado []; obtido []\nComparação: esperado [[\"falhasRecentes\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\",15]]]; obtido [[\"falhasRecentes\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\",15]]]",
+            "verificacoes": [
+                "Operação recusada com DomainException: Muitas tentativas sem sucesso. Aguarde 15 minutos e tente novamente.",
+                "Comparação: esperado []; obtido []",
+                "Comparação: esperado []; obtido []",
+                "Comparação: esperado [[\"falhasRecentes\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\",15]]]; obtido [[\"falhasRecentes\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\",15]]]"
+            ]
+        },
+        {
+            "id": "CT-U73",
+            "name": "Falha de login registra tentativa, inclusive de e-mail inexistente",
+            "data": {
+                "email": "ninguem@example.com",
+                "falhas_recentes": 4
+            },
+            "expected": "DomainException e uma falha registrada para o hash do e-mail",
+            "status": "Passou",
+            "obtido": "Operação recusada com DomainException: E-mail ou senha inválidos.\nComparação: esperado [\"registrarFalha\",[\"f022ff617227a5ba47e5c4fa422d435bc6d9a9bfb0d9df95f12d4b3b174fb1b6\"]]; obtido [\"registrarFalha\",[\"f022ff617227a5ba47e5c4fa422d435bc6d9a9bfb0d9df95f12d4b3b174fb1b6\"]]\nComparação: esperado []; obtido []",
+            "verificacoes": [
+                "Operação recusada com DomainException: E-mail ou senha inválidos.",
+                "Comparação: esperado [\"registrarFalha\",[\"f022ff617227a5ba47e5c4fa422d435bc6d9a9bfb0d9df95f12d4b3b174fb1b6\"]]; obtido [\"registrarFalha\",[\"f022ff617227a5ba47e5c4fa422d435bc6d9a9bfb0d9df95f12d4b3b174fb1b6\"]]",
+                "Comparação: esperado []; obtido []"
+            ]
+        },
+        {
+            "id": "CT-U74",
+            "name": "Login válido limpa as falhas anteriores",
+            "data": {
+                "falhas_recentes": 3
+            },
+            "expected": "Autenticar e apagar as falhas do e-mail",
+            "status": "Passou",
+            "obtido": "Comparação: esperado true; obtido true\nComparação: esperado [\"limpar\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\"]]; obtido [\"limpar\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\"]]",
+            "verificacoes": [
+                "Comparação: esperado true; obtido true",
+                "Comparação: esperado [\"limpar\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\"]]; obtido [\"limpar\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\"]]"
             ]
         }
     ]

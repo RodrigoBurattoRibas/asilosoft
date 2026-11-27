@@ -63,3 +63,15 @@ Plano, casos, resultados reais, limitações e roteiro de apresentação: [docs/
 ### Cobertura com phpdbg
 
 `bash tests/coverage.sh` executa os unitários sob phpdbg e gera relatórios JSON/HTML e log datado. Defina `PHPDBG_BIN=phpdbg8.4` se esse for o comando instalado. `bash tests/m3.sh --coverage` inclui a medição antes das integrações. Resultado validado: 71 casos aprovados, 224/329 linhas nos dez serviços, 68,09%. Instalação, ambiente temporário usado, escopo, códigos de saída e limitações: [docs/testes/PHPDBG.md](../docs/testes/PHPDBG.md).
+
+## Carga/estresse e segurança (novembro/2026)
+
+Duas suítes HTTP que sobem o próprio servidor (`php -S ... router.php`, igual ao Railway) e criam/removem a própria base `asilosoft_test_*`. Usam as mesmas quatro variáveis `ASILOSOFT_TEST_DB_*` das integrações e não precisam da extensão `curl` (cliente HTTP próprio em `support/HttpCliente.php`).
+
+```bash
+php tests/seguranca/SegurancaTest.php        # 36 casos OWASP Top 10, cerca de 30 s
+php tests/carga/CargaEstresse.php --rapido   # ensaio de 1 minuto
+php tests/carga/CargaEstresse.php            # completo, cerca de 7 minutos, com gráficos
+```
+
+Segurança: código 0 sem vulnerabilidades, 1 com vulnerabilidades, 2 em impedimento. Carga: código 0 quando a carga normal (até 50 usuários) cumpre p95 até 2 s e menos de 1% de erros na configuração do Railway. Evidências em `docs/testes/evidencias/seguranca_<data>/` e `carga_<data>/`. Detalhes: [SEGURANCA.md](../docs/testes/SEGURANCA.md) e [CARGA_ESTRESSE.md](../docs/testes/CARGA_ESTRESSE.md).
