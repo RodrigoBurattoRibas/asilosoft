@@ -44,7 +44,7 @@ extra('Filtro separa ativos e desativados', ['status'=>'inválido/desativados'],
     same($s->filtrar($rows,'qualquer'),[['id'=>1,'ativo'=>1]]);same($s->filtrar($rows,'desativados'),[['id'=>2,'ativo'=>0]]);
 });
 foreach (['','nova1234'] as $password) extra('Editar usuário com senha opcional', ['id'=>7,'senha'=>$password], $password===''?'Não sobrescrever hash quando senha estiver vazia':'Salvar novo hash verificável',function()use($password){
-    $r=new DoubleRepository;$r->responses=['buscarPorId'=>['id'=>7],'buscarPorEmail'=>['id'=>7],'atualizar'=>['id'=>7]];
+    $r=new DoubleRepository;$r->responses=['buscarPorId'=>['id'=>7,'perfil'=>'Familiar','ativo'=>true],'buscarPorEmail'=>['id'=>7],'atualizar'=>['id'=>7]];
     (new AsiloUsuarioService($r))->atualizar(7,['nome'=>' Ana ','email'=>' ANA@EXAMPLE.COM ','perfil'=>'Familiar','senha'=>$password]);
     $payload=end($r->calls)[1][1];same($payload['nome'],'Ana');same($payload['email'],'ana@example.com');
     if($password==='')same(array_key_exists('senha_hash',$payload),false);else same(password_verify($password,$payload['senha_hash']),true);
@@ -105,4 +105,12 @@ extra('Login válido limpa as falhas anteriores', ['falhas_recentes'=>3], 'Auten
     $r->responses['buscarPorEmail']=['id'=>7,'ativo'=>true,'senha_hash'=>password_hash('senha123',PASSWORD_DEFAULT)];
     same((new AsiloAutenticacaoService($r,$s,$t))->tentarLogin('ana@example.com','senha123'),true);
     same(end($t->calls),['limpar',[hash('sha256','ana@example.com')]]);
+});
+
+foreach ([1,2] as $admins) extra('Mudança de perfil preserva administrador ativo', ['administradores'=>$admins], $admins===1?'Rejeitar mudança do último administrador':'Permitir mudança quando existe outro administrador', function() use ($admins) {
+    $r=new DoubleRepository;
+    $r->responses=['buscarPorId'=>['id'=>7,'perfil'=>'Administrador','ativo'=>true], 'buscarPorEmail'=>['id'=>7], 'contarAdministradoresAtivos'=>$admins, 'atualizar'=>['id'=>7,'perfil'=>'Familiar']];
+    $change=fn()=>(new AsiloUsuarioService($r))->atualizar(7,['nome'=>'Admin','email'=>'admin@example.com','perfil'=>'Familiar']);
+    if ($admins===1) { rejects($change); same(count(array_filter($r->calls,fn($call)=>$call[0]==='atualizar')),0); }
+    else same($change(),['id'=>7,'perfil'=>'Familiar']);
 });

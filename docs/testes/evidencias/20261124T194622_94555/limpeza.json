@@ -1,0 +1,12 @@
+{
+    "verificado_em": "2026-11-24T19:54:05-03:00",
+    "codigo_suite": 2,
+    "bases_verificadas": 6,
+    "bases_retidas_removidas": [
+        "asilosoft_test_20261124194622_94555_database",
+        "asilosoft_test_20261124194622_94555_clinica",
+        "asilosoft_test_20261124194622_94555_estoquecompras"
+    ],
+    "bases_restantes": [],
+    "resultado": "Falhou"
+}

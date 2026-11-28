@@ -1,7 +1,7 @@
 {
-    "executado_em": "2026-11-27T23:43:00+00:00",
-    "php": "8.5.4",
-    "total": 74,
+    "executado_em": "2026-11-28T00:37:14+00:00",
+    "php": "8.4.28",
+    "total": 76,
     "falharam": 0,
     "casos": [
         {
@@ -1080,6 +1080,33 @@
             "verificacoes": [
                 "Comparação: esperado true; obtido true",
                 "Comparação: esperado [\"limpar\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\"]]; obtido [\"limpar\",[\"8e43ca37701228e74983efdbd0cff5c16b3b1e5d4e29a7c05626d4d25a018e11\"]]"
+            ]
+        },
+        {
+            "id": "CT-U75",
+            "name": "Mudança de perfil preserva administrador ativo",
+            "data": {
+                "administradores": 1
+            },
+            "expected": "Rejeitar mudança do último administrador",
+            "status": "Passou",
+            "obtido": "Operação recusada com DomainException: Mantenha ao menos um administrador ativo.\nComparação: esperado 0; obtido 0",
+            "verificacoes": [
+                "Operação recusada com DomainException: Mantenha ao menos um administrador ativo.",
+                "Comparação: esperado 0; obtido 0"
+            ]
+        },
+        {
+            "id": "CT-U76",
+            "name": "Mudança de perfil preserva administrador ativo",
+            "data": {
+                "administradores": 2
+            },
+            "expected": "Permitir mudança quando existe outro administrador",
+            "status": "Passou",
+            "obtido": "Comparação: esperado {\"id\":7,\"perfil\":\"Familiar\"}; obtido {\"id\":7,\"perfil\":\"Familiar\"}",
+            "verificacoes": [
+                "Comparação: esperado {\"id\":7,\"perfil\":\"Familiar\"}; obtido {\"id\":7,\"perfil\":\"Familiar\"}"
             ]
         }
     ]

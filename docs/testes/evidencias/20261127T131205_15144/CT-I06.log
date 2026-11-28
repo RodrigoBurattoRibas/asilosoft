@@ -1,0 +1,168 @@
+OK: Arquivo interno bloqueado: /.env
+OK: Arquivo interno bloqueado: /.git/config
+OK: Arquivo interno bloqueado: /tests/README.md
+OK: Arquivo interno bloqueado: /src/infra/Database/schema.sql
+OK: Arquivo interno bloqueado: /scripts/criar-administrador.php
+OK: Arquivo interno bloqueado: /README.md
+OK: CSS público acessível
+OK: T14 login admin
+OK: Home admin
+OK: T14 login saude
+OK: Home saude
+OK: T14 login estoque
+OK: Home estoque
+OK: T14 login familia
+OK: Home familia
+OK: T14 login outro
+OK: Home outro
+OK: T14 usuário criado com hash
+OK: T14 editar usuário
+OK: T14 último administrador preservado
+OK: T01 criar familiar via HTTP
+OK: T01 edição preserva associação
+OK: T02 vínculo pela ficha
+OK: T03 busca Ana
+OK: T03 busca 123.456.789-01
+OK: T03 busca RES-001
+OK: Profissional sem cadastro administrativo
+OK: Administrador consulta ficha
+OK: T04 POST clínico admin negado
+OK: T04 autor derivado da sessão
+OK: T05 portal somente publicado
+OK: T06 troca ID bloqueada
+OK: Ficha clínica proibida familiar
+OK: Ficha clínica proibida almoxarife
+OK: Consumo mostra erro persistente
+OK: Falha preserva idoso, item, quantidade, observação e chave
+OK: Falha de consumo não grava nem baixa estoque
+OK: T07 reenvio HTTP não duplica uso
+OK: T07 saldo uma única baixa
+OK: Uso aparece na ficha
+OK: T09 almoxarife não aprova
+OK: T09 ação atender navegável
+OK: T09 ciclo HTTP
+OK: T10 POST leitura almoxarifado
+OK: T10 POST leitura almoxarifado-novo
+OK: T10 sem CSRF almoxarifado-criar
+OK: T10 CSRF inválido almoxarifado-criar
+OK: T10 GET mutação almoxarifado-criar
+OK: T10 POST leitura almoxarifado-editar
+OK: T10 sem CSRF almoxarifado-atualizar
+OK: T10 CSRF inválido almoxarifado-atualizar
+OK: T10 GET mutação almoxarifado-atualizar
+OK: T10 POST leitura almoxarifado-entrada
+OK: T10 sem CSRF almoxarifado-registrar-entrada
+OK: T10 CSRF inválido almoxarifado-registrar-entrada
+OK: T10 GET mutação almoxarifado-registrar-entrada
+OK: T10 POST leitura almoxarifado-retirada
+OK: T10 sem CSRF almoxarifado-registrar-retirada
+OK: T10 CSRF inválido almoxarifado-registrar-retirada
+OK: T10 GET mutação almoxarifado-registrar-retirada
+OK: T10 POST leitura almoxarifado-uso
+OK: T10 sem CSRF almoxarifado-registrar-uso
+OK: T10 CSRF inválido almoxarifado-registrar-uso
+OK: T10 GET mutação almoxarifado-registrar-uso
+OK: T10 POST leitura login
+OK: T10 sem CSRF entrar
+OK: T10 CSRF inválido entrar
+OK: T10 GET mutação entrar
+OK: T10 sem CSRF sair
+OK: T10 CSRF inválido sair
+OK: T10 GET mutação sair
+OK: T10 POST leitura familiares
+OK: T10 POST leitura familiares-novo
+OK: T10 POST leitura familiares-editar
+OK: T10 sem CSRF familiares-criar
+OK: T10 CSRF inválido familiares-criar
+OK: T10 GET mutação familiares-criar
+OK: T10 sem CSRF familiares-atualizar
+OK: T10 CSRF inválido familiares-atualizar
+OK: T10 GET mutação familiares-atualizar
+OK: T10 sem CSRF idosos-familiares-vincular
+OK: T10 CSRF inválido idosos-familiares-vincular
+OK: T10 GET mutação idosos-familiares-vincular
+OK: T10 sem CSRF idosos-familiares-desvincular
+OK: T10 CSRF inválido idosos-familiares-desvincular
+OK: T10 GET mutação idosos-familiares-desvincular
+OK: T10 POST leitura meus-idosos
+OK: T10 POST leitura acompanhamento-familiar
+OK: T10 POST leitura home
+OK: T10 POST leitura idosos
+OK: T10 POST leitura idosos-novo
+OK: T10 sem CSRF idosos-criar
+OK: T10 CSRF inválido idosos-criar
+OK: T10 GET mutação idosos-criar
+OK: T10 POST leitura idosos-editar
+OK: T10 sem CSRF idosos-atualizar
+OK: T10 CSRF inválido idosos-atualizar
+OK: T10 GET mutação idosos-atualizar
+OK: T10 sem CSRF idosos-retirar-quarto
+OK: T10 CSRF inválido idosos-retirar-quarto
+OK: T10 GET mutação idosos-retirar-quarto
+OK: T10 sem CSRF idosos-status
+OK: T10 CSRF inválido idosos-status
+OK: T10 GET mutação idosos-status
+OK: T10 POST leitura idosos-saude
+OK: T10 sem CSRF idosos-saude-registrar
+OK: T10 CSRF inválido idosos-saude-registrar
+OK: T10 GET mutação idosos-saude-registrar
+OK: T10 POST leitura quartos
+OK: T10 POST leitura quartos-novo
+OK: T10 sem CSRF quartos-criar
+OK: T10 CSRF inválido quartos-criar
+OK: T10 GET mutação quartos-criar
+OK: T10 POST leitura quartos-editar
+OK: T10 sem CSRF quartos-atualizar
+OK: T10 CSRF inválido quartos-atualizar
+OK: T10 GET mutação quartos-atualizar
+OK: T10 sem CSRF quartos-status
+OK: T10 CSRF inválido quartos-status
+OK: T10 GET mutação quartos-status
+OK: T10 POST leitura usuarios
+OK: T10 POST leitura usuarios-novo
+OK: T10 sem CSRF usuarios-criar
+OK: T10 CSRF inválido usuarios-criar
+OK: T10 GET mutação usuarios-criar
+OK: T10 POST leitura usuarios-editar
+OK: T10 sem CSRF usuarios-atualizar
+OK: T10 CSRF inválido usuarios-atualizar
+OK: T10 GET mutação usuarios-atualizar
+OK: T10 sem CSRF usuarios-status
+OK: T10 CSRF inválido usuarios-status
+OK: T10 GET mutação usuarios-status
+OK: T10 POST leitura idosos-ficha
+OK: T10 POST leitura compras
+OK: T10 POST leitura compras-nova
+OK: T10 sem CSRF compras-criar
+OK: T10 CSRF inválido compras-criar
+OK: T10 GET mutação compras-criar
+OK: T10 sem CSRF compras-situacao
+OK: T10 CSRF inválido compras-situacao
+OK: T10 GET mutação compras-situacao
+OK: Idosos sem gestão de quartos
+OK: Formulário de quarto limita capacidade a 99
+OK: Cadastro rejeita capacidade 0
+OK: Cadastro rejeita capacidade 100
+OK: Cadastro rejeita capacidade 255
+OK: Cadastro aceita capacidade máxima 99
+OK: Edição rejeita capacidade acima de 99
+OK: Edição aceita capacidade mínima 1
+OK: Desativação pelo módulo quartos
+OK: Ativação pelo módulo quartos
+OK: Rota antiga removida: idosos-quartos-criar
+OK: Rota antiga removida: idosos-quartos-atualizar&id=2
+OK: Rotas antigas não alteram quartos
+OK: Quartos restritos ao administrador: saude
+OK: Quartos restritos ao administrador: estoque
+OK: Quartos restritos ao administrador: familia
+OK: T14 edição preserva quarto
+OK: T08 entrada sem origem não grava
+OK: Retirada sem finalidade não altera saldo nem histórico
+OK: Retirada sem finalidade não altera saldo nem histórico
+OK: Retirada registra finalidade e responsável
+OK: T14 entrada e retirada genéricas preservadas
+OK: T06 remoção revoga próxima requisição
+OK: T06 conta desativada bloqueada
+OK: T13 logout bloqueia sessão
+OK: T13 dados persistem após login
+HTTP e regressões aprovados.

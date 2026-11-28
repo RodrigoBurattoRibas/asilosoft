@@ -21,6 +21,7 @@ if (count($argv) !== 1) {
 $root = dirname(__DIR__, 2);
 require_once $root.'/src/infra/Database/Database.php';
 
+$stage = 'configuração';
 try {
     // Reutiliza a resolução de aliases, precedência e valores vazios da aplicação,
     // sem duplicar o parser do .env nem executar seu conteúdo como shell.
@@ -44,6 +45,7 @@ try {
         PDO::ATTR_TIMEOUT => 5,
     ]);
     // A conexão não seleciona a base da aplicação e não aplica migrations nela.
+    $stage = 'conexão inicial';
     $connect();
     echo "Executando testes no servidor configurado, em bases auxiliares isoladas.\n";
     $process = proc_open(['bash', 'tests/m3.sh', '--integration-only'], [
@@ -67,6 +69,7 @@ try {
     $removed = [];
     $remaining = [];
     if ($databases !== []) {
+        $stage = 'limpeza das bases auxiliares';
         $pdo = $connect(); // Nova conexão: a execução remota pode durar vários minutos.
         foreach ($databases as $database) {
             $exists = $pdo->prepare('SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name=?');
@@ -96,7 +99,22 @@ try {
     echo 'Limpeza: '.count($databases).' bases verificadas; '.count($remaining)." bases restantes.\n";
     exit($complete ? 0 : ($status === 2 ? 2 : 1));
 } catch (PDOException $error) {
-    fwrite(STDERR, 'Falha no acesso/limpeza do banco. SQLSTATE '.$error->getCode().'. Confira conexão e permissões de CREATE/DROP DATABASE. Credenciais omitidas.'."\n");
+    $sqlState = $error->errorInfo[0] ?? $error->getCode();
+    $driverCode = $error->errorInfo[1] ?? null;
+    $message = 'Falha na etapa: '.$stage.'. SQLSTATE '.$sqlState;
+    if ($driverCode !== null) $message .= '; MySQL '.$driverCode;
+    $message .= '. ';
+    if (in_array((int)$driverCode, [2002, 2003, 2006, 2013], true)) {
+        $message .= 'Conexão indisponível ou interrompida. Confira se o MySQL está ativo e se o host/porta e a rede estão acessíveis; tente novamente após restabelecer a conexão.';
+    } elseif (in_array((int)$driverCode, [1044, 1045, 1142, 1227], true)) {
+        $message .= 'Confira autenticação e permissões da conta para a operação solicitada.';
+    } else {
+        $message .= 'Confira a configuração de conexão e o estado do servidor.';
+    }
+    if ($stage === 'limpeza das bases auxiliares') {
+        $message .= ' A limpeza não foi concluída; confira os nomes das bases auxiliares nos logs desta execução.';
+    }
+    fwrite(STDERR, $message.' Credenciais omitidas.'."\n");
     exit(2);
 } catch (Throwable $error) {
     fwrite(STDERR, 'Não foi possível concluir o runner: '.$error->getMessage()."\n");

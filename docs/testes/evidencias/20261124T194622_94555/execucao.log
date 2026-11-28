@@ -1,0 +1,323 @@
+Evidências: docs/testes/evidencias/20261124T194622_94555
+Início: 2026-11-24T19:46:22-03:00
+Ambiente: PHP 8.4.28 / Linux
+CT-I01: database/Database; início 2026-11-24T19:46:22-03:00; banco asilosoft_test_20261124194622_94555_database
+Executando: tests/integration/database/DatabaseIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
+OK: T12 instalação nova aplica migrations
+OK: Contrato convergente materiais.tipo VARCHAR(30)
+OK: T12 segundo bootstrap não reaplica migrations
+OK: T12 atualização histórica converge
+OK: Schemas novo e atualizado equivalentes
+OK: Dados preexistentes preservados
+OK: Saldo preservado
+OK: Histórico preservado
+OK: Bootstrap após atualização idempotente
+OK: T14 quarto ocupado protegido
+OK: T14 capacidade protegida no banco
+OK: T11 handler administrativo de quartos
+OK: T11 gestão de quartos removida do módulo idosos
+OK: Middleware presente: almoxarifado
+OK: Middleware presente: almoxarifado-novo
+OK: Middleware presente: almoxarifado-criar
+OK: Middleware presente: almoxarifado-editar
+OK: Middleware presente: almoxarifado-atualizar
+OK: Middleware presente: almoxarifado-entrada
+OK: Middleware presente: almoxarifado-registrar-entrada
+OK: Middleware presente: almoxarifado-retirada
+OK: Middleware presente: almoxarifado-registrar-retirada
+OK: Middleware presente: almoxarifado-uso
+OK: Middleware presente: almoxarifado-registrar-uso
+OK: Middleware presente: login
+OK: Middleware presente: entrar
+OK: Middleware presente: sair
+OK: Middleware presente: familiares
+OK: Middleware presente: familiares-novo
+OK: Middleware presente: familiares-editar
+OK: Middleware presente: familiares-criar
+OK: Middleware presente: familiares-atualizar
+OK: Middleware presente: idosos-familiares-vincular
+OK: Middleware presente: idosos-familiares-desvincular
+OK: Middleware presente: meus-idosos
+OK: Middleware presente: acompanhamento-familiar
+OK: Middleware presente: home
+OK: Middleware presente: idosos
+OK: Middleware presente: idosos-novo
+OK: Middleware presente: idosos-criar
+OK: Middleware presente: idosos-editar
+OK: Middleware presente: idosos-atualizar
+OK: Middleware presente: idosos-retirar-quarto
+OK: Middleware presente: idosos-status
+OK: Middleware presente: idosos-saude
+OK: Middleware presente: idosos-saude-registrar
+OK: Middleware presente: quartos
+OK: Middleware presente: quartos-novo
+OK: Middleware presente: quartos-criar
+OK: Middleware presente: quartos-editar
+OK: Middleware presente: quartos-atualizar
+OK: Middleware presente: quartos-status
+OK: Middleware presente: usuarios
+OK: Middleware presente: usuarios-novo
+OK: Middleware presente: usuarios-criar
+OK: Middleware presente: usuarios-editar
+OK: Middleware presente: usuarios-atualizar
+OK: Middleware presente: usuarios-status
+OK: Middleware presente: idosos-ficha
+OK: Middleware presente: compras
+OK: Middleware presente: compras-nova
+OK: Middleware presente: compras-criar
+OK: Middleware presente: compras-situacao
+Banco, migrations e contratos de rotas aprovados.
+Obtido: suíte concluída com código 0; verificações detalhadas acima.
+CT-I01 Passou
+CT-I02: Familiares; início 2026-11-24T19:47:03-03:00; banco asilosoft_test_20261124194622_94555_familiares
+Executando: tests/integration/FamiliaresIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
+Verificação: Concorrência sem falhas; resultado: condição confirmada.
+Verificação: Concorrência sem falhas; resultado: condição confirmada.
+Verificação: T02 concorrência mantém um principal; resultado: condição confirmada.
+Verificação: T01 remoção explícita; resultado: condição confirmada.
+OK Familiares: T01 T02 T05 T06, rollback e concorrência (24 operações).
+Verificação: T06 idoso sem publicação; resultado: condição confirmada.
+Verificação: T06 vínculo removido; resultado: condição confirmada.
+Verificação: T06 inativo lista e URL; resultado: condição confirmada.
+Verificação: T06 conta desativada; resultado: condição confirmada.
+Verificação: Conta sem cadastro; resultado: condição confirmada.
+Obtido: suíte concluída com código 0; verificações detalhadas acima.
+CT-I02 Passou
+CT-I03: Clinica; início 2026-11-24T19:48:49-03:00; banco asilosoft_test_20261124194622_94555_clinica
+Executando: tests/integration/ClinicaIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
+OK Busca Fictícia
+OK Busca 123.456.789-01
+OK Busca CLINICA-001
+OK Quarto na ficha
+OK Administrador não grava
+OK Descrição vazia rejeitada
+OK Visibilidade inválida rejeitada
+OK Idoso inexistente rejeitado
+OK Array rejeitado sem warning: descricao
+OK Array rejeitado sem warning: visivel_para_familiar
+OK Array rejeitado sem warning: corrige_id
+OK Limite considera referência da retificação
+OK Limite em bytes UTF-8
+OK Retificação aditiva
+OK Histórico original preservado
+OK Autor real preservado
+OK Auditoria de cada anotação
+OK Retificação inexistente rejeitada
+OK Ficha consolidada
+OK Paginação sem repetir resultados
+PASS clínica: integração MySQL concluída; fixtures revertidas.
+Obtido: suíte concluída com código 0; verificações detalhadas acima.
+CT-I03 Passou
+CT-I04: EstoqueCompras; início 2026-11-24T19:49:37-03:00; banco asilosoft_test_20261124194622_94555_estoquecompras
+Executando: tests/integration/EstoqueComprasIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
+OK T07 idempotência
+OK T07 baixa exata uma vez
+OK T07 movimento vinculado único
+OK T07 chave reutilizada com payload diferente rejeitada
+OK T07 novo consumo de material inativo rejeitado
+OK T07 replay confirmado continua idempotente após desativação
+OK T09 compra de material inativo rejeitada
+OK T07 idoso inativo rejeitado
+OK T07 saldo insuficiente
+OK T07 nenhuma auditoria parcial
+OK T08 origem obrigatória
+OK T08 quantidade inválida 0
+OK T08 quantidade inválida 1.0001
+OK T08 quantidade inválida 1000000000
+OK T08 quantidade inválida 1e3
+OK T09 CAS obsoleto
+OK T09 terminal
+OK T09 inexistente
+OK T09 estoque inalterado
+OK T09 auditoria com autoria
+OK T07 concorrência aceita só uma retirada
+OK T07 saldo concorrente positivo
+OK T07 rollback sem consumo extra
+PASS estoque/compras. Fixtures fictícias preservadas somente na base asilosoft_test_20261124194622_94555_estoquecompras.
+Obtido: suíte concluída com código 0; verificações detalhadas acima.
+CT-I04 Passou
+CT-I05: Instalacao; início 2026-11-24T19:50:41-03:00; banco asilosoft_test_20261124194622_94555_instalacao
+Executando: tests/integration/InstalacaoIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
+OK instalação: validação, primeiro administrador com hash e recusa de repetição.
+Obtido: suíte concluída com código 0; verificações detalhadas acima.
+CT-I05 Passou
+CT-I06: Http; início 2026-11-24T19:51:09-03:00; banco asilosoft_test_20261124194622_94555_http
+Executando: tests/integration/HttpIntegrationTest.php
+Esperado: todas as verificações da suíte concluídas sem erro.
+OK: Arquivo interno bloqueado: /.env
+OK: Arquivo interno bloqueado: /.git/config
+OK: Arquivo interno bloqueado: /tests/README.md
+OK: Arquivo interno bloqueado: /src/infra/Database/schema.sql
+OK: Arquivo interno bloqueado: /scripts/criar-administrador.php
+OK: Arquivo interno bloqueado: /README.md
+OK: CSS público acessível
+OK: T14 login admin
+OK: Home admin
+OK: T14 login saude
+OK: Home saude
+OK: T14 login estoque
+OK: Home estoque
+OK: T14 login familia
+OK: Home familia
+OK: T14 login outro
+OK: Home outro
+OK: T14 usuário criado com hash
+OK: T14 editar usuário
+OK: T14 último administrador preservado
+OK: T01 criar familiar via HTTP
+OK: T01 edição preserva associação
+OK: T02 vínculo pela ficha
+OK: T03 busca Ana
+OK: T03 busca 123.456.789-01
+OK: T03 busca RES-001
+OK: Profissional sem cadastro administrativo
+OK: Administrador consulta ficha
+OK: T04 POST clínico admin negado
+OK: T04 autor derivado da sessão
+OK: T05 portal somente publicado
+OK: T06 troca ID bloqueada
+OK: Ficha clínica proibida familiar
+OK: Ficha clínica proibida almoxarife
+OK: Consumo mostra erro persistente
+OK: Falha preserva idoso, item, quantidade, observação e chave
+OK: Falha de consumo não grava nem baixa estoque
+OK: T07 reenvio HTTP não duplica uso
+OK: T07 saldo uma única baixa
+OK: Uso aparece na ficha
+OK: T09 almoxarife não aprova
+OK: T09 ação atender navegável
+OK: T09 ciclo HTTP
+OK: T10 POST leitura almoxarifado
+OK: T10 POST leitura almoxarifado-novo
+OK: T10 sem CSRF almoxarifado-criar
+OK: T10 CSRF inválido almoxarifado-criar
+OK: T10 GET mutação almoxarifado-criar
+OK: T10 POST leitura almoxarifado-editar
+OK: T10 sem CSRF almoxarifado-atualizar
+OK: T10 CSRF inválido almoxarifado-atualizar
+OK: T10 GET mutação almoxarifado-atualizar
+OK: T10 POST leitura almoxarifado-entrada
+OK: T10 sem CSRF almoxarifado-registrar-entrada
+OK: T10 CSRF inválido almoxarifado-registrar-entrada
+OK: T10 GET mutação almoxarifado-registrar-entrada
+OK: T10 POST leitura almoxarifado-retirada
+OK: T10 sem CSRF almoxarifado-registrar-retirada
+OK: T10 CSRF inválido almoxarifado-registrar-retirada
+OK: T10 GET mutação almoxarifado-registrar-retirada
+OK: T10 POST leitura almoxarifado-uso
+OK: T10 sem CSRF almoxarifado-registrar-uso
+OK: T10 CSRF inválido almoxarifado-registrar-uso
+OK: T10 GET mutação almoxarifado-registrar-uso
+OK: T10 POST leitura login
+OK: T10 sem CSRF entrar
+OK: T10 CSRF inválido entrar
+OK: T10 GET mutação entrar
+OK: T10 sem CSRF sair
+OK: T10 CSRF inválido sair
+OK: T10 GET mutação sair
+OK: T10 POST leitura familiares
+OK: T10 POST leitura familiares-novo
+OK: T10 POST leitura familiares-editar
+OK: T10 sem CSRF familiares-criar
+OK: T10 CSRF inválido familiares-criar
+OK: T10 GET mutação familiares-criar
+OK: T10 sem CSRF familiares-atualizar
+OK: T10 CSRF inválido familiares-atualizar
+OK: T10 GET mutação familiares-atualizar
+OK: T10 sem CSRF idosos-familiares-vincular
+OK: T10 CSRF inválido idosos-familiares-vincular
+OK: T10 GET mutação idosos-familiares-vincular
+OK: T10 sem CSRF idosos-familiares-desvincular
+OK: T10 CSRF inválido idosos-familiares-desvincular
+OK: T10 GET mutação idosos-familiares-desvincular
+OK: T10 POST leitura meus-idosos
+OK: T10 POST leitura acompanhamento-familiar
+OK: T10 POST leitura home
+OK: T10 POST leitura idosos
+OK: T10 POST leitura idosos-novo
+OK: T10 sem CSRF idosos-criar
+OK: T10 CSRF inválido idosos-criar
+OK: T10 GET mutação idosos-criar
+OK: T10 POST leitura idosos-editar
+OK: T10 sem CSRF idosos-atualizar
+OK: T10 CSRF inválido idosos-atualizar
+OK: T10 GET mutação idosos-atualizar
+OK: T10 sem CSRF idosos-retirar-quarto
+OK: T10 CSRF inválido idosos-retirar-quarto
+OK: T10 GET mutação idosos-retirar-quarto
+OK: T10 sem CSRF idosos-status
+OK: T10 CSRF inválido idosos-status
+OK: T10 GET mutação idosos-status
+OK: T10 POST leitura idosos-saude
+OK: T10 sem CSRF idosos-saude-registrar
+OK: T10 CSRF inválido idosos-saude-registrar
+OK: T10 GET mutação idosos-saude-registrar
+OK: T10 POST leitura quartos
+OK: T10 POST leitura quartos-novo
+OK: T10 sem CSRF quartos-criar
+OK: T10 CSRF inválido quartos-criar
+OK: T10 GET mutação quartos-criar
+OK: T10 POST leitura quartos-editar
+OK: T10 sem CSRF quartos-atualizar
+OK: T10 CSRF inválido quartos-atualizar
+OK: T10 GET mutação quartos-atualizar
+OK: T10 sem CSRF quartos-status
+OK: T10 CSRF inválido quartos-status
+OK: T10 GET mutação quartos-status
+OK: T10 POST leitura usuarios
+OK: T10 POST leitura usuarios-novo
+OK: T10 sem CSRF usuarios-criar
+OK: T10 CSRF inválido usuarios-criar
+OK: T10 GET mutação usuarios-criar
+OK: T10 POST leitura usuarios-editar
+OK: T10 sem CSRF usuarios-atualizar
+OK: T10 CSRF inválido usuarios-atualizar
+OK: T10 GET mutação usuarios-atualizar
+OK: T10 sem CSRF usuarios-status
+OK: T10 CSRF inválido usuarios-status
+OK: T10 GET mutação usuarios-status
+OK: T10 POST leitura idosos-ficha
+OK: T10 POST leitura compras
+OK: T10 POST leitura compras-nova
+OK: T10 sem CSRF compras-criar
+OK: T10 CSRF inválido compras-criar
+OK: T10 GET mutação compras-criar
+OK: T10 sem CSRF compras-situacao
+OK: T10 CSRF inválido compras-situacao
+OK: T10 GET mutação compras-situacao
+OK: Idosos sem gestão de quartos
+OK: Formulário de quarto limita capacidade a 99
+OK: Cadastro rejeita capacidade 0
+OK: Cadastro rejeita capacidade 100
+OK: Cadastro rejeita capacidade 255
+OK: Cadastro aceita capacidade máxima 99
+OK: Edição rejeita capacidade acima de 99
+OK: Edição aceita capacidade mínima 1
+OK: Desativação pelo módulo quartos
+OK: Ativação pelo módulo quartos
+OK: Rota antiga removida: idosos-quartos-criar
+OK: Rota antiga removida: idosos-quartos-atualizar&id=2
+OK: Rotas antigas não alteram quartos
+OK: Quartos restritos ao administrador: saude
+OK: Quartos restritos ao administrador: estoque
+OK: Quartos restritos ao administrador: familia
+OK: T14 edição preserva quarto
+OK: T08 entrada sem origem não grava
+OK: Retirada sem finalidade não altera saldo nem histórico
+OK: Retirada sem finalidade não altera saldo nem histórico
+OK: Retirada registra finalidade e responsável
+OK: T14 entrada e retirada genéricas preservadas
+OK: T06 remoção revoga próxima requisição
+OK: T06 conta desativada bloqueada
+OK: T13 logout bloqueia sessão
+OK: T13 dados persistem após login
+HTTP e regressões aprovados.
+Obtido: suíte concluída com código 0; verificações detalhadas acima.
+CT-I06 Passou
+tests/m3.sh: linha 51: erro de sintaxe próximo ao token inesperado `then'
+Fim: 2026-11-24T19:54:00-03:00; código: 2
