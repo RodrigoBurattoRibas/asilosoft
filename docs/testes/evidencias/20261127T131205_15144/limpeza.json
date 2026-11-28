@@ -1,0 +1,12 @@
+{
+    "verificado_em": "2026-11-27T13:21:39-03:00",
+    "codigo_suite": 0,
+    "bases_verificadas": 6,
+    "bases_retidas_removidas": [
+        "asilosoft_test_20261127131205_15144_database",
+        "asilosoft_test_20261127131205_15144_clinica",
+        "asilosoft_test_20261127131205_15144_estoquecompras"
+    ],
+    "bases_restantes": [],
+    "resultado": "Passou"
+}

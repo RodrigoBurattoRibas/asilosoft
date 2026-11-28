@@ -55,7 +55,7 @@ final class DatabaseMigrator
     }
 
     /** @return list<string> */
-    private function statements(string $sql): array
+    public function statements(string $sql): array
     {
         $delimiter = ';';
         $buffer = '';

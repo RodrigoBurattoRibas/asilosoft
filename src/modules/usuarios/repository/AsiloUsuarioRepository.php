@@ -59,7 +59,15 @@ final class AsiloUsuarioRepository
         $fields = array_map(static fn (string $field): string => "{$field} = :{$field}", array_keys($data));
         $data['id'] = $id;
         $query = $this->pdo->prepare('UPDATE usuarios SET ' . implode(', ', $fields) . ' WHERE id = :id');
-        $query->execute($data);
+        try {
+            $query->execute($data);
+        } catch (PDOException $error) {
+            if (($error->errorInfo[0] ?? '') === '45000'
+                && str_contains($error->getMessage(), 'Mantenha ao menos um administrador ativo.')) {
+                throw new DomainException('Mantenha ao menos um administrador ativo.', previous: $error);
+            }
+            throw $error;
+        }
 
         return $this->buscarPorId($id) ?? throw new DomainException('Usuário não encontrado.');
     }

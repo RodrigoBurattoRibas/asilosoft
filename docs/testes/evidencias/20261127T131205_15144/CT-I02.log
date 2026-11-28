@@ -1,0 +1,15 @@
+Verificação: T01 preserva associação ausente; resultado: condição confirmada.
+Verificação: T02 vários vínculos sem duplicar; resultado: condição confirmada.
+Verificação: Rollback mantém principal; resultado: condição confirmada.
+Verificação: T05 apenas público; resultado: condição confirmada.
+Verificação: T06 troca id bloqueada; resultado: condição confirmada.
+Verificação: T06 idoso sem publicação; resultado: condição confirmada.
+Verificação: T06 vínculo removido; resultado: condição confirmada.
+Verificação: T06 inativo lista e URL; resultado: condição confirmada.
+Verificação: T06 conta desativada; resultado: condição confirmada.
+Verificação: Conta sem cadastro; resultado: condição confirmada.
+Verificação: Concorrência sem falhas; resultado: condição confirmada.
+Verificação: Concorrência sem falhas; resultado: condição confirmada.
+Verificação: T02 concorrência mantém um principal; resultado: condição confirmada.
+Verificação: T01 remoção explícita; resultado: condição confirmada.
+OK Familiares: T01 T02 T05 T06, rollback e concorrência (24 operações).

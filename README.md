@@ -111,3 +111,7 @@ php tests/integration/run.php
 ```
 
 O segundo usa a conexão de testes configurada no `.env`/ambiente, executa somente as seis integrações em bases auxiliares, com limpeza automática ao terminar. Consulte [o guia do comando de integração](docs/testes/COMANDO_INTEGRACAO.md).
+
+### Dados para demonstração
+
+Para limpar a base preservando `admin@asilosoft.local` e carregar idosos, familiares, quartos, estoque, acompanhamentos e compras, consulte [a migration opcional e as credenciais de demonstração](docs/DEMONSTRACAO.md). O comando explícito é `php scripts/popular-demonstracao.php`; ele não faz parte do bootstrap normal.

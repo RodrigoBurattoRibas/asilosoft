@@ -5,7 +5,7 @@ class PDOMysqli
     private static ?PDO $conn = null;
     private static ?array $environment = null;
 
-    public static function connection(): PDO
+    public static function connection(int $readTimeout = 5): PDO
     {
         if (self::$conn instanceof PDO) {
             return self::$conn;
@@ -23,7 +23,7 @@ class PDOMysqli
         );
 
         // O timeout PDO cobre a conexão TCP; mysqlnd limita a espera pela resposta.
-        ini_set('mysqlnd.net_read_timeout', '5');
+        ini_set('mysqlnd.net_read_timeout', (string) max(1, $readTimeout));
 
         self::$conn = new PDO(
             $dsn,

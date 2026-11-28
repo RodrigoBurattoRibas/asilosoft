@@ -64,6 +64,11 @@ final class AsiloUsuarioService
             throw new DomainException('Este e-mail já está em uso.');
         }
 
+        if ($user['perfil'] === 'Administrador' && $user['ativo'] === true
+            && $profile !== 'Administrador' && $this->repository->contarAdministradoresAtivos() <= 1) {
+            throw new DomainException('Mantenha ao menos um administrador ativo.');
+        }
+
         $update = ['nome' => $name, 'email' => $email, 'perfil' => $profile];
         if ($password !== '') {
             $update['senha_hash'] = password_hash($password, PASSWORD_DEFAULT);

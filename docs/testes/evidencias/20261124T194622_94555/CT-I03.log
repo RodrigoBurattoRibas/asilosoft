@@ -1,0 +1,21 @@
+OK Busca Fictícia
+OK Busca 123.456.789-01
+OK Busca CLINICA-001
+OK Quarto na ficha
+OK Administrador não grava
+OK Descrição vazia rejeitada
+OK Visibilidade inválida rejeitada
+OK Idoso inexistente rejeitado
+OK Array rejeitado sem warning: descricao
+OK Array rejeitado sem warning: visivel_para_familiar
+OK Array rejeitado sem warning: corrige_id
+OK Limite considera referência da retificação
+OK Limite em bytes UTF-8
+OK Retificação aditiva
+OK Histórico original preservado
+OK Autor real preservado
+OK Auditoria de cada anotação
+OK Retificação inexistente rejeitada
+OK Ficha consolidada
+OK Paginação sem repetir resultados
+PASS clínica: integração MySQL concluída; fixtures revertidas.
