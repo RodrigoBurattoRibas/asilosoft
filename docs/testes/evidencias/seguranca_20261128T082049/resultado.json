@@ -1,0 +1,374 @@
+{
+    "gerado_em": "2026-11-28T08:20:57-03:00",
+    "ambiente": {
+        "php": "8.5.4",
+        "mysql": "10.4.32-MariaDB",
+        "servidor": "PHP embutido (php -S) com router.php em 127.0.0.1:18091",
+        "base": "asilosoft_test_* criada e removida pela suíte"
+    },
+    "total": 36,
+    "passaram": 36,
+    "vulnerabilidades": 0,
+    "casos": [
+        {
+            "id": "CT-S01",
+            "categoria": "Injeção de SQL",
+            "owasp": "A03",
+            "titulo": "Login não aceita injeção no e-mail ou na senha",
+            "esperado": "Nenhum payload autentica; resposta volta ao login sem erro interno",
+            "obtido": "5 payloads recusados; todos redirecionaram para o login",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S02",
+            "categoria": "Injeção de SQL",
+            "owasp": "A03",
+            "titulo": "Busca de idosos trata aspas e UNION como texto",
+            "esperado": "Nenhum residente extra listado, sem hash de senha e sem mensagem de erro SQL",
+            "obtido": "4 payloads tratados como texto: 0 resultados, sem erro",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S03",
+            "categoria": "Injeção de SQL",
+            "owasp": "A03",
+            "titulo": "Injeção cega por tempo (SLEEP) não executa",
+            "esperado": "Respostas em menos de 2,5 s com payload SLEEP(3)",
+            "obtido": "Maior tempo: 53 ms",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S04",
+            "categoria": "Injeção de SQL",
+            "owasp": "A03",
+            "titulo": "Parâmetros numéricos (id) rejeitam texto e SQL",
+            "esperado": "Sem erro 500 nem mensagem SQL; nenhum dado de outro registro",
+            "obtido": "15 combinações sem erro interno; ids inválidos tratados",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S05",
+            "categoria": "Injeção de SQL",
+            "owasp": "A03",
+            "titulo": "Campos de cadastro gravam payload SQL como texto (inclusive segunda ordem)",
+            "esperado": "Familiar salvo com o nome literal; tabela idosos intacta; busca posterior sem erro",
+            "obtido": "Nome literal gravado; idosos com 5 linhas; listagem normal",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S06",
+            "categoria": "XSS",
+            "owasp": "A03",
+            "titulo": "XSS armazenado no cadastro de familiar",
+            "esperado": "Lista e edição exibem o texto escapado; tag não é interpretada",
+            "obtido": "Payload salvo e exibido como &lt;script&gt; nas 2 telas",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S07",
+            "categoria": "XSS",
+            "owasp": "A03",
+            "titulo": "XSS armazenado no cadastro de material",
+            "esperado": "Lista do almoxarifado, compras e consumo exibem o nome escapado",
+            "obtido": "Escapado em almoxarifado, compras-nova e almoxarifado-uso",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S08",
+            "categoria": "XSS",
+            "owasp": "A03",
+            "titulo": "XSS armazenado no prontuário chega escapado ao portal da família",
+            "esperado": "Prontuário e acompanhamento familiar não interpretam a tag",
+            "obtido": "Escapado no prontuário e no portal da família",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S09",
+            "categoria": "XSS",
+            "owasp": "A03",
+            "titulo": "XSS refletido na busca, na paginação e na rota",
+            "esperado": "Parâmetros devolvidos na página sempre escapados",
+            "obtido": "6 pontos de reflexão testados, todos escapados",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S10",
+            "categoria": "XSS",
+            "owasp": "A03",
+            "titulo": "Mensagens de erro do login não refletem a entrada",
+            "esperado": "E-mail com script gera mensagem genérica, sem a tag",
+            "obtido": "Mensagem genérica \"E-mail ou senha inválidos.\"",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S11",
+            "categoria": "Autenticação",
+            "owasp": "A07",
+            "titulo": "Mensagem de erro não revela se o e-mail existe",
+            "esperado": "Mesma mensagem para e-mail inexistente e senha errada",
+            "obtido": "Existente: [E-mail ou senha inválidos.] / inexistente: [E-mail ou senha inválidos.]",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S12",
+            "categoria": "Autenticação",
+            "owasp": "A07",
+            "titulo": "Tempo de resposta não revela se o e-mail existe",
+            "esperado": "Diferença das medianas abaixo de 40 ms",
+            "obtido": "Mediana com e-mail existente 201 ms; inexistente 203 ms; diferença -3 ms",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S13",
+            "categoria": "Autenticação",
+            "owasp": "A07",
+            "titulo": "Proteção contra força bruta no login",
+            "esperado": "Após no máximo 10 senhas erradas seguidas, novas tentativas são bloqueadas, inclusive com a senha certa",
+            "obtido": "Bloqueio a partir da tentativa 6 (5 falhas aceitas); a senha certa também foi recusada durante o bloqueio",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S14",
+            "categoria": "Autenticação",
+            "owasp": "A07",
+            "titulo": "Conta desativada não entra",
+            "esperado": "Login recusado para usuário inativo",
+            "obtido": "Login recusado",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S15",
+            "categoria": "Senhas",
+            "owasp": "A02",
+            "titulo": "Senhas guardadas com hash forte (RNF02)",
+            "esperado": "Todas as senhas com bcrypt/argon2; nenhuma em texto puro",
+            "obtido": "8 contas com bcrypt",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S16",
+            "categoria": "Senhas",
+            "owasp": "A07",
+            "titulo": "Política mínima de senha no cadastro de usuário",
+            "esperado": "Senha com menos de 8 caracteres recusada",
+            "obtido": "Cadastro recusado",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S17",
+            "categoria": "Sessão",
+            "owasp": "A07",
+            "titulo": "Cookie de sessão com HttpOnly e SameSite",
+            "esperado": "Set-Cookie do PHPSESSID com HttpOnly e SameSite=Lax/Strict",
+            "obtido": "Atributos: path=/; HttpOnly; SameSite=Lax",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S18",
+            "categoria": "Sessão",
+            "owasp": "A07",
+            "titulo": "ID de sessão trocado no login (fixação de sessão)",
+            "esperado": "ID após o login diferente do anterior; ID antigo sem acesso",
+            "obtido": "ID renovado; ID antigo recebeu HTTP 303 em home",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S19",
+            "categoria": "Sessão",
+            "owasp": "A07",
+            "titulo": "Logout invalida a sessão no servidor",
+            "esperado": "Cookie copiado antes do logout perde o acesso",
+            "obtido": "Cookie copiado recebeu HTTP 303 em home após o logout",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S20",
+            "categoria": "Sessão",
+            "owasp": "A07",
+            "titulo": "Servidor recusa ID de sessão escolhido pelo cliente (modo estrito)",
+            "esperado": "ID inventado é descartado e o servidor emite outro",
+            "obtido": "ID inventado substituído",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S21",
+            "categoria": "Controle de acesso",
+            "owasp": "A01",
+            "titulo": "Visitante sem login não acessa nenhuma rota interna",
+            "esperado": "Todas as rotas não públicas redirecionam para o login",
+            "obtido": "48 rotas protegidas redirecionaram ao login",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S22",
+            "categoria": "Controle de acesso",
+            "owasp": "A01",
+            "titulo": "Matriz de permissões por perfil em todas as telas (RNF03)",
+            "esperado": "Perfil autorizado recebe 200; os demais recebem 403 ou redirecionamento",
+            "obtido": "100 combinações perfil x tela conforme a matriz",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S23",
+            "categoria": "Controle de acesso",
+            "owasp": "A01",
+            "titulo": "Familiar não acessa idoso de outra família (IDOR)",
+            "esperado": "Ids de outros idosos, inexistentes ou inválidos não exibem dados",
+            "obtido": "7 ids testados; nenhum dado de outra família",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S24",
+            "categoria": "Controle de acesso",
+            "owasp": "A01",
+            "titulo": "Escalada de privilégio por requisição forjada",
+            "esperado": "Almoxarife, profissional e familiar não criam usuário, não aprovam compra nem registram prontuário",
+            "obtido": "Usuários novos: 0; compra: Pendente; prontuário forjado: 0; administrador ativo: 1",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S25",
+            "categoria": "Controle de acesso",
+            "owasp": "A01",
+            "titulo": "Autor do registro de saúde vem da sessão, não do formulário",
+            "esperado": "Campo usuario_id enviado é ignorado",
+            "obtido": "Autor gravado: usuário 3 (esperado 3)",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S26",
+            "categoria": "CSRF",
+            "owasp": "A01",
+            "titulo": "Todas as ações de gravação exigem token CSRF válido e método POST",
+            "esperado": "Sem token ou com token inválido: 419; GET: 405",
+            "obtido": "23 rotas de gravação protegidas",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S27",
+            "categoria": "CSRF",
+            "owasp": "A01",
+            "titulo": "Token de uma sessão não vale em outra",
+            "esperado": "Token roubado do usuário A é recusado na sessão do usuário B",
+            "obtido": "HTTP 419; quartos criados: 0",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S28",
+            "categoria": "Configuração",
+            "owasp": "A05",
+            "titulo": "Proteção contra clickjacking",
+            "esperado": "X-Frame-Options DENY/SAMEORIGIN ou CSP frame-ancestors",
+            "obtido": "X-Frame-Options: DENY; CSP: default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none'",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S29",
+            "categoria": "Configuração",
+            "owasp": "A05",
+            "titulo": "Cabeçalhos de proteção do navegador",
+            "esperado": "X-Content-Type-Options: nosniff, Content-Security-Policy e Referrer-Policy presentes",
+            "obtido": "Todos presentes",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S30",
+            "categoria": "Configuração",
+            "owasp": "A05",
+            "titulo": "Servidor não divulga versão do PHP",
+            "esperado": "Sem cabeçalho X-Powered-By com versão",
+            "obtido": "Cabeçalho ausente",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S31",
+            "categoria": "Configuração",
+            "owasp": "A05",
+            "titulo": "Páginas com dados clínicos não ficam em cache",
+            "esperado": "Cache-Control com no-store no prontuário e na ficha",
+            "obtido": "Cache-Control: no-store, no-cache, must-revalidate",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S32",
+            "categoria": "Arquivos",
+            "owasp": "A05",
+            "titulo": "Arquivos internos e travessia de diretório bloqueados",
+            "esperado": "Somente CSS/JS/imagens de src/assets são servidos; o resto devolve 404",
+            "obtido": "20 caminhos bloqueados; CSS público servido",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S33",
+            "categoria": "Arquivos",
+            "owasp": "A01",
+            "titulo": "Parâmetro route não permite incluir arquivos",
+            "esperado": "Valores com ../ ou nomes de arquivo levam ao login/404, sem conteúdo de arquivo",
+            "obtido": "7 valores maliciosos tratados como rota inexistente",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S34",
+            "categoria": "Erros",
+            "owasp": "A05",
+            "titulo": "Campos enviados como lista (array) não quebram a aplicação",
+            "esperado": "Sem HTTP 500, stack trace ou caminho de arquivo na resposta",
+            "obtido": "7 requisições com arrays tratadas sem erro interno",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S35",
+            "categoria": "Erros",
+            "owasp": "A04",
+            "titulo": "Entradas muito grandes são recusadas sem erro interno",
+            "esperado": "Busca de 10 mil caracteres e nome de 100 mil caracteres sem HTTP 500",
+            "obtido": "Busca: HTTP 200; cadastro: HTTP 303; nomes acima de 120 caracteres gravados: 0",
+            "passou": true,
+            "severidade": null
+        },
+        {
+            "id": "CT-S36",
+            "categoria": "Erros",
+            "owasp": "A05",
+            "titulo": "Métodos HTTP inesperados não causam erro nem refletem cabeçalhos",
+            "esperado": "TRACE, PUT, DELETE e OPTIONS sem HTTP 500 e sem eco de cookies",
+            "obtido": "5 métodos tratados sem erro e sem eco",
+            "passou": true,
+            "severidade": null
+        }
+    ]
+}

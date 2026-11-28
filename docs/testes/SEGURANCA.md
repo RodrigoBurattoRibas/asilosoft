@@ -53,6 +53,7 @@ Ambiente das duas execuções: PHP 8.5.4, MariaDB 10.4.32 descartável local, se
 | DEF-S05 | CT-S12 | Baixa | Login em 2 ms para e-mail inexistente e 195 ms para existente | Descobrir quais e-mails têm conta pelo tempo | `password_verify` sempre executado, contra hash fictício quando a conta não existe | 201 ms e 211 ms (diferença de 10 ms) |
 | DEF-S06 | CT-S20 | Baixa | Servidor adotava ID de sessão inventado (`session.use_strict_mode=0`) | Facilita fixação de sessão | `session.use_strict_mode=1` antes do `session_start()` | ID inventado substituído |
 | DEF-S07 | CT-S30 | Baixa | `X-Powered-By: PHP/8.5.4` | Versão exata do PHP para quem procura falhas conhecidas | `header_remove('X-Powered-By')` | Cabeçalho ausente |
+| DEF-S08 | OWASP ZAP (10021, 10037) | Baixa | CSS, JS e página 404 sem `nosniff` e com `X-Powered-By` (o `router.php` não passa pelo `index.php`) | Mesmo risco de DEF-S04 e DEF-S07 nesses arquivos | `router.php` envia os cabeçalhos e serve os arquivos estáticos pelo PHP | ZAP: 2 alertas baixos antes, 0 depois |
 
 Arquivos alterados: [index.php](../../index.php) (sessão e cabeçalhos), [AsiloAutenticacaoService.php](../../src/modules/autenticacao/services/AsiloAutenticacaoService.php) (limite e tempo constante), [AsiloTentativaLoginRepository.php](../../src/modules/autenticacao/repository/AsiloTentativaLoginRepository.php) (novo), [AsiloAutenticacaoController.php](../../src/modules/autenticacao/controller/AsiloAutenticacaoController.php) e a migration [009_tentativas_login.sql](../../src/infra/Database/migrations/009_tentativas_login.sql). O Railway cria a tabela sozinho no próximo deploy, pelo `bootstrap.php`.
 
@@ -114,9 +115,15 @@ Reteste e regressão após as correções:
 
 Os textos completos de esperado e obtido de cada caso estão no `relatorio.md` da evidência.
 
-## 4. Limitações
+## 4. OWASP ZAP e testes manuais (28/11/2026)
 
-- Não houve varredura com ferramenta externa (OWASP ZAP, Burp). Os ataques são os escritos nesta suíte; outros vetores podem existir.
+- OWASP ZAP 2.17.0, spider e scan ativo autenticado como administrador fictício, contra a cópia local: antes da correção do `router.php`, 0 alto, 0 médio, 2 baixos (DEF-S08); depois, 0 alto, 0 médio, 0 baixo e 3 informativos. Relatórios em [entrega/Seguranca](entrega/Seguranca/).
+- 10 testes manuais com curl, com passos e respostas reais: 10 de 10 ([entrega/Seguranca/testes-manuais.md](entrega/Seguranca/testes-manuais.md)).
+- Correções e dependências: [entrega/Seguranca/correcoes-e-dependencias.md](entrega/Seguranca/correcoes-e-dependencias.md). Suíte automatizada depois da correção do router: [seguranca_20261128T082049](evidencias/seguranca_20261128T082049/relatorio.md), 36 de 36.
+
+## 5. Limitações
+
+- O ZAP rodou com as regras padrão por poucos minutos; um scan mais longo ou manual com Burp pode encontrar outros vetores.
 - HTTPS, certificado e configuração do Railway não foram avaliados, porque o teste não ataca o sistema publicado.
 - O projeto não usa Composer nem bibliotecas de terceiros, então não há análise de dependências vulneráveis a fazer além da versão do PHP.
 - Banco de teste: MariaDB 10.4 local em vez de MySQL 8 (os mesmos motivos de [CARGA_ESTRESSE.md](CARGA_ESTRESSE.md)). Não afeta os achados, que são da camada HTTP e PHP.

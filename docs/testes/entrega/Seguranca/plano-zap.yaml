@@ -1,0 +1,45 @@
+env:
+  contexts:
+    - name: asilosoft
+      urls: ["http://127.0.0.1:18092/"]
+      includePaths: ["http://127.0.0.1:18092.*"]
+      excludePaths: [".*route=sair.*", ".*route=usuarios-status.*"]
+  parameters:
+    failOnError: true
+    progressToStdout: true
+jobs:
+  - type: replacer
+    rules:
+      - description: "Sessao autenticada (administrador ficticio)"
+        matchType: req_header
+        matchString: "Cookie"
+        matchRegex: false
+        replacementString: "PHPSESSID=<id da sessão do administrador de teste>"
+  - type: spider
+    parameters:
+      context: asilosoft
+      url: "http://127.0.0.1:18092/?route=home"
+      maxDuration: 2
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 2
+  - type: activeScan
+    parameters:
+      context: asilosoft
+      maxScanDurationInMins: 8
+      threadPerHost: 4
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 1
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: ./zap-saida
+      reportFile: relatorio-zap.html
+      reportTitle: "OWASP ZAP - AsiloSoft (ambiente de teste local)"
+  - type: report
+    parameters:
+      template: traditional-md
+      reportDir: ./zap-saida
+      reportFile: relatorio-zap.md
+      reportTitle: "OWASP ZAP - AsiloSoft (ambiente de teste local)"

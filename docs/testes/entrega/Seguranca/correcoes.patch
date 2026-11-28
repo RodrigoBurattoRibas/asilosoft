@@ -1,0 +1,190 @@
+diff --git a/index.php b/index.php
+index 82bb12d..d53ec63 100644
+--- a/index.php
++++ b/index.php
+@@ -1,6 +1,25 @@
+ <?php
+ 
++// Cabeçalhos de proteção do navegador em todas as respostas da aplicação.
++header_remove('X-Powered-By');
++header('X-Frame-Options: DENY');
++header('X-Content-Type-Options: nosniff');
++header('Referrer-Policy: same-origin');
++header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; object-src 'none'");
++
+ if (session_status() === PHP_SESSION_NONE) {
++    // Recusa IDs de sessão inventados pelo cliente e protege o cookie contra leitura por
++    // scripts e envio em requisições de outros sites. Secure quando servido em HTTPS
++    // (o Railway informa o protocolo original em X-Forwarded-Proto).
++    ini_set('session.use_strict_mode', '1');
++    session_set_cookie_params([
++        'lifetime' => 0,
++        'path' => '/',
++        'httponly' => true,
++        'samesite' => 'Lax',
++        'secure' => ($_SERVER['HTTPS'] ?? '') === 'on'
++            || strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https',
++    ]);
+     session_start();
+ }
+ 
+diff --git a/router.php b/router.php
+index 2e20bd9..5e3f3c6 100644
+--- a/router.php
++++ b/router.php
+@@ -11,11 +11,25 @@ if ($path === '/' || $path === '/index.php') {
+     return true;
+ }
+ 
++// Assets e 404 não passam pelo index.php; recebem aqui os mesmos cabeçalhos de proteção.
++header_remove('X-Powered-By');
++header('X-Content-Type-Options: nosniff');
++
+ $assets = __DIR__ . '/src/assets/';
++$tipos = [
++    'css' => 'text/css; charset=utf-8', 'js' => 'application/javascript; charset=utf-8',
++    'png' => 'image/png', 'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'svg' => 'image/svg+xml',
++    'ico' => 'image/x-icon', 'webp' => 'image/webp', 'woff' => 'font/woff', 'woff2' => 'font/woff2',
++];
+ $file = str_contains($path, "\0") ? false : realpath(__DIR__ . $path);
+-if ($file !== false && str_starts_with($file, $assets) && is_file($file)
+-    && in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['css', 'js', 'png', 'jpg', 'jpeg', 'svg', 'ico', 'webp', 'woff', 'woff2'], true)) {
+-    return false;
++$extensao = $file === false ? '' : strtolower(pathinfo($file, PATHINFO_EXTENSION));
++if ($file !== false && str_starts_with($file, $assets) && is_file($file) && isset($tipos[$extensao])) {
++    // Servido pelo PHP (e não com "return false") para que os cabeçalhos acima valham também aqui.
++    header('Content-Type: ' . $tipos[$extensao]);
++    header('Content-Length: ' . filesize($file));
++    header('Cache-Control: public, max-age=3600');
++    readfile($file);
++    return true;
+ }
+ http_response_code(404);
+ header('Content-Type: text/plain; charset=utf-8');
+diff --git a/src/infra/Database/migrations/009_tentativas_login.sql b/src/infra/Database/migrations/009_tentativas_login.sql
+new file mode 100644
+index 0000000..94060bd
+--- /dev/null
++++ b/src/infra/Database/migrations/009_tentativas_login.sql
+@@ -0,0 +1,6 @@
++CREATE TABLE IF NOT EXISTS tentativas_login (
++  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
++  chave CHAR(64) NOT NULL,
++  criado_em DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
++  INDEX idx_tentativas_chave_data (chave, criado_em)
++) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+diff --git a/src/modules/autenticacao/controller/AsiloAutenticacaoController.php b/src/modules/autenticacao/controller/AsiloAutenticacaoController.php
+index 3604475..3801a46 100644
+--- a/src/modules/autenticacao/controller/AsiloAutenticacaoController.php
++++ b/src/modules/autenticacao/controller/AsiloAutenticacaoController.php
+@@ -5,6 +5,7 @@ require_once dirname(__DIR__, 3) . '/core/Security/CsrfToken.php';
+ require_once dirname(__DIR__, 3) . '/infra/Database/Database.php';
+ require_once dirname(__DIR__, 3) . '/presentation/layout/AsiloView.php';
+ require_once dirname(__DIR__, 2) . '/usuarios/repository/AsiloUsuarioRepository.php';
++require_once dirname(__DIR__) . '/repository/AsiloTentativaLoginRepository.php';
+ require_once dirname(__DIR__) . '/services/AsiloAutenticacaoService.php';
+ 
+ final class AsiloAutenticacaoController
+@@ -21,7 +22,8 @@ final class AsiloAutenticacaoController
+     {
+         return $this->authentication ??= new AsiloAutenticacaoService(
+             new AsiloUsuarioRepository(PDOMysqli::connection()),
+-            $this->session
++            $this->session,
++            new AsiloTentativaLoginRepository(PDOMysqli::connection())
+         );
+     }
+ 
+diff --git a/src/modules/autenticacao/repository/AsiloTentativaLoginRepository.php b/src/modules/autenticacao/repository/AsiloTentativaLoginRepository.php
+new file mode 100644
+index 0000000..e0c8b00
+--- /dev/null
++++ b/src/modules/autenticacao/repository/AsiloTentativaLoginRepository.php
+@@ -0,0 +1,38 @@
++<?php
++
++/**
++ * Falhas de login por chave (hash SHA-256 do e-mail normalizado).
++ * Não guarda o e-mail em texto nem o IP: atrás do proxy do Railway todos chegam pelo mesmo IP.
++ */
++final class AsiloTentativaLoginRepository
++{
++    public function __construct(private PDO $pdo)
++    {
++    }
++
++    public function falhasRecentes(string $chave, int $minutos): int
++    {
++        $query = $this->pdo->prepare(
++            'SELECT COUNT(*) FROM tentativas_login
++             WHERE chave = :chave AND criado_em > NOW() - INTERVAL :minutos MINUTE'
++        );
++        $query->bindValue('chave', $chave);
++        $query->bindValue('minutos', $minutos, PDO::PARAM_INT);
++        $query->execute();
++
++        return (int) $query->fetchColumn();
++    }
++
++    public function registrarFalha(string $chave): void
++    {
++        $this->pdo->prepare('INSERT INTO tentativas_login (chave) VALUES (:chave)')->execute(['chave' => $chave]);
++        // Mantém a tabela pequena: falhas com mais de um dia não influenciam o bloqueio.
++        $this->pdo->prepare('DELETE FROM tentativas_login WHERE chave = :chave AND criado_em < NOW() - INTERVAL 1 DAY')
++            ->execute(['chave' => $chave]);
++    }
++
++    public function limpar(string $chave): void
++    {
++        $this->pdo->prepare('DELETE FROM tentativas_login WHERE chave = :chave')->execute(['chave' => $chave]);
++    }
++}
+diff --git a/src/modules/autenticacao/services/AsiloAutenticacaoService.php b/src/modules/autenticacao/services/AsiloAutenticacaoService.php
+index d3b4212..80cb127 100644
+--- a/src/modules/autenticacao/services/AsiloAutenticacaoService.php
++++ b/src/modules/autenticacao/services/AsiloAutenticacaoService.php
+@@ -4,20 +4,41 @@
+ final class AsiloAutenticacaoService
+ {
+     private const SESSION_KEY = 'asilosoft_usuario_id';
++    public const MAXIMO_FALHAS = 5;
++    public const JANELA_MINUTOS = 15;
++    // Hash bcrypt de uma senha aleatória descartada. Comparar com ele quando o e-mail não
++    // existe deixa o tempo de resposta igual ao de uma conta real (sem enumerar e-mails).
++    private const HASH_FICTICIO = '$2y$12$aPeKmCmn1bo3DnaLTb8UZezuGqetOM5o0A9iE8yL.WCYo3CFhliOS';
+ 
+-    public function __construct(private object $repository, private object $session)
+-    {
++    public function __construct(
++        private object $repository,
++        private object $session,
++        private ?object $attempts = null
++    ) {
+     }
+ 
+     public function tentarLogin(string $email, string $password): bool
+     {
+         $email = mb_strtolower(trim($email));
++        $key = hash('sha256', $email);
++
++        // Conta também e-mails inexistentes, para o bloqueio não revelar quais contas existem.
++        if ($this->attempts !== null
++            && (int) $this->attempts->falhasRecentes($key, self::JANELA_MINUTOS) >= self::MAXIMO_FALHAS) {
++            throw new DomainException(
++                'Muitas tentativas sem sucesso. Aguarde ' . self::JANELA_MINUTOS . ' minutos e tente novamente.'
++            );
++        }
++
+         $user = $this->repository->buscarPorEmail($email);
++        $validPassword = password_verify($password, $user['senha_hash'] ?? self::HASH_FICTICIO);
+ 
+-        if ($user === null || !$user['ativo'] || !password_verify($password, $user['senha_hash'])) {
++        if ($user === null || !$user['ativo'] || !$validPassword) {
++            $this->attempts?->registrarFalha($key);
+             throw new DomainException('E-mail ou senha inválidos.');
+         }
+ 
++        $this->attempts?->limpar($key);
+         $this->session->regenerateId();
+         $this->session->set(self::SESSION_KEY, (int) $user['id']);
+ 
